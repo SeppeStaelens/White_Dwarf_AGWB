@@ -55,6 +55,10 @@ def calc_parabola_vertex(x1, y1, x2, y2, x3, y3):
 
 a, b, c = calc_parabola_vertex(-3, -12, -2.5, -12.5, -2, -12)
 
+########### LOAD Z_AT_VALUE FILE #############
+z_at_val_data = pd.read_csv("../Data/z_at_age.txt", names=["age", "z"], header=1)
+interp_age, interp_z = z_at_val_data.age.values, z_at_val_data.z.values
+
 ########### AUXILIARY FUNCTIONS ##############
 
 def get_width_z_shell_from_z(z_vals):
@@ -66,16 +70,32 @@ def get_width_z_shell_from_z(z_vals):
     return np.array(shells)
 
 def SFH(z):
-    return 0.015*(1+z)**(2.7)/(1+((1+z)/2.9)**(5.6))  # solar mass / yr / Mpc^3 [Madau, Dickinson 2014]
+    '''
+    Star formation history from [Madau, Dickinson 2014].
+    Units: solar mass / yr / Mpc^3
+    '''
+    return 0.015*(1+z)**(2.7)/(1+((1+z)/2.9)**(5.6)) 
 
 def SFH2(z):
-    return 0.143*(1+z)**(0.3)/(1+((1+z)/2.9)**(3.2))  # solar mass / yr / Mpc^3 
+    '''
+    Made-up star formation history.
+    Units: solar mass / yr / Mpc^3
+    '''
+    return 0.143*(1+z)**(0.3)/(1+((1+z)/2.9)**(3.2)) 
 
 def SFH3(z):
-    return 0.00533*(1+z)**(2.7)/(1+((1+z)/2.9)**(3.))  # solar mass / yr / Mpc^3 
+    '''
+    Made-up star formation history.
+    Units: solar mass / yr / Mpc^3
+    '''
+    return 0.00533*(1+z)**(2.7)/(1+((1+z)/2.9)**(3.))
 
 def SFH4(z):
-    return 0.00245*(1+z)**(2.7)/(1+((1+z)/5.)**(5.6))  # solar mass / yr / Mpc^3
+    '''
+    Made-up star formation history.
+    Units: solar mass / yr / Mpc^3
+    '''
+    return 0.00245*(1+z)**(2.7)/(1+((1+z)/5.)**(5.6))
 
 def chirp(m1, m2):
     return (m1*m2)**(3/5) / (m1+m2)**(1/5)
@@ -95,7 +115,7 @@ def make_Omega_plot_unnorm(f, Omega_sim, save = False, save_name = "void"):
     ax.set_xlim(-6, 0)
     if save:
         plt.tight_layout()
-        fig.savefig("Thesis_Gijs/Figures_final/" + save_name + ".png")
+        fig.savefig("../Output/Figures/" + save_name + ".png")
 
     #plt.show()
 
@@ -115,8 +135,12 @@ def tau_syst(f_0, f_1, K):
     return tau/s_in_Myr
 
 def representative_SFH(age, Delta_t, SFH_num, max_z):
+    '''
+    Looks for a representative value of the SFH given the age of the system, and an additional time delay in reaching the bin.
+    age and Delta_t should be given in Myr.
+    '''
     new_age = age - Delta_t
-    z_new = z_at_value(cosmo.age, new_age*u.Myr).value
+    z_new = get_z_fast(new_age)
     if z_new > max_z:
         print(f"z larger than {max_z}")
 
@@ -140,7 +164,7 @@ def parabola(freq, a, b, c):
 
 def get_SFH(SFH_num, z, age, t0, max_z):
     new_age = age - t0
-    z_new = z_at_value(cosmo.age, new_age*u.Myr).value
+    z_new = get_z_fast(new_age)
     if z_new > max_z:
         print(f"z larger than {max_z}")
     if SFH_num == 1:
@@ -151,6 +175,9 @@ def get_SFH(SFH_num, z, age, t0, max_z):
         return SFH3(z_new)
     if SFH_num == 4:
         return SFH4(z_new)
+    
+def get_z_fast(age):
+    return np.interp(age, interp_age, interp_z)
     
 ######## MODEL CLASS ############
     
@@ -265,9 +292,9 @@ def main_add_bulk(model, data, SAVE_FIG, tag):
 
     # Save GWB
     GWB = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWB.to_csv(f"Thesis_Gijs/GWBs_final2/SFH{model.SFH_num}_{model.N}_{model.N_z}_{tag}.txt", index = False)
+    GWB.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_{tag}.txt", index = False)
 
-    z_contr.to_csv(f"Thesis_Gijs/GWBs_final2/SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_{tag}.txt", index = False)
+    z_contr.to_csv(f"../Output/GWBs//SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_{tag}.txt", index = False)
 
 def main_add_birth(model, data, SAVE_FIG, tag):
     '''
@@ -277,7 +304,7 @@ def main_add_birth(model, data, SAVE_FIG, tag):
    
     print("\nInitating birth bin part of the code.\n")
     
-    previous_Omega = pd.read_csv(f"Thesis_Gijs/GWBs_final2/SFH{model.SFH_num}_{model.N}_{model.N_z}_{tag}.txt", sep = ",")
+    previous_Omega = pd.read_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_{tag}.txt", sep = ",")
     Omega_plot = previous_Omega.Om.values
 
     # Create dataframe to store results
@@ -327,13 +354,13 @@ def main_add_birth(model, data, SAVE_FIG, tag):
             Omega_plot[bin_index] += Omega_cont
 
     # Plots
-    make_Omega_plot_unnorm(model.f_plot, Omega_plot, SAVE_FIG, f"GWB_SFH{model.SFH_num}_corr_{model.N}_{model.N_z}_wbirth_{tag}")
+    make_Omega_plot_unnorm(model.f_plot, Omega_plot, SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N}_{model.N_z}_wbirth_{tag}")
 
     # Save GWB
     GWBnew = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWBnew.to_csv(f"Thesis_Gijs/GWBs_final2/SFH{model.SFH_num}_corr_{model.N}_{model.N_z}_wbirth_{tag}.txt", index = False)
+    GWBnew.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_wbirth_{tag}.txt", index = False)
 
-    z_contr.to_csv(f"Thesis_Gijs/GWBs_final2/SFH{model.SFH_num}_corr_{model.N}_{model.N_z}_z_contr_birth_{tag}.txt", index = False)
+    z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_birth_{tag}.txt", index = False)
 
 
 def main_add_merge(model, data, SAVE_FIG, tag):
@@ -344,7 +371,7 @@ def main_add_merge(model, data, SAVE_FIG, tag):
    
     print("\nInitating merger bin part of the code.\n")
 
-    previous_Omega = pd.read_csv(f"Thesis_Gijs/GWBs_final2/SFH{model.SFH_num}_corr_{model.N}_{model.N_z}_wbirth_{tag}.txt", sep = ",")
+    previous_Omega = pd.read_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_wbirth_{tag}.txt", sep = ",")
     Omega_plot = previous_Omega.Om.values
 
     # Create dataframe to store results
@@ -391,13 +418,13 @@ def main_add_merge(model, data, SAVE_FIG, tag):
             Omega_plot[bin_index] += Omega_cont
 
     # Plots
-    make_Omega_plot_unnorm(model.f_plot, Omega_plot, SAVE_FIG, f"GWB_SFH{model.SFH_num}_corr_{model.N}_{model.N_z}_wmerge_{tag}")
+    make_Omega_plot_unnorm(model.f_plot, Omega_plot, SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N}_{model.N_z}_wmerge_{tag}")
 
     # Save GWB
     GWBnew = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWBnew.to_csv(f"Thesis_Gijs/GWBs_final2/SFH{model.SFH_num}_corr_{model.N}_{model.N_z}_wmerge_{tag}.txt", index = False)
+    GWBnew.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_wmerge_{tag}.txt", index = False)
 
-    z_contr.to_csv(f"Thesis_Gijs/GWBs_final2/SFH{model.SFH_num}_corr_{model.N}_{model.N_z}_z_contr_merge_{tag}.txt", index = False)
+    z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_merge_{tag}.txt", index = False)
 
 
 
@@ -410,19 +437,19 @@ def main():
 
     ### initiate ###
 
-    N = 25              # number of bins
+    N = 50              # number of bins
     N_z = 20            # number of z bins
     max_z = 8           # max_redshift
     SFH_num = 1         # which SFH
     tag = "net"         # identifier for filenames
 
-    SAVE_FIG = True
+    SAVE_FIG = False
 
     # create the simulation model
     model = sim_model(N, N_z, max_z, SFH_num)
 
     # data. initial file with some added calculations
-    data = pd.read_csv("Thesis_Gijs/Pop_Synth/initials_final_2.txt", sep = ",")
+    data = pd.read_csv("../Data/initials_final_2.txt", sep = ",")
 
     main_add_bulk(model, data, SAVE_FIG, tag)
     main_add_birth(model, data, SAVE_FIG, tag)
