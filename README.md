@@ -28,12 +28,12 @@ In the bulk part of the code, the z contributions are saved as Omega / (2E-15 * 
 
 This part is not in my thesis. I determined the number of binaries in each z-f bin as follows:
 
-$$ N(z, f) = (4 \pi \chi(z)^2 * \Delta \chi(z)) \cdot n (z, f)\,, $$
+$$ N(z, f) = (4 \pi \cdot \chi(z)^2 \cdot \Delta \chi(z)) \cdot n (z, f) , $$
 
 where $n(z, f)$ is the number density of systems in the bin. The latter is given by
 
-$$ n(z, f) = \sum_k \frac{\psi(z; k)}{4\cdot 10^6 M_\odot} \cdot \tau(z, f; k)\,.$$
+$$ n(z, f) = \sum_k \frac{\psi(z; k)}{4\cdot 10^6 M_\odot} \cdot \tau(z, f; k) .$$
 
 In this expression, $\psi$ is again the SFH, determined at the birth time of the system and normalized by 4E6 solar masses; and $\tau$ is the time it takes the system to traverse the bin. The reasoning is that all systems produced in the past, during a time corresponding to $\tau$, will have moved to the bin under consideration.
 
-In the code, $\tau$ is calculated in Myr, and therefore multiplied by 1E6 as $\psi$ has units of yr${}^{-1}$.
+In the code, $\tau$ is calculated in Myr, and therefore multiplied by 1E6 as $\psi$ has units of 1/yr.

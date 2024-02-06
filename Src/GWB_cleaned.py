@@ -9,11 +9,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from astropy import units as u
-from astropy import constants as cst
 from astropy.cosmology import Planck18 as cosmo
-from astropy.cosmology import z_at_value
 from numpy import interp
 from scipy.integrate import trapezoid as trap
+from warnings import simplefilter 
+
+simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 # matplotlib globals
 plt.rc('font',   size=16)          # controls default text sizes
@@ -177,7 +178,7 @@ def get_SFH(SFH_num, z, age, t0, max_z):
         return SFH4(z_new)
     
 def get_z_fast(age):
-    return np.interp(age, interp_age, interp_z)
+    return interp(age, interp_age, interp_z)
     
 ######## MODEL CLASS ############
     
@@ -223,8 +224,6 @@ class sim_model:
         self.z_time_since_max_z = (cosmo.lookback_time(self.max_z) - cosmo.lookback_time(self.z_list)).to(u.Myr)
         self.ages = (cosmo.age(0) - cosmo.lookback_time(self.z_list)).to(u.Myr)
 
-
-
 ############ MAIN SUB FUNCTIONS ############
 
 def main_add_bulk(model, data, SAVE_FIG, tag):
@@ -259,9 +258,13 @@ def main_add_bulk(model, data, SAVE_FIG, tag):
             bin_upp_f_e = upp_f_r * (1+z)                          # 
             z_fac = 0
             num_syst = 0
+            # err_count = 0
 
             # We calculate the contribution for every type of binary in the Population Synthesis
             for index, row in data.iterrows():
+
+                if TEST_FOR_ONE and (index>0):
+                    break
 
                 # Working on generic case, so strictly f_0 <  low_f_e < high_f_e < f_max
                 if 2*row.nu0> bin_low_f_e or 2*row.nu_max < bin_upp_f_e:
@@ -274,18 +277,26 @@ def main_add_bulk(model, data, SAVE_FIG, tag):
                 if time_since_ZAMS >= time_since_max_z:
                     continue
 
+                # tau2 = tau_syst(2*row.nu0, bin_upp_f_e, row.K)      # Time to evolve from WD binary formation to lower edge of bin
+                # time_since_ZAMS2 = tau2 + row.t0                     # Both quantities are in Myr
+
+                # # Binary can't be older then the beginning of the Universe (with max_z ~ the beginning) 
+                # if time_since_ZAMS2 >= time_since_max_z:
+                #     err_count += 1
+
                 psi = representative_SFH(age, time_since_ZAMS, model.SFH_num, model.max_z)
     
                 z_fac += psi*row.M_ch**(5/3)
                 num_syst += psi * tau_syst(bin_low_f_e, bin_upp_f_e, row.K) * 10**6 # tau is given in Myr, psi in ... /yr
 
+            # print(f"{err_count} errors for z {z}")
             Omega_cont = z_fac * (1+z)**(-4/3) * model.z_widths[i]
             Omega += Omega_cont
             z_contr[f"freq_{j}"][i] = Omega_cont
             z_contr[f"freq_{j}_num"][i] = (4*np.pi / 4e6) * num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
         
         Omega_plot[j] = 2e-15 * Omega * model.f_bin_factors[j]
-        print(f"At frequency {f_r:.5f}: {Omega_plot[j]}.")
+        print(f"At frequency {f_r:.5f}: {Omega_plot[j]:.3E}.")
 
     # Plots
     make_Omega_plot_unnorm(model.f_plot, Omega_plot, SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N}_{model.N_z}_{tag}")
@@ -319,6 +330,9 @@ def main_add_birth(model, data, SAVE_FIG, tag):
 
     # We go over the rows in the data and determine the birth bins, and their contribution
     for index, row in data.iterrows():
+        if TEST_FOR_ONE and (index>0):
+            break
+
         if index % 500 == 0:                   # there are ~ 14k rows
             print(f"At row {index}.")
 
@@ -339,16 +353,32 @@ def main_add_birth(model, data, SAVE_FIG, tag):
             # determine the birth bin
             bin_index = np.digitize(2*row.nu0/(1+z), model.f_bins)-1
             low_f_r, upp_f_r = model.f_bins[bin_index], model.f_bins[bin_index + 1] 
-            freq_fac = ((upp_f_r*(1+z)/2)**(2/3) - row.nu0**(2/3))/(upp_f_r - low_f_r)
+            if TEST_FOR_ONE:
+                print(f"Bin frequencies for z {z:.2f}: [{low_f_r:.2E}, {upp_f_r:.2E}]")
 
             psi = get_SFH(model.SFH_num, z, age, row.t0, model.max_z)
+
+            # The time it would take the binary to evolve from nu_0 to the upper bin edge
+            tau_to_bin_edge = tau_syst(2*row.nu0, upp_f_r*(1+z), row.K)
+
+            # If this time is larger than the time the binary has had to evolve since max_z,
+            # the latter duration is used.
+            max_evolve_time = time_since_max_z - row.t0
+            if tau_to_bin_edge >= max_evolve_time:
+                tau_in_bin = max_evolve_time
+                ### freq_fac = ((upp_f_r*(1+z)/2)**(2/3) - row.nu0**(2/3))/(upp_f_r - low_f_r)
+                EVOLVE_TILL_EDGE = False
+            else:
+                tau_in_bin = tau_to_bin_edge
+                freq_fac = ((upp_f_r*(1+z)/2)**(2/3) - row.nu0**(2/3))/(upp_f_r - low_f_r)
+                EVOLVE_TILL_EDGE = True
 
             # contributions
             Omega_cont = 3.2e-15 * model.f_plot[bin_index] * row.M_ch**(5/3) * freq_fac * (1+z)**(-2) * psi * model.z_widths[i]
 
             z_contr[f"freq_{bin_index}"][i] += Omega_cont / (2e-15 * model.f_bin_factors[bin_index]) # The denominator is to keep the relative size wrt the bulk
             
-            num_syst = psi * tau_syst(2*row.nu0, upp_f_r*(1+z), row.K) * 10**6 # tau is given in Myr, psi in ... /yr
+            num_syst = psi * tau_in_bin * 10**6 # tau is given in Myr, psi in ... /yr
             z_contr[f"freq_{bin_index}_num"][i] += (4*np.pi / 4e6) * num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
             
             Omega_plot[bin_index] += Omega_cont
@@ -361,7 +391,6 @@ def main_add_birth(model, data, SAVE_FIG, tag):
     GWBnew.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_wbirth_{tag}.txt", index = False)
 
     z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_birth_{tag}.txt", index = False)
-
 
 def main_add_merge(model, data, SAVE_FIG, tag):
     '''
@@ -386,6 +415,10 @@ def main_add_merge(model, data, SAVE_FIG, tag):
 
     # We go over the rows in the data and determine the merger bins, and their contribution
     for index, row in data.iterrows():
+
+        if TEST_FOR_ONE and (index>0):
+            break
+
         if index % 500 == 0:                   # there is ~ 14k rows
             print(f"At row {index}.")
         
@@ -403,7 +436,12 @@ def main_add_merge(model, data, SAVE_FIG, tag):
             tau = tau_syst(2*row.nu0, low_f_r*(1+z), row.K)
 
             if tau >= model.z_time_since_max_z[i].value:
+                if TEST_FOR_ONE:
+                    print("Did not reach merger bin")
                 continue
+
+            if TEST_FOR_ONE:
+                print("Reached merger bin")
 
             psi = representative_SFH(model.ages[i].value, tau, model.SFH_num, model.max_z)
 
@@ -426,8 +464,6 @@ def main_add_merge(model, data, SAVE_FIG, tag):
 
     z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_merge_{tag}.txt", index = False)
 
-
-
 ############ ACTUAL MAIN FUNCTION #############
 
 def main():
@@ -437,19 +473,26 @@ def main():
 
     ### initiate ###
 
-    N = 50              # number of bins
+    N = 25            # number of bins
     N_z = 20            # number of z bins
     max_z = 8           # max_redshift
     SFH_num = 1         # which SFH
-    tag = "net"         # identifier for filenames
+    tag = "adapt"         # identifier for filenames
 
     SAVE_FIG = False
+
+    # Run script for only one system
+    global TEST_FOR_ONE
+    TEST_FOR_ONE = False
 
     # create the simulation model
     model = sim_model(N, N_z, max_z, SFH_num)
 
     # data. initial file with some added calculations
     data = pd.read_csv("../Data/initials_final_2.txt", sep = ",")
+    if TEST_FOR_ONE:
+        # info on the first row of data
+        print(data.iloc[0])
 
     main_add_bulk(model, data, SAVE_FIG, tag)
     main_add_birth(model, data, SAVE_FIG, tag)
