@@ -27,7 +27,7 @@ def a_min(m1, m2):
     q = m2/m1
     ap_min = r1*(0.6 + q**(2/3) * np.log(1 + q**(-1/3)))/0.49
     as_min = r2*(0.6 + q**(-2/3) * np.log(1 + q**(1/3)))/0.49
-    return min(ap_min, as_min)      ### !!! Indeed, I did pick the min :-(, should be max
+    return max(ap_min, as_min)
 
 def Kepler(m1, m2):
     '''
@@ -48,7 +48,7 @@ data = pd.read_csv("Pop_Synth/t0aim1m2.dat", names = ["t0", "a", "m1", "m2"], se
 
 # Calculate the initial period from a_i, based on Kepler's law. The GW frequency is twice the orbital frequency.
 Periods = ( (data["a"]*cst.R_sun)**3 * 4*np.pi**2 / (cst.G * cst.M_sun * (data["m1"]+data["m2"]) ) )**(1/2)
-GW_frequencies = 2 / Periods        ### !!! Indeed, seems like I saved the f_0 instead of nu_0. This 2 should be 1
+GW_frequencies = 1 / Periods        
 data["nu0"] = GW_frequencies
 
 # Calculate the chirp masses
@@ -60,7 +60,7 @@ data["K"] = K(data.M_ch)
 # Calculate the maximal frequencies.
 nus = []
 for ma, mb in zip(data.m1, data.m2):
-    nus.append(Kepler(ma, mb))      ### !!! Here I did calculate the orbital frequency, i.e. nu_0
+    nus.append(Kepler(ma, mb))      
 data["nu_max"] = np.array(nus)
 
 # Save data
