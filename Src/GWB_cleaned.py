@@ -156,6 +156,8 @@ def representative_SFH(age, Delta_t, SFH_num, max_z):
         return SFH3(z_new)
     if SFH_num == 4:
         return SFH4(z_new)
+    if SFH_num == 5:
+        return 0.01
 
 def Omega(Omega_ref, f_ref, freq):
     '''
@@ -179,6 +181,8 @@ def get_SFH(SFH_num, z, age, t0, max_z):
         return SFH3(z_new)
     if SFH_num == 4:
         return SFH4(z_new)
+    if SFH_num == 5:
+        return 0.01
     
 def get_z_fast(age):
     return interp(age, interp_age, interp_z)
@@ -196,6 +200,11 @@ def determine_upper_freq(nu_low, evolve_time, K):
     return nu_upp
 
 def safe_determine_upper_freq(nu_low, evolve_time, K):
+    '''
+    Determines upper ORBITAL frequency for a binary with K, starting from nu_0, evolving over evolve_time.
+    However, the binary can have merged within less than evolve time, in which case the code returns -1.
+    Takes evolve_time in Myr, so needs to be converted.
+    '''
     if ((nu_low**(-8/3)) > (8 * K * evolve_time * s_in_Myr / 3)):
         return determine_upper_freq(nu_low, evolve_time, K)
     else:
@@ -279,7 +288,6 @@ def main_add_bulk(model, data, tag):
             bin_upp_f_e = upp_f_r * (1+z)                          # 
             z_fac = 0
             num_syst = 0
-            # err_count = 0
 
             # We calculate the contribution for every type of binary in the Population Synthesis
             for index, row in data.iterrows():
@@ -424,6 +432,7 @@ def main_add_merge_at_max(model, data, tag):
 
     # We will have no merger bin for binaries that have f_max above our region of interest
     highest_bin = model.f_bins[-1]
+    lowest_bin = model.f_bins[0]
 
     # We go over the rows in the data and determine the merger bins, and their contribution
     for index, row in data.iterrows():
@@ -434,35 +443,86 @@ def main_add_merge_at_max(model, data, tag):
         if index % 500 == 0:                   # there is ~ 14k rows
             print(f"At row {index}.")
         
+        MERGER_CAN_BE_REACHED = True
+
         # Determine merger bins for every z bin
         for i, z in enumerate(model.z_list):
 
             # Don't consider mergers that happen at a frequency beyond our region of interest
             if 2*row.nu_max/(1+z) > highest_bin:
                 continue
+            
+            evolve_time = model.z_time_since_max_z[i].value - row.t0
 
-            # find merger bin
-            bin_index = np.digitize(2*row.nu_max/(1+z), model.f_bins)-1
-            low_f_r, upp_f_r = model.f_bins[bin_index], model.f_bins[bin_index + 1] 
-            freq_fac = (row.nu_max**(2/3) - (low_f_r*(1+z)/2)**(2/3))/(upp_f_r - low_f_r)
-            tau = tau_syst(2*row.nu0, low_f_r*(1+z), row.K)
+            if evolve_time <=0:
+                    continue
 
-            if tau >= model.z_time_since_max_z[i].value:
-                if TEST_FOR_ONE:
-                    print("Did not reach merger bin")
-                continue
+            if MERGER_CAN_BE_REACHED:
 
-            if TEST_FOR_ONE:
-                print("Reached merger bin")
+                # find merger bin
+                bin_index = np.digitize(2*row.nu_max/(1+z), model.f_bins)-1
+                low_f_r, upp_f_r = model.f_bins[bin_index], model.f_bins[bin_index + 1] 
 
-            psi = representative_SFH(model.ages[i].value, tau, model.SFH_num, model.max_z)
+                # The time it takes to evolve from birth to merger
+                tau = tau_syst(2*row.nu0, 2*row.nu_max, row.K)
+
+                if tau >= evolve_time:
+                    MERGER_CAN_BE_REACHED = False
+                    if TEST_FOR_ONE:
+                        print("Did not reach merger.")
+
+                else:
+                    if TEST_FOR_ONE:
+                        print("Reached merger.")
+
+                    psi = representative_SFH(model.ages[i].value, tau, model.SFH_num, model.max_z)
+
+                    # contributions
+                    freq_fac = (row.nu_max**(2/3) - (low_f_r*(1+z)/2)**(2/3))/(upp_f_r - low_f_r)
+                    num_syst = psi * tau_syst(low_f_r*(1+z), 2*row.nu_max, row.K) * 10**6 # tau is given in Myr, psi in ... /yr
+
+
+            if not MERGER_CAN_BE_REACHED:
+
+                nu_max_b = min(safe_determine_upper_freq(row.nu0, evolve_time, row.K), row.nu_max)
+
+                if nu_max_b == -1:
+                    continue
+
+                if DEBUG:
+                    if (nu_max_b > row.nu_max):
+                        # The first means that evolve_time too large, second should be caught in previous part
+                        raise "Error"
+
+                # Don't consider mergers that happen at a frequency beyond our region of interest
+                if (2*nu_max_b/(1+z) > highest_bin) or (2*nu_max_b / (1+z) < lowest_bin):
+                    continue
+
+                # find merger bin
+                bin_index = np.digitize(2*nu_max_b/(1+z), model.f_bins)-1
+                if bin_index == -1:
+                    print("oops")
+
+                low_f_r, upp_f_r = model.f_bins[bin_index], model.f_bins[bin_index + 1] 
+
+                if 2*row.nu0/(1+z) > low_f_r:
+                    # in this case the merger is already included as a special case in add birth contribution
+                    continue
+
+                freq_fac = (nu_max_b**(2/3) - (low_f_r*(1+z)/2)**(2/3))/(upp_f_r - low_f_r)
+                tau = tau_syst(2*row.nu0, low_f_r*(1+z), row.K)
+                psi = representative_SFH(model.ages[i].value, tau, model.SFH_num, model.max_z)
+
+                num_syst = psi * tau_syst(low_f_r*(1+z), 2*nu_max_b, row.K) * 10**6 # tau is given in Myr, psi in ... /yr
+                if DEBUG:
+                    np.testing.assert_allclose(evolve_time, tau + tau_syst(low_f_r*(1+z), 2*nu_max_b, row.K), rtol=1e-2)
 
             # contributions
+
             Omega_cont = 3.2e-15* model.f_plot[bin_index] * row.M_ch**(5/3) * freq_fac * (1+z)**(-2) * psi * model.z_widths[i]
 
             z_contr[f"freq_{bin_index}"][i] += Omega_cont / (2e-15 * model.f_bin_factors[bin_index])
 
-            num_syst = psi * tau_syst(low_f_r*(1+z), 2*row.nu_max, row.K) * 10**6 # tau is given in Myr, psi in ... /yr
             z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / 4e6)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
 
             Omega_plot[bin_index] += Omega_cont
@@ -476,86 +536,6 @@ def main_add_merge_at_max(model, data, tag):
 
     z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_merge_{tag}.txt", index = False)
 
-def main_add_merge_at_time_max(model, data, tag):
-    '''
-    This routine add the contribution of the 'merger bins' due to Kepler max to the bulk GWB.
-    Saves a dataframe with all the essential information.
-    '''
-   
-    print("\nInitating merger bin part of the code.\n")
-
-    previous_Omega = pd.read_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_wmerge_{tag}.txt", sep = ",")
-    Omega_plot = previous_Omega.Om.values
-
-    # Create dataframe to store results
-    z_contr = pd.DataFrame({"z":model.z_list})
-
-    for i in range(model.N):
-        z_contr[f"freq_{i}"] = np.zeros_like(model.z_list)
-        z_contr[f"freq_{i}_num"] = np.zeros_like(model.z_list)
-
-    # We will have no merger bin for binaries that have f_max above our region of interest
-    highest_bin = model.f_bins[-1]
-
-    # We go over the rows in the data and determine the merger bins, and their contribution
-    for index, row in data.iterrows():
-
-        if TEST_FOR_ONE and (index>0):
-            break
-
-        if index % 500 == 0:                   # there is ~ 14k rows
-            print(f"At row {index}.")
-        
-        # Determine merger bins for every z bin
-        for i, z in enumerate(model.z_list):
-
-            evolve_time = model.z_time_since_max_z[i].value - row.t0
-            nu_max_b = safe_determine_upper_freq(row.nu0, evolve_time, row.K)
-
-            if nu_max_b == -1:
-                # this means that the binary merges within time < evolve_time
-                continue
-            
-            if nu_max_b > row.nu_max:
-                # unphysical
-                continue
-
-            # Don't consider mergers that happen at a frequency beyond our region of interest
-            if 2*nu_max_b/(1+z) > highest_bin:
-                continue
-
-            # find merger bin
-            bin_index = np.digitize(2*nu_max_b/(1+z), model.f_bins)-1
-            low_f_r, upp_f_r = model.f_bins[bin_index], model.f_bins[bin_index + 1] 
-
-            if 2*nu_max_b/(1+z) > low_f_r:
-                # in this case the merger is already included as a special case in add merge contribution
-                continue
-
-            freq_fac = (nu_max_b**(2/3) - (low_f_r*(1+z)/2)**(2/3))/(upp_f_r - low_f_r)
-            tau = tau_syst(2*row.nu0, low_f_r*(1+z), row.K)
-
-            psi = representative_SFH(model.ages[i].value, tau, model.SFH_num, model.max_z)
-
-            # contributions
-            Omega_cont = 3.2e-15* model.f_plot[bin_index] * row.M_ch**(5/3) * freq_fac * (1+z)**(-2) * psi * model.z_widths[i]
-
-            z_contr[f"freq_{bin_index}"][i] += Omega_cont / (2e-15 * model.f_bin_factors[bin_index])
-
-            num_syst = psi * tau_syst(low_f_r*(1+z), 2*row.nu_max, row.K) * 10**6 # tau is given in Myr, psi in ... /yr
-            z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / 4e6)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
-
-            Omega_plot[bin_index] += Omega_cont
-
-    # Plots
-    make_Omega_plot_unnorm(model.f_plot, Omega_plot, SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N}_{model.N_z}_wmerge_b_{tag}")
-
-    # Save GWB
-    GWBnew = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWBnew.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_wmerge_b_{tag}.txt", index = False)
-
-    z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_merge_b_{tag}.txt", index = False)
-
 ############ ACTUAL MAIN FUNCTION #############
 
 def main():
@@ -565,11 +545,11 @@ def main():
 
     ### initiate ###
 
-    N = 25              # number of bins
-    N_z = 20            # number of z bins
+    N = 50             # number of bins
+    N_z = 1000           # number of z bins
     max_z = 8           # max_redshift
     SFH_num = 1         # which SFH
-    tag = "type4"       # identifier for filenames
+    tag = "cst_one"       # identifier for filenames
 
     global SAVE_FIG
     SAVE_FIG = False
@@ -579,7 +559,7 @@ def main():
 
     # Run script for only one system if True
     global TEST_FOR_ONE
-    TEST_FOR_ONE = False
+    TEST_FOR_ONE = True
 
     # create the simulation model
     model = sim_model(N, N_z, max_z, SFH_num)
@@ -593,7 +573,6 @@ def main():
     main_add_bulk(model, data, tag)
     main_add_birth(model, data, tag)
     main_add_merge_at_max(model, data, tag)
-    main_add_merge_at_time_max(model, data, tag)
 
 main()
 
