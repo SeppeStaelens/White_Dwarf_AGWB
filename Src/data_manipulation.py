@@ -3,6 +3,7 @@ import pandas as pd
 from astropy import constants as cst
 from astropy import units as u
 import os
+import matplotlib.pyplot as plt
 
 os.chdir("/home/seppe/Documents/Data/Papers/2310.19448/White_Dwarf_AGWB/Src")
 
@@ -79,5 +80,8 @@ data["nu_max"] = np.array(nus)
 
 data["Dt_max"] = tau_syst(2*data["nu0"], 2*data["nu_max"], data["K"])
 
+# plt.hist(np.log10(2*data["nu_max"]))
+# plt.show()
+
 # Save data
-data.to_csv("../Data/initials_final_3.txt", index = False)
+# data.to_csv("../Data/initials_final_3.txt", index = False)
