@@ -237,7 +237,7 @@ class sim_model:
         self.f_bins = np.array([f_range[2*i] for i in range(self.N+1)])
         self.f_bin_factors = get_bin_factors(self.f_plot, self.f_bins)
 
-        print(f"The frequencies are {self.f_plot}\n")
+        print(f"\nThe frequencies are {self.f_plot}\n")
 
     def calculate_z_bins(self):
         '''
@@ -418,7 +418,7 @@ def main_add_merge_at_max(model, data, tag):
     Saves a dataframe with all the essential information.
     '''
    
-    print("\nInitating merger bin part of the code.\n")
+    print("\nInitiating merger bin part of the code.\n")
 
     previous_Omega = pd.read_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_wbirth_{tag}.txt", sep = ",")
     Omega_plot = previous_Omega.Om.values
@@ -484,15 +484,19 @@ def main_add_merge_at_max(model, data, tag):
 
             if not MERGER_CAN_BE_REACHED:
 
-                nu_max_b = min(safe_determine_upper_freq(row.nu0, evolve_time, row.K), row.nu_max)
+                nu_max_b_ini = safe_determine_upper_freq(row.nu0, evolve_time, row.K)
 
-                if nu_max_b == -1:
+                if nu_max_b_ini == -1:
                     continue
 
                 if DEBUG:
-                    if (nu_max_b > row.nu_max):
+                    tolerance = 0.01
+                    if (nu_max_b_ini > (1+tolerance) * row.nu_max):
                         # The first means that evolve_time too large, second should be caught in previous part
                         raise "Error"
+
+                # for safety
+                nu_max_b = min(nu_max_b_ini, row.nu_max)
 
                 # Don't consider mergers that happen at a frequency beyond our region of interest
                 if (2*nu_max_b/(1+z) > highest_bin) or (2*nu_max_b / (1+z) < lowest_bin):
@@ -513,19 +517,19 @@ def main_add_merge_at_max(model, data, tag):
                 tau = tau_syst(2*row.nu0, low_f_r*(1+z), row.K)
                 psi = representative_SFH(model.ages[i].value, tau, model.SFH_num, model.max_z)
 
-                num_syst = psi * tau_syst(low_f_r*(1+z), 2*nu_max_b, row.K) * 10**6 # tau is given in Myr, psi in ... /yr
+                num_syst = psi * (evolve_time - tau) * 10**6 # tau is given in Myr, psi in ... /yr
+
                 if DEBUG:
                     np.testing.assert_allclose(evolve_time, tau + tau_syst(low_f_r*(1+z), 2*nu_max_b, row.K), rtol=1e-2)
 
             # contributions
 
             Omega_cont = 3.2e-15* model.f_plot[bin_index] * row.M_ch**(5/3) * freq_fac * (1+z)**(-2) * psi * model.z_widths[i]
-
             z_contr[f"freq_{bin_index}"][i] += Omega_cont / (2e-15 * model.f_bin_factors[bin_index])
+            Omega_plot[bin_index] += Omega_cont
 
             z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / 4e6)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
 
-            Omega_plot[bin_index] += Omega_cont
 
     # Plots
     make_Omega_plot_unnorm(model.f_plot, Omega_plot, SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N}_{model.N_z}_wmerge_{tag}")
@@ -546,10 +550,10 @@ def main():
     ### initiate ###
 
     N = 50             # number of bins
-    N_z = 1000           # number of z bins
+    N_z = 20           # number of z bins
     max_z = 8           # max_redshift
     SFH_num = 1         # which SFH
-    tag = "cst_one"       # identifier for filenames
+    tag = "check"       # identifier for filenames
 
     global SAVE_FIG
     SAVE_FIG = False
@@ -559,20 +563,29 @@ def main():
 
     # Run script for only one system if True
     global TEST_FOR_ONE
-    TEST_FOR_ONE = True
+    TEST_FOR_ONE = False
 
     # create the simulation model
     model = sim_model(N, N_z, max_z, SFH_num)
 
     # data. initial file with some added calculations
     data = pd.read_csv("../Data/initials_final_2.txt", sep = ",")
+
+    # Some binaries will never make it to our frequency window
+    initial_check = data[data["nu0"] < 5e-6]
+    can_not_be_seen = (tau_syst(2*initial_check["nu0"], 1e-5, initial_check["K"]) > 13000)
+    actual = data.drop(initial_check[can_not_be_seen].index)
+    print(f"Out of {len(initial_check)} binaries below 1e-5 Hz, only {len(initial_check) - np.sum(can_not_be_seen)} enters our window.")
+    print(f"Dataset reduced from {len(data)} rows to {len(actual)} rows.")
+
+
     if TEST_FOR_ONE:
         # info on the first row of data
         print(data.iloc[0])
 
-    main_add_bulk(model, data, tag)
-    main_add_birth(model, data, tag)
-    main_add_merge_at_max(model, data, tag)
+    main_add_bulk(model, actual, tag)
+    main_add_birth(model, actual, tag)
+    main_add_merge_at_max(model, actual, tag)
 
 main()
 
