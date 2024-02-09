@@ -11,7 +11,6 @@ import pandas as pd
 from astropy import units as u
 from astropy.cosmology import Planck18 as cosmo
 from numpy import interp
-from scipy.integrate import trapezoid as trap
 from warnings import simplefilter 
 import os
 
@@ -124,6 +123,9 @@ def make_Omega_plot_unnorm(f, Omega_sim, save = False, save_name = "void"):
     #plt.show()
 
 def get_bin_factors(freqs, bins):
+    '''
+    Determine bin factors that often recur in the calculation to store them.
+    '''
     factors = []
     for i, f in enumerate(freqs):
         fac = f * (bins[i+1]**(2/3) - bins[i]**(2/3))/(bins[i+1]-bins[i])
@@ -135,7 +137,7 @@ def tau_syst(f_0, f_1, K):
     Calculates tau, the time it takes a binary with K to evolve from f_0 to f_1 (GW frequencies).
     Returns tau in Myr.
     '''
-    tau = 2.4*(f_0**(-8/3) - f_1**(-8/3)) / K
+    tau = 2.381*(f_0**(-8/3) - f_1**(-8/3)) / K
     return tau/s_in_Myr
 
 def representative_SFH(age, Delta_t, SFH_num, max_z):
@@ -199,19 +201,19 @@ def determine_upper_freq(nu_low, evolve_time, K):
         assert nu_upp > nu_low
     return nu_upp
 
-def safe_determine_upper_freq(nu_low, evolve_time, K):
-    '''
-    Determines upper ORBITAL frequency for a binary with K, starting from nu_0, evolving over evolve_time.
-    However, the binary can have merged within less than evolve time, in which case the code returns -1.
-    Takes evolve_time in Myr, so needs to be converted.
-    '''
-    if ((nu_low**(-8/3)) > (8 * K * evolve_time * s_in_Myr / 3)):
-        return determine_upper_freq(nu_low, evolve_time, K)
-    else:
-        return -1
+# def safe_determine_upper_freq(nu_low, evolve_time, K):
+#     '''
+#     Determines upper ORBITAL frequency for a binary with K, starting from nu_0, evolving over evolve_time.
+#     However, the binary can have merged within less than evolve time, in which case the code returns -1.
+#     Takes evolve_time in Myr, so needs to be converted.
+#     '''
+#     if ((nu_low**(-8/3)) > (8 * K * evolve_time * s_in_Myr / 3)):
+#         return determine_upper_freq(nu_low, evolve_time, K)
+#     else:
+#         return -1
     
 ######## MODEL CLASS ############
-    
+
 class sim_model:
     '''
     This class contains information about the run that needs to be shared over the different subroutines.
@@ -262,7 +264,7 @@ def main_add_bulk(model, data, tag):
     Saves a dataframe with all the essential information.
     '''
    
-    print("\nInitating bulk part of the code.\n")
+    print("\nInitiating bulk part of the code.\n")
 
     # array that will store the values for Omega
     Omega_plot = np.zeros_like(model.f_plot)        
@@ -388,7 +390,7 @@ def main_add_birth(model, data, tag):
             if tau_to_bin_edge >= max_evolve_time:
                 tau_in_bin = max_evolve_time
                 upp_freq = determine_upper_freq(row.nu0, max_evolve_time, row.K)
-                freq_fac = ((upp_freq*(1+z)/2)**(2/3) - row.nu0**(2/3))/(upp_f_r - low_f_r)
+                freq_fac = (upp_freq**(2/3) - row.nu0**(2/3))/(upp_f_r - low_f_r)
             else:
                 tau_in_bin = tau_to_bin_edge
                 freq_fac = ((upp_f_r*(1+z)/2)**(2/3) - row.nu0**(2/3))/(upp_f_r - low_f_r)
@@ -434,6 +436,9 @@ def main_add_merge_at_max(model, data, tag):
     highest_bin = model.f_bins[-1]
     lowest_bin = model.f_bins[0]
 
+    # To check numerics
+    NUM_ERRORS = 0
+
     # We go over the rows in the data and determine the merger bins, and their contribution
     for index, row in data.iterrows():
 
@@ -464,7 +469,7 @@ def main_add_merge_at_max(model, data, tag):
                 low_f_r, upp_f_r = model.f_bins[bin_index], model.f_bins[bin_index + 1] 
 
                 # The time it takes to evolve from birth to merger
-                tau = tau_syst(2*row.nu0, 2*row.nu_max, row.K)
+                tau = row.Dt_max
 
                 if tau >= evolve_time:
                     MERGER_CAN_BE_REACHED = False
@@ -484,9 +489,11 @@ def main_add_merge_at_max(model, data, tag):
 
             if not MERGER_CAN_BE_REACHED:
 
-                nu_max_b_ini = safe_determine_upper_freq(row.nu0, evolve_time, row.K)
+                nu_max_b_ini = determine_upper_freq(row.nu0, evolve_time, row.K)
 
                 if nu_max_b_ini == -1:
+                    # Should not be possible
+                    NUM_ERRORS += 1
                     continue
 
                 if DEBUG:
@@ -531,6 +538,9 @@ def main_add_merge_at_max(model, data, tag):
             z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / 4e6)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
 
 
+    if DEBUG:
+        print(f"Number of numerical errors: {NUM_ERRORS}\n")
+
     # Plots
     make_Omega_plot_unnorm(model.f_plot, Omega_plot, SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N}_{model.N_z}_wmerge_{tag}")
 
@@ -553,7 +563,7 @@ def main():
     N_z = 20           # number of z bins
     max_z = 8           # max_redshift
     SFH_num = 1         # which SFH
-    tag = "check"       # identifier for filenames
+    tag = "final"       # identifier for filenames
 
     global SAVE_FIG
     SAVE_FIG = False
@@ -569,7 +579,7 @@ def main():
     model = sim_model(N, N_z, max_z, SFH_num)
 
     # data. initial file with some added calculations
-    data = pd.read_csv("../Data/initials_final_2.txt", sep = ",")
+    data = pd.read_csv("../Data/initials_final_3.txt", sep = ",")
 
     # Some binaries will never make it to our frequency window
     initial_check = data[data["nu0"] < 5e-6]
