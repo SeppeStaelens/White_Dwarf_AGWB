@@ -100,9 +100,6 @@ def SFH4(z):
     '''
     return 0.00245*(1+z)**(2.7)/(1+((1+z)/5.)**(5.6))
 
-def chirp(m1, m2):
-    return (m1*m2)**(3/5) / (m1+m2)**(1/5)
-
 def make_Omega_plot_unnorm(f, Omega_sim, save = False, save_name = "void"):
 
     fig, ax = plt.subplots(1, 1, figsize = (10,8))
