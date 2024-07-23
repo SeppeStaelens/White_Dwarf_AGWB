@@ -16,7 +16,7 @@ This code was originally created for research in context of a Master's Thesis [M
 
 ### data
 
-This folder contains subfolders relating to different BWD populations, as produced by the [SeBa(https://github.com/amusecode/SeBa)] code:
+This folder contains subfolders relating to different BWD populations, as produced by the [SeBa](https://github.com/amusecode/SeBa) code:
 
 - `aa_4_0p02_MD`: original population used in [Staelens, Nelemans 2024](https://www.aanda.org/articles/aa/full_html/2024/03/aa48429-23/aa48429-23.html). This is an $\alpha\alpha$ model with $\alpha = 4$, $Z = 0.02$ and the SFRD by [Madau & Dickinson (2014)](https://www.annualreviews.org/content/journals/10.1146/annurev-astro-081811-125615).
 
