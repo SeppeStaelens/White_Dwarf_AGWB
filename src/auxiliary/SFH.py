@@ -1,5 +1,8 @@
 from helper import get_z_fast
 
+def SFH_Sophie():
+    return 0
+
 def representative_SFH(age, Delta_t, SFH_num, max_z):
     '''
     Looks for a representative value of the SFH given the age of the system, and an additional time delay in reaching the bin.
