@@ -52,3 +52,6 @@ def get_width_z_shell_from_z(z_vals):
     widths = cosmo.comoving_distance(z_vals).value 
     shells = [widths[i+1] - widths[i] for i in range(len(widths)-1)]
     return np.array(shells)
+
+def test_2(z):
+    return z
