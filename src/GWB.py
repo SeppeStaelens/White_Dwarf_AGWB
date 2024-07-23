@@ -54,7 +54,13 @@ a, b, c = hp.calc_parabola_vertex(-3, -12, -2.5, -12.5, -2, -12)
 ########### AUXILIARY FUNCTIONS ##############
 
 def make_Omega_plot_unnorm(f, Omega_sim, save = False, save_name = "void"):
-
+    '''!
+    @brief Make a plot showing Omega for BWD.
+    @param f: frequency array.
+    @param Omega_sim: Omega array.
+    @param save: save the figure.
+    @param save_name: name of the saved figure.
+    '''
     fig, ax = plt.subplots(1, 1, figsize = (10,8))
 
     ax.plot(np.log10(f), Omega_sim, color = "green", linewidth = 3, label = "Sim BWD")
