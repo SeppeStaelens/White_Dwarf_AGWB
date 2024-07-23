@@ -1,0 +1,37 @@
+\doxysection{/home/seppe/\+Documents/data/\+Papers/\+AnA.683.A139(2024)/\+White\+\_\+\+Dwarf\+\_\+\+AGWB/src/modules/auxiliary.py File Reference}
+\hypertarget{auxiliary_8py}{}\label{auxiliary_8py}\index{/home/seppe/Documents/data/Papers/AnA.683.A139(2024)/White\_Dwarf\_AGWB/src/modules/auxiliary.py@{/home/seppe/Documents/data/Papers/AnA.683.A139(2024)/White\_Dwarf\_AGWB/src/modules/auxiliary.py}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespaceauxiliary}{auxiliary}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceauxiliary_a22be92d4b60541d61a942e427ca76998}{auxiliary.\+calc\+\_\+parabola\+\_\+vertex}} (x1, y1, x2, y2, x3, y3)
+\begin{DoxyCompactList}\small\item\em Calculate the coefficients of a parabola given three points. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceauxiliary_a5cd208bba1f5bccd3c86aa78f59966b4}{auxiliary.\+parabola}} (x, a, b, c)
+\begin{DoxyCompactList}\small\item\em Calculate the value of a parabola given the coefficients. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceauxiliary_a22505655a90f6baf6a0fdc1101b69de3}{auxiliary.\+get\+\_\+z\+\_\+fast}} (age)
+\item 
+\mbox{\hyperlink{namespaceauxiliary_adde5256b0bc973568a56f47ac50f2e9a}{auxiliary.\+get\+\_\+bin\+\_\+factors}} (freqs, bins)
+\begin{DoxyCompactList}\small\item\em Determine bin factors that often recur in the calculation to store them. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceauxiliary_a831a3f36f83e9b6628a4581181e0002c}{auxiliary.\+get\+\_\+width\+\_\+z\+\_\+shell\+\_\+from\+\_\+z}} (z\+\_\+vals)
+\begin{DoxyCompactList}\small\item\em Returns the widths of the z\+\_\+shells in Mpc. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceauxiliary_a1d121fa0478d11470967a213d7c3247e}{auxiliary.\+Omega}} (Omega\+\_\+ref, f\+\_\+ref, freq)
+\begin{DoxyCompactList}\small\item\em Create a f\texorpdfstring{$^\wedge$}{\string^}2/3 spectrum line. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceauxiliary_ac4a8d6ba64db6f171e0ddaabe346302b}{auxiliary.\+make\+\_\+\+Omega\+\_\+plot\+\_\+unnorm}} (f, Omega\+\_\+sim, save=False, save\+\_\+name="{}void"{})
+\begin{DoxyCompactList}\small\item\em Make a plot showing Omega for BWD. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceauxiliary_a282c1d3777981de1af799ac4865f75be}{auxiliary.\+tau\+\_\+syst}} (f\+\_\+0, f\+\_\+1, K)
+\begin{DoxyCompactList}\small\item\em Calculates tau, the time it takes a binary with K to evolve from f\+\_\+0 to f\+\_\+1 (GW frequencies). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceauxiliary_a0a3c5b2222ec6a5b0f32329ada5fdb47}{auxiliary.\+determine\+\_\+upper\+\_\+freq}} (nu\+\_\+low, evolve\+\_\+time, K)
+\begin{DoxyCompactList}\small\item\em Determines upper ORBITAL frequency for a binary with K, starting from nu\+\_\+0, evolving over evolve\+\_\+time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceauxiliary_a0828309cd59ada70e78ef9fed1b0cae7}{auxiliary.\+z\+\_\+at\+\_\+val\+\_\+data}} = pd.\+read\+\_\+csv("{}../Data/z\+\_\+at\+\_\+age.\+txt"{}, names=\mbox{[}"{}age"{}, "{}z"{}\mbox{]}, header=1)
+\begin{DoxyCompactList}\small\item\em LOAD Z\+\_\+\+AT\+\_\+\+VALUE FILE \#\#\#\#\#\#\#\#\#\#\#\#\#. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceauxiliary_a175dc7bb5b09ef19d7b8ec5aa35420b9}{auxiliary.\+interp\+\_\+age}}
+\item 
+\mbox{\hyperlink{namespaceauxiliary_adbc0214aa536cd76d9597c2ebec1a780}{auxiliary.\+interp\+\_\+z}}
+\end{DoxyCompactItemize}

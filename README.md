@@ -6,20 +6,29 @@ This code was originally created for research in context of a Master's Thesis [M
 
 ## Overview of repository:
 
-- `src`: contains the main scripts.
-- `output`: contains Figures and GWBs folders, where the latter stores the GWBs and the contributions to the different bins.
-- `post_proc`: contains Jupyter Notebooks to process the data.
 - `data`: contains the initial values and the interpolated z_at_value function.
 - `doc`: contains documentation.
+- `output`: contains Figures and GWBs folders, where the latter stores the GWBs and the contributions to the different bins.
+- `post_proc`: contains Jupyter Notebooks to process the data.
+- `pre_proc`: contains two scripts to pre-process data before the actual simulation.
 - `references`: contain the Master's Theses as PDF files.
+- `src`: contains the main scripts.
+
+### data
+
+This folder contains subfolders relating to different BWD populations, as produced by the [SeBa(https://github.com/amusecode/SeBa)] code:
+
+- `aa_4_0p02_MD`: original population used in [Staelens, Nelemans 2024](https://www.aanda.org/articles/aa/full_html/2024/03/aa48429-23/aa48429-23.html). This is an $\alpha\alpha$ model with $\alpha = 4$, $Z = 0.02$ and the SFRD by [Madau & Dickinson (2014)](https://www.annualreviews.org/content/journals/10.1146/annurev-astro-081811-125615).
+
+Finally, this folder also contains a file `z_at_age.txt`, which is just a data file relating the age of the Universe to the redshift in a Planck 18 cosmology. This is in order to circumvent calling the `astropy.cosmology.z_at_value` function too often, as it is very expensive.
 
 ## Installation
 
-Conda environment, yaml file.
+Conda environment, yaml file. TODO
 
 ## Running the code
 
-Run code from Src directory.
+Run code from Src directory. TODO
 
 ## Clarification on some of the formulas
 
