@@ -1,7 +1,7 @@
 from astropy.cosmology import Planck18 as cosmo
 import numpy as np
 import astropy.units as u
-from .helper import get_bin_factors, get_width_z_shell_from_z
+from auxiliary import get_bin_factors, get_width_z_shell_from_z
 
 class SimModel:
     '''

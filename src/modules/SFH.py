@@ -1,4 +1,4 @@
-from helper import get_z_fast
+from auxiliary import get_z_fast
 
 def SFH_Sophie():
     return 0
