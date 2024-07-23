@@ -1,0 +1,204 @@
+\doxysection{GWB\+\_\+\+T.\+sim\+\_\+model Class Reference}
+\hypertarget{classGWB__T_1_1sim__model}{}\label{classGWB__T_1_1sim__model}\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+
+
+MODEL CLASS \#\#\#\#\#\#\#\#\#\#\#\#.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+None \mbox{\hyperlink{classGWB__T_1_1sim__model_adec578bc50535b1025bbbdf566a8abfa}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classGWB__T_1_1sim__model_a6e368b36fb76dd47c9f14f33f675434a}{N}}=50, \mbox{\hyperlink{classGWB__T_1_1sim__model_a533fe142061cd5007c77e94d91e41058}{N\+\_\+t}}=20, \mbox{\hyperlink{classGWB__T_1_1sim__model_a349f7350c1dda07519957f396d7c4171}{max\+\_\+z}}=8, \mbox{\hyperlink{classGWB__T_1_1sim__model_a28161a8336d956eea6cd53ff367a020c}{SFH\+\_\+num}}=1, \mbox{\hyperlink{classGWB__T_1_1sim__model_a5d31b456f9018b16c5aaceb23815d62a}{log\+\_\+f\+\_\+low}}=-\/5, \mbox{\hyperlink{classGWB__T_1_1sim__model_a31564597239732e3304d66a86fd06d87}{log\+\_\+f\+\_\+high}}=0)
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a5d3c381ffc1abed561b72a13892a8c62}{calculate\+\_\+f\+\_\+bins}} (self)
+\begin{DoxyCompactList}\small\item\em Calculates the f bins and the bin factors. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a2d8d8f02e45df00b4a4fbe207bfb50c1}{calculate\+\_\+\+T\+\_\+bins}} (self)
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_ac1f6634e618f9c23b974fc0bec049fe8}{calculate\+\_\+cosmology}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a6e368b36fb76dd47c9f14f33f675434a}{N}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a533fe142061cd5007c77e94d91e41058}{N\+\_\+t}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a349f7350c1dda07519957f396d7c4171}{max\+\_\+z}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a28161a8336d956eea6cd53ff367a020c}{SFH\+\_\+num}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a5d31b456f9018b16c5aaceb23815d62a}{log\+\_\+f\+\_\+low}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a31564597239732e3304d66a86fd06d87}{log\+\_\+f\+\_\+high}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a7b54541d1edf96c08909e99a2da6bd28}{f\+\_\+plot}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a310aee694e87209f6f52e6833fb559a7}{f\+\_\+bins}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a3ec4fb231c81751cac1d17335b8255e4}{f\+\_\+bin\+\_\+factors}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_abcd12ac1cdcb7e2a8b91c623eda79e21}{T0}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a2e2c7815d77bbd416507eac78f111901}{T\+\_\+range}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_ab45314b80145cb45b723b05e018f46df}{T\+\_\+list}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_af177f8f5fe493d953bbb740c912d5977}{T\+\_\+bins}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a68bdf877b2f38e74b4eba11dff9c7414}{dT}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a00e5e0d604da9abb5364d14fc9c73146}{ages}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_a761df039d697bd0130f7e84a3d6eedc6}{z\+\_\+list}}
+\item 
+\mbox{\hyperlink{classGWB__T_1_1sim__model_ad22ff5cf9e5a30b799da95c9ecd3c91e}{z\+\_\+time\+\_\+since\+\_\+max\+\_\+z}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+MODEL CLASS \#\#\#\#\#\#\#\#\#\#\#\#. 
+
+This class contains information about the run that needs to be shared over the different subroutines. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classGWB__T_1_1sim__model_adec578bc50535b1025bbbdf566a8abfa}\label{classGWB__T_1_1sim__model_adec578bc50535b1025bbbdf566a8abfa} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily  None GWB\+\_\+\+T.\+sim\+\_\+model.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{N = {\ttfamily 50},  }\item[{}]{N\+\_\+t = {\ttfamily 20},  }\item[{}]{max\+\_\+z = {\ttfamily 8},  }\item[{}]{SFH\+\_\+num = {\ttfamily 1},  }\item[{}]{log\+\_\+f\+\_\+low = {\ttfamily -\/5},  }\item[{}]{log\+\_\+f\+\_\+high = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classGWB__T_1_1sim__model_ac1f6634e618f9c23b974fc0bec049fe8}\label{classGWB__T_1_1sim__model_ac1f6634e618f9c23b974fc0bec049fe8} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!calculate\_cosmology@{calculate\_cosmology}}
+\index{calculate\_cosmology@{calculate\_cosmology}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{calculate\_cosmology()}{calculate\_cosmology()}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+calculate\+\_\+cosmology (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\Hypertarget{classGWB__T_1_1sim__model_a5d3c381ffc1abed561b72a13892a8c62}\label{classGWB__T_1_1sim__model_a5d3c381ffc1abed561b72a13892a8c62} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!calculate\_f\_bins@{calculate\_f\_bins}}
+\index{calculate\_f\_bins@{calculate\_f\_bins}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{calculate\_f\_bins()}{calculate\_f\_bins()}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+calculate\+\_\+f\+\_\+bins (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Calculates the f bins and the bin factors. 
+
+\Hypertarget{classGWB__T_1_1sim__model_a2d8d8f02e45df00b4a4fbe207bfb50c1}\label{classGWB__T_1_1sim__model_a2d8d8f02e45df00b4a4fbe207bfb50c1} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!calculate\_T\_bins@{calculate\_T\_bins}}
+\index{calculate\_T\_bins@{calculate\_T\_bins}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{calculate\_T\_bins()}{calculate\_T\_bins()}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+calculate\+\_\+\+T\+\_\+bins (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classGWB__T_1_1sim__model_a00e5e0d604da9abb5364d14fc9c73146}\label{classGWB__T_1_1sim__model_a00e5e0d604da9abb5364d14fc9c73146} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!ages@{ages}}
+\index{ages@{ages}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{ages}{ages}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+ages}
+
+\Hypertarget{classGWB__T_1_1sim__model_a68bdf877b2f38e74b4eba11dff9c7414}\label{classGWB__T_1_1sim__model_a68bdf877b2f38e74b4eba11dff9c7414} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!dT@{dT}}
+\index{dT@{dT}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{dT}{dT}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+dT}
+
+\Hypertarget{classGWB__T_1_1sim__model_a3ec4fb231c81751cac1d17335b8255e4}\label{classGWB__T_1_1sim__model_a3ec4fb231c81751cac1d17335b8255e4} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!f\_bin\_factors@{f\_bin\_factors}}
+\index{f\_bin\_factors@{f\_bin\_factors}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{f\_bin\_factors}{f\_bin\_factors}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+f\+\_\+bin\+\_\+factors}
+
+\Hypertarget{classGWB__T_1_1sim__model_a310aee694e87209f6f52e6833fb559a7}\label{classGWB__T_1_1sim__model_a310aee694e87209f6f52e6833fb559a7} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!f\_bins@{f\_bins}}
+\index{f\_bins@{f\_bins}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{f\_bins}{f\_bins}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+f\+\_\+bins}
+
+\Hypertarget{classGWB__T_1_1sim__model_a7b54541d1edf96c08909e99a2da6bd28}\label{classGWB__T_1_1sim__model_a7b54541d1edf96c08909e99a2da6bd28} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!f\_plot@{f\_plot}}
+\index{f\_plot@{f\_plot}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{f\_plot}{f\_plot}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+f\+\_\+plot}
+
+\Hypertarget{classGWB__T_1_1sim__model_a31564597239732e3304d66a86fd06d87}\label{classGWB__T_1_1sim__model_a31564597239732e3304d66a86fd06d87} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!log\_f\_high@{log\_f\_high}}
+\index{log\_f\_high@{log\_f\_high}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{log\_f\_high}{log\_f\_high}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+log\+\_\+f\+\_\+high}
+
+\Hypertarget{classGWB__T_1_1sim__model_a5d31b456f9018b16c5aaceb23815d62a}\label{classGWB__T_1_1sim__model_a5d31b456f9018b16c5aaceb23815d62a} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!log\_f\_low@{log\_f\_low}}
+\index{log\_f\_low@{log\_f\_low}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{log\_f\_low}{log\_f\_low}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+log\+\_\+f\+\_\+low}
+
+\Hypertarget{classGWB__T_1_1sim__model_a349f7350c1dda07519957f396d7c4171}\label{classGWB__T_1_1sim__model_a349f7350c1dda07519957f396d7c4171} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!max\_z@{max\_z}}
+\index{max\_z@{max\_z}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{max\_z}{max\_z}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+max\+\_\+z}
+
+\Hypertarget{classGWB__T_1_1sim__model_a6e368b36fb76dd47c9f14f33f675434a}\label{classGWB__T_1_1sim__model_a6e368b36fb76dd47c9f14f33f675434a} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!N@{N}}
+\index{N@{N}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{N}{N}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+N}
+
+\Hypertarget{classGWB__T_1_1sim__model_a533fe142061cd5007c77e94d91e41058}\label{classGWB__T_1_1sim__model_a533fe142061cd5007c77e94d91e41058} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!N\_t@{N\_t}}
+\index{N\_t@{N\_t}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{N\_t}{N\_t}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+N\+\_\+t}
+
+\Hypertarget{classGWB__T_1_1sim__model_a28161a8336d956eea6cd53ff367a020c}\label{classGWB__T_1_1sim__model_a28161a8336d956eea6cd53ff367a020c} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!SFH\_num@{SFH\_num}}
+\index{SFH\_num@{SFH\_num}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{SFH\_num}{SFH\_num}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+SFH\+\_\+num}
+
+\Hypertarget{classGWB__T_1_1sim__model_abcd12ac1cdcb7e2a8b91c623eda79e21}\label{classGWB__T_1_1sim__model_abcd12ac1cdcb7e2a8b91c623eda79e21} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!T0@{T0}}
+\index{T0@{T0}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{T0}{T0}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+T0}
+
+\Hypertarget{classGWB__T_1_1sim__model_af177f8f5fe493d953bbb740c912d5977}\label{classGWB__T_1_1sim__model_af177f8f5fe493d953bbb740c912d5977} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!T\_bins@{T\_bins}}
+\index{T\_bins@{T\_bins}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{T\_bins}{T\_bins}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+T\+\_\+bins}
+
+\Hypertarget{classGWB__T_1_1sim__model_ab45314b80145cb45b723b05e018f46df}\label{classGWB__T_1_1sim__model_ab45314b80145cb45b723b05e018f46df} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!T\_list@{T\_list}}
+\index{T\_list@{T\_list}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{T\_list}{T\_list}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+T\+\_\+list}
+
+\Hypertarget{classGWB__T_1_1sim__model_a2e2c7815d77bbd416507eac78f111901}\label{classGWB__T_1_1sim__model_a2e2c7815d77bbd416507eac78f111901} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!T\_range@{T\_range}}
+\index{T\_range@{T\_range}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{T\_range}{T\_range}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+T\+\_\+range}
+
+\Hypertarget{classGWB__T_1_1sim__model_a761df039d697bd0130f7e84a3d6eedc6}\label{classGWB__T_1_1sim__model_a761df039d697bd0130f7e84a3d6eedc6} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!z\_list@{z\_list}}
+\index{z\_list@{z\_list}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{z\_list}{z\_list}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+z\+\_\+list}
+
+\Hypertarget{classGWB__T_1_1sim__model_ad22ff5cf9e5a30b799da95c9ecd3c91e}\label{classGWB__T_1_1sim__model_ad22ff5cf9e5a30b799da95c9ecd3c91e} 
+\index{GWB\_T.sim\_model@{GWB\_T.sim\_model}!z\_time\_since\_max\_z@{z\_time\_since\_max\_z}}
+\index{z\_time\_since\_max\_z@{z\_time\_since\_max\_z}!GWB\_T.sim\_model@{GWB\_T.sim\_model}}
+\doxysubsubsection{\texorpdfstring{z\_time\_since\_max\_z}{z\_time\_since\_max\_z}}
+{\footnotesize\ttfamily GWB\+\_\+\+T.\+sim\+\_\+model.\+z\+\_\+time\+\_\+since\+\_\+max\+\_\+z}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/seppe/\+Documents/data/\+Papers/\+An\+A.\+683.\+A139(2024)/\+White\+\_\+\+Dwarf\+\_\+\+AGWB/src/\mbox{\hyperlink{GWB__T_8py}{GWB\+\_\+\+T.\+py}}\end{DoxyCompactItemize}
