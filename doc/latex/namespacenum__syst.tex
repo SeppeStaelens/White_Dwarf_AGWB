@@ -1,0 +1,175 @@
+\doxysection{num\+\_\+syst Namespace Reference}
+\hypertarget{namespacenum__syst}{}\label{namespacenum__syst}\index{num\_syst@{num\_syst}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classnum__syst_1_1sim__model}{sim\+\_\+model}}
+\begin{DoxyCompactList}\small\item\em MODEL CLASS \#\#\#\#\#\#\#\#\#\#\#\#. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacenum__syst_aec983d1ce92095e55779c13bd66666e9}{get\+\_\+width\+\_\+z\+\_\+shell\+\_\+from\+\_\+z}} (z\+\_\+vals)
+\begin{DoxyCompactList}\small\item\em AUXILIARY FUNCTIONS \#\#\#\#\#\#\#\#\#\#\#\#\#\#. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacenum__syst_aa7ed3243816a179b50fef5b91407e243}{SFH}} (z)
+\begin{DoxyCompactList}\small\item\em Star formation history from \mbox{[}Madau, Dickinson 2014\mbox{]}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacenum__syst_a7295a08e19d564cfd9a048761c710c7a}{tau\+\_\+syst}} (f\+\_\+0, f\+\_\+1, K)
+\begin{DoxyCompactList}\small\item\em Calculates tau, the time it takes a binary with K to evolve from f\+\_\+0 to f\+\_\+1 (GW frequencies). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacenum__syst_ad0020cebacf2d2acce3504f56fefec05}{representative\+\_\+\+SFH}} (age, Delta\+\_\+t, SFH\+\_\+num, max\+\_\+z)
+\begin{DoxyCompactList}\small\item\em Looks for a representative value of the SFH given the age of the system, and an additional time delay in reaching the bin. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacenum__syst_a9c6a3094e7280ebd8979ba4cbe05bbd0}{get\+\_\+z\+\_\+fast}} (age)
+\item 
+\mbox{\hyperlink{namespacenum__syst_a6409f6ea04742c2988ee8f3c95dd7c05}{determine\+\_\+upper\+\_\+freq}} (nu\+\_\+low, evolve\+\_\+time, K)
+\begin{DoxyCompactList}\small\item\em Determines upper ORBITAL frequency for a binary with K, starting from nu\+\_\+0, evolving over evolve\+\_\+time. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacenum__syst_a4f68dbfc50d97c1a9fb61d6cce4aaae3}{num\+\_\+merge\+\_\+bins}} (model1, model2, data, tag)
+\item 
+\mbox{\hyperlink{namespacenum__syst_a6009afbd098d3db94e5959ceb542c0db}{main}} ()
+\begin{DoxyCompactList}\small\item\em ACTUAL MAIN FUNCTION \#\#\#\#\#\#\#\#\#\#\#\#\#. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacenum__syst_acbef5468636cc2d7d6d61a0a6c623dcd}{size}}
+\item 
+\mbox{\hyperlink{namespacenum__syst_af7e23c2f008a8cd1473932f08c242286}{titlesize}}
+\item 
+\mbox{\hyperlink{namespacenum__syst_ab21b9e5779b561f3b944539cfc33a8cd}{labelsize}}
+\item 
+\mbox{\hyperlink{namespacenum__syst_a41d7c2890fae86c195e0ad75c71a6976}{fontsize}}
+\item 
+tuple \mbox{\hyperlink{namespacenum__syst_a5ff48e09c0291d57ea849efd8285c807}{s\+\_\+in\+\_\+\+Myr}} = (u.\+Myr).to(u.\+s)
+\item 
+\mbox{\hyperlink{namespacenum__syst_a412d16c11ecd717ffcb91aa1e52f9b76}{z\+\_\+at\+\_\+val\+\_\+data}} = pd.\+read\+\_\+csv("{}../Data/z\+\_\+at\+\_\+age.\+txt"{}, names=\mbox{[}"{}age"{}, "{}z"{}\mbox{]}, header=1)
+\begin{DoxyCompactList}\small\item\em LOAD Z\+\_\+\+AT\+\_\+\+VALUE FILE \#\#\#\#\#\#\#\#\#\#\#\#\#. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacenum__syst_ac67fdf75be21c598fc461e92f7ddcf23}{interp\+\_\+age}}
+\item 
+\mbox{\hyperlink{namespacenum__syst_a09b4eb920db212179f56a0c01160abea}{interp\+\_\+z}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacenum__syst_a6409f6ea04742c2988ee8f3c95dd7c05}\label{namespacenum__syst_a6409f6ea04742c2988ee8f3c95dd7c05} 
+\index{num\_syst@{num\_syst}!determine\_upper\_freq@{determine\_upper\_freq}}
+\index{determine\_upper\_freq@{determine\_upper\_freq}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{determine\_upper\_freq()}{determine\_upper\_freq()}}
+{\footnotesize\ttfamily num\+\_\+syst.\+determine\+\_\+upper\+\_\+freq (\begin{DoxyParamCaption}\item[{}]{nu\+\_\+low,  }\item[{}]{evolve\+\_\+time,  }\item[{}]{K }\end{DoxyParamCaption})}
+
+
+
+Determines upper ORBITAL frequency for a binary with K, starting from nu\+\_\+0, evolving over evolve\+\_\+time. 
+
+Takes evolve\+\_\+time in Myr, so needs to be converted. \Hypertarget{namespacenum__syst_aec983d1ce92095e55779c13bd66666e9}\label{namespacenum__syst_aec983d1ce92095e55779c13bd66666e9} 
+\index{num\_syst@{num\_syst}!get\_width\_z\_shell\_from\_z@{get\_width\_z\_shell\_from\_z}}
+\index{get\_width\_z\_shell\_from\_z@{get\_width\_z\_shell\_from\_z}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{get\_width\_z\_shell\_from\_z()}{get\_width\_z\_shell\_from\_z()}}
+{\footnotesize\ttfamily num\+\_\+syst.\+get\+\_\+width\+\_\+z\+\_\+shell\+\_\+from\+\_\+z (\begin{DoxyParamCaption}\item[{}]{z\+\_\+vals }\end{DoxyParamCaption})}
+
+
+
+AUXILIARY FUNCTIONS \#\#\#\#\#\#\#\#\#\#\#\#\#\#. 
+
+Returns the widths of the z\+\_\+shells in Mpc. \Hypertarget{namespacenum__syst_a9c6a3094e7280ebd8979ba4cbe05bbd0}\label{namespacenum__syst_a9c6a3094e7280ebd8979ba4cbe05bbd0} 
+\index{num\_syst@{num\_syst}!get\_z\_fast@{get\_z\_fast}}
+\index{get\_z\_fast@{get\_z\_fast}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{get\_z\_fast()}{get\_z\_fast()}}
+{\footnotesize\ttfamily num\+\_\+syst.\+get\+\_\+z\+\_\+fast (\begin{DoxyParamCaption}\item[{}]{age }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacenum__syst_a6009afbd098d3db94e5959ceb542c0db}\label{namespacenum__syst_a6009afbd098d3db94e5959ceb542c0db} 
+\index{num\_syst@{num\_syst}!main@{main}}
+\index{main@{main}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily num\+\_\+syst.\+main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+ACTUAL MAIN FUNCTION \#\#\#\#\#\#\#\#\#\#\#\#\#. 
+
+The actual main function. Combines the three different components \Hypertarget{namespacenum__syst_a4f68dbfc50d97c1a9fb61d6cce4aaae3}\label{namespacenum__syst_a4f68dbfc50d97c1a9fb61d6cce4aaae3} 
+\index{num\_syst@{num\_syst}!num\_merge\_bins@{num\_merge\_bins}}
+\index{num\_merge\_bins@{num\_merge\_bins}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{num\_merge\_bins()}{num\_merge\_bins()}}
+{\footnotesize\ttfamily num\+\_\+syst.\+num\+\_\+merge\+\_\+bins (\begin{DoxyParamCaption}\item[{}]{model1,  }\item[{}]{model2,  }\item[{}]{data,  }\item[{}]{tag }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacenum__syst_ad0020cebacf2d2acce3504f56fefec05}\label{namespacenum__syst_ad0020cebacf2d2acce3504f56fefec05} 
+\index{num\_syst@{num\_syst}!representative\_SFH@{representative\_SFH}}
+\index{representative\_SFH@{representative\_SFH}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{representative\_SFH()}{representative\_SFH()}}
+{\footnotesize\ttfamily num\+\_\+syst.\+representative\+\_\+\+SFH (\begin{DoxyParamCaption}\item[{}]{age,  }\item[{}]{Delta\+\_\+t,  }\item[{}]{SFH\+\_\+num,  }\item[{}]{max\+\_\+z }\end{DoxyParamCaption})}
+
+
+
+Looks for a representative value of the SFH given the age of the system, and an additional time delay in reaching the bin. 
+
+age and Delta\+\_\+t should be given in Myr. \Hypertarget{namespacenum__syst_aa7ed3243816a179b50fef5b91407e243}\label{namespacenum__syst_aa7ed3243816a179b50fef5b91407e243} 
+\index{num\_syst@{num\_syst}!SFH@{SFH}}
+\index{SFH@{SFH}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{SFH()}{SFH()}}
+{\footnotesize\ttfamily num\+\_\+syst.\+SFH (\begin{DoxyParamCaption}\item[{}]{z }\end{DoxyParamCaption})}
+
+
+
+Star formation history from \mbox{[}Madau, Dickinson 2014\mbox{]}. 
+
+Units\+: solar mass / yr / Mpc\texorpdfstring{$^\wedge$}{\string^}3 \Hypertarget{namespacenum__syst_a7295a08e19d564cfd9a048761c710c7a}\label{namespacenum__syst_a7295a08e19d564cfd9a048761c710c7a} 
+\index{num\_syst@{num\_syst}!tau\_syst@{tau\_syst}}
+\index{tau\_syst@{tau\_syst}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{tau\_syst()}{tau\_syst()}}
+{\footnotesize\ttfamily num\+\_\+syst.\+tau\+\_\+syst (\begin{DoxyParamCaption}\item[{}]{f\+\_\+0,  }\item[{}]{f\+\_\+1,  }\item[{}]{K }\end{DoxyParamCaption})}
+
+
+
+Calculates tau, the time it takes a binary with K to evolve from f\+\_\+0 to f\+\_\+1 (GW frequencies). 
+
+Returns tau in Myr. 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacenum__syst_a41d7c2890fae86c195e0ad75c71a6976}\label{namespacenum__syst_a41d7c2890fae86c195e0ad75c71a6976} 
+\index{num\_syst@{num\_syst}!fontsize@{fontsize}}
+\index{fontsize@{fontsize}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{fontsize}{fontsize}}
+{\footnotesize\ttfamily num\+\_\+syst.\+fontsize}
+
+\Hypertarget{namespacenum__syst_ac67fdf75be21c598fc461e92f7ddcf23}\label{namespacenum__syst_ac67fdf75be21c598fc461e92f7ddcf23} 
+\index{num\_syst@{num\_syst}!interp\_age@{interp\_age}}
+\index{interp\_age@{interp\_age}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{interp\_age}{interp\_age}}
+{\footnotesize\ttfamily num\+\_\+syst.\+interp\+\_\+age}
+
+\Hypertarget{namespacenum__syst_a09b4eb920db212179f56a0c01160abea}\label{namespacenum__syst_a09b4eb920db212179f56a0c01160abea} 
+\index{num\_syst@{num\_syst}!interp\_z@{interp\_z}}
+\index{interp\_z@{interp\_z}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{interp\_z}{interp\_z}}
+{\footnotesize\ttfamily num\+\_\+syst.\+interp\+\_\+z}
+
+\Hypertarget{namespacenum__syst_ab21b9e5779b561f3b944539cfc33a8cd}\label{namespacenum__syst_ab21b9e5779b561f3b944539cfc33a8cd} 
+\index{num\_syst@{num\_syst}!labelsize@{labelsize}}
+\index{labelsize@{labelsize}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{labelsize}{labelsize}}
+{\footnotesize\ttfamily num\+\_\+syst.\+labelsize}
+
+\Hypertarget{namespacenum__syst_a5ff48e09c0291d57ea849efd8285c807}\label{namespacenum__syst_a5ff48e09c0291d57ea849efd8285c807} 
+\index{num\_syst@{num\_syst}!s\_in\_Myr@{s\_in\_Myr}}
+\index{s\_in\_Myr@{s\_in\_Myr}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{s\_in\_Myr}{s\_in\_Myr}}
+{\footnotesize\ttfamily tuple num\+\_\+syst.\+s\+\_\+in\+\_\+\+Myr = (u.\+Myr).to(u.\+s)}
+
+\Hypertarget{namespacenum__syst_acbef5468636cc2d7d6d61a0a6c623dcd}\label{namespacenum__syst_acbef5468636cc2d7d6d61a0a6c623dcd} 
+\index{num\_syst@{num\_syst}!size@{size}}
+\index{size@{size}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily num\+\_\+syst.\+size}
+
+\Hypertarget{namespacenum__syst_af7e23c2f008a8cd1473932f08c242286}\label{namespacenum__syst_af7e23c2f008a8cd1473932f08c242286} 
+\index{num\_syst@{num\_syst}!titlesize@{titlesize}}
+\index{titlesize@{titlesize}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{titlesize}{titlesize}}
+{\footnotesize\ttfamily num\+\_\+syst.\+titlesize}
+
+\Hypertarget{namespacenum__syst_a412d16c11ecd717ffcb91aa1e52f9b76}\label{namespacenum__syst_a412d16c11ecd717ffcb91aa1e52f9b76} 
+\index{num\_syst@{num\_syst}!z\_at\_val\_data@{z\_at\_val\_data}}
+\index{z\_at\_val\_data@{z\_at\_val\_data}!num\_syst@{num\_syst}}
+\doxysubsubsection{\texorpdfstring{z\_at\_val\_data}{z\_at\_val\_data}}
+{\footnotesize\ttfamily num\+\_\+syst.\+z\+\_\+at\+\_\+val\+\_\+data = pd.\+read\+\_\+csv("{}../Data/z\+\_\+at\+\_\+age.\+txt"{}, names=\mbox{[}"{}age"{}, "{}z"{}\mbox{]}, header=1)}
+
+
+
+LOAD Z\+\_\+\+AT\+\_\+\+VALUE FILE \#\#\#\#\#\#\#\#\#\#\#\#\#. 
+

@@ -1,0 +1,126 @@
+\doxysection{data\+\_\+manipulation Namespace Reference}
+\hypertarget{namespacedata__manipulation}{}\label{namespacedata__manipulation}\index{data\_manipulation@{data\_manipulation}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacedata__manipulation_a507b046fa971f48f6c76766257e78a07}{chirp}} (m1, m2)
+\begin{DoxyCompactList}\small\item\em Calculate the chirp mass in solar masses. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacedata__manipulation_ac3dd3d34919414e5d8679fe13dad1627}{WD\+\_\+radius}} (m)
+\begin{DoxyCompactList}\small\item\em Eggleton 1986 fit to Nauenberg for high m and ZS for low m. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacedata__manipulation_ab0a8f7c461e3e4f6764df62cc4989f6d}{a\+\_\+min}} (m1, m2)
+\begin{DoxyCompactList}\small\item\em Calculate minimum separation between two WDs of masses m1 and m2 (solar units). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacedata__manipulation_aa2b1baba3d59295bca80c6a3c6a516e3}{Kepler}} (m1, m2)
+\begin{DoxyCompactList}\small\item\em Calculate orbital frequency of a binary with separation a\+\_\+min and masses m1, m2. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacedata__manipulation_ac24f187c96d51900799ebff7511ba6bd}{K}} (M)
+\begin{DoxyCompactList}\small\item\em Calculate the factor K. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespacedata__manipulation_ad9bab5f3894810debf0712fb9e622c17}{tau\+\_\+syst}} (f\+\_\+0, f\+\_\+1, \mbox{\hyperlink{namespacedata__manipulation_ac24f187c96d51900799ebff7511ba6bd}{K}})
+\begin{DoxyCompactList}\small\item\em Calculates tau, the time it takes a binary with K to evolve from f\+\_\+0 to f\+\_\+1 (GW frequencies). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+tuple \mbox{\hyperlink{namespacedata__manipulation_a774cbb07a8f92808eadefc048311f6c0}{s\+\_\+in\+\_\+\+Myr}} = (u.\+Myr).to(u.\+s)
+\item 
+\mbox{\hyperlink{namespacedata__manipulation_a421c09fd3faf88bf19ed1a060bab8258}{data}} = pd.\+read\+\_\+csv("{}../Data/t0aim1m2.\+dat"{}, names = \mbox{[}"{}t0"{}, "{}a"{}, "{}m1"{}, "{}m2"{}\mbox{]}, sep = "{}\textbackslash{}s+"{})
+\item 
+tuple \mbox{\hyperlink{namespacedata__manipulation_a57c248dd427a12768fc2b2d144d49635}{Periods}} = ( (\mbox{\hyperlink{namespacedata__manipulation_a421c09fd3faf88bf19ed1a060bab8258}{data}}\mbox{[}"{}a"{}\mbox{]}\texorpdfstring{$\ast$}{*}cst.\+R\+\_\+sun)\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}3 \texorpdfstring{$\ast$}{*} 4\texorpdfstring{$\ast$}{*}np.\+pi\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}2 / (cst.\+G \texorpdfstring{$\ast$}{*} cst.\+M\+\_\+sun \texorpdfstring{$\ast$}{*} (\mbox{\hyperlink{namespacedata__manipulation_a421c09fd3faf88bf19ed1a060bab8258}{data}}\mbox{[}"{}m1"{}\mbox{]}+\mbox{\hyperlink{namespacedata__manipulation_a421c09fd3faf88bf19ed1a060bab8258}{data}}\mbox{[}"{}m2"{}\mbox{]}) ) )\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}(1/2)
+\item 
+int \mbox{\hyperlink{namespacedata__manipulation_a45a4b893673962136bb540f71bb31f65}{orbital\+\_\+frequencies}} = 1 / \mbox{\hyperlink{namespacedata__manipulation_a57c248dd427a12768fc2b2d144d49635}{Periods}}
+\item 
+list \mbox{\hyperlink{namespacedata__manipulation_a76a07e890272a6e9690071dd05c7ec71}{nus}} = \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacedata__manipulation_ab0a8f7c461e3e4f6764df62cc4989f6d}\label{namespacedata__manipulation_ab0a8f7c461e3e4f6764df62cc4989f6d} 
+\index{data\_manipulation@{data\_manipulation}!a\_min@{a\_min}}
+\index{a\_min@{a\_min}!data\_manipulation@{data\_manipulation}}
+\doxysubsubsection{\texorpdfstring{a\_min()}{a\_min()}}
+{\footnotesize\ttfamily data\+\_\+manipulation.\+a\+\_\+min (\begin{DoxyParamCaption}\item[{}]{m1,  }\item[{}]{m2 }\end{DoxyParamCaption})}
+
+
+
+Calculate minimum separation between two WDs of masses m1 and m2 (solar units). 
+
+Assumes m2\texorpdfstring{$<$}{<}m1. Return the minimal separation in solar radii. \Hypertarget{namespacedata__manipulation_a507b046fa971f48f6c76766257e78a07}\label{namespacedata__manipulation_a507b046fa971f48f6c76766257e78a07} 
+\index{data\_manipulation@{data\_manipulation}!chirp@{chirp}}
+\index{chirp@{chirp}!data\_manipulation@{data\_manipulation}}
+\doxysubsubsection{\texorpdfstring{chirp()}{chirp()}}
+{\footnotesize\ttfamily data\+\_\+manipulation.\+chirp (\begin{DoxyParamCaption}\item[{}]{m1,  }\item[{}]{m2 }\end{DoxyParamCaption})}
+
+
+
+Calculate the chirp mass in solar masses. 
+
+\Hypertarget{namespacedata__manipulation_ac24f187c96d51900799ebff7511ba6bd}\label{namespacedata__manipulation_ac24f187c96d51900799ebff7511ba6bd} 
+\index{data\_manipulation@{data\_manipulation}!K@{K}}
+\index{K@{K}!data\_manipulation@{data\_manipulation}}
+\doxysubsubsection{\texorpdfstring{K()}{K()}}
+{\footnotesize\ttfamily data\+\_\+manipulation.\+K (\begin{DoxyParamCaption}\item[{}]{M }\end{DoxyParamCaption})}
+
+
+
+Calculate the factor K. 
+
+\Hypertarget{namespacedata__manipulation_aa2b1baba3d59295bca80c6a3c6a516e3}\label{namespacedata__manipulation_aa2b1baba3d59295bca80c6a3c6a516e3} 
+\index{data\_manipulation@{data\_manipulation}!Kepler@{Kepler}}
+\index{Kepler@{Kepler}!data\_manipulation@{data\_manipulation}}
+\doxysubsubsection{\texorpdfstring{Kepler()}{Kepler()}}
+{\footnotesize\ttfamily data\+\_\+manipulation.\+Kepler (\begin{DoxyParamCaption}\item[{}]{m1,  }\item[{}]{m2 }\end{DoxyParamCaption})}
+
+
+
+Calculate orbital frequency of a binary with separation a\+\_\+min and masses m1, m2. 
+
+Returns the frequency in Hz. \Hypertarget{namespacedata__manipulation_ad9bab5f3894810debf0712fb9e622c17}\label{namespacedata__manipulation_ad9bab5f3894810debf0712fb9e622c17} 
+\index{data\_manipulation@{data\_manipulation}!tau\_syst@{tau\_syst}}
+\index{tau\_syst@{tau\_syst}!data\_manipulation@{data\_manipulation}}
+\doxysubsubsection{\texorpdfstring{tau\_syst()}{tau\_syst()}}
+{\footnotesize\ttfamily data\+\_\+manipulation.\+tau\+\_\+syst (\begin{DoxyParamCaption}\item[{}]{f\+\_\+0,  }\item[{}]{f\+\_\+1,  }\item[{}]{K }\end{DoxyParamCaption})}
+
+
+
+Calculates tau, the time it takes a binary with K to evolve from f\+\_\+0 to f\+\_\+1 (GW frequencies). 
+
+Returns tau in Myr. \Hypertarget{namespacedata__manipulation_ac3dd3d34919414e5d8679fe13dad1627}\label{namespacedata__manipulation_ac3dd3d34919414e5d8679fe13dad1627} 
+\index{data\_manipulation@{data\_manipulation}!WD\_radius@{WD\_radius}}
+\index{WD\_radius@{WD\_radius}!data\_manipulation@{data\_manipulation}}
+\doxysubsubsection{\texorpdfstring{WD\_radius()}{WD\_radius()}}
+{\footnotesize\ttfamily data\+\_\+manipulation.\+WD\+\_\+radius (\begin{DoxyParamCaption}\item[{}]{m }\end{DoxyParamCaption})}
+
+
+
+Eggleton 1986 fit to Nauenberg for high m and ZS for low m. 
+
+Returns the radius in solar radii. 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacedata__manipulation_a421c09fd3faf88bf19ed1a060bab8258}\label{namespacedata__manipulation_a421c09fd3faf88bf19ed1a060bab8258} 
+\index{data\_manipulation@{data\_manipulation}!data@{data}}
+\index{data@{data}!data\_manipulation@{data\_manipulation}}
+\doxysubsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily data\+\_\+manipulation.\+data = pd.\+read\+\_\+csv("{}../Data/t0aim1m2.\+dat"{}, names = \mbox{[}"{}t0"{}, "{}a"{}, "{}m1"{}, "{}m2"{}\mbox{]}, sep = "{}\textbackslash{}s+"{})}
+
+\Hypertarget{namespacedata__manipulation_a76a07e890272a6e9690071dd05c7ec71}\label{namespacedata__manipulation_a76a07e890272a6e9690071dd05c7ec71} 
+\index{data\_manipulation@{data\_manipulation}!nus@{nus}}
+\index{nus@{nus}!data\_manipulation@{data\_manipulation}}
+\doxysubsubsection{\texorpdfstring{nus}{nus}}
+{\footnotesize\ttfamily list data\+\_\+manipulation.\+nus = \mbox{[}$\,$\mbox{]}}
+
+\Hypertarget{namespacedata__manipulation_a45a4b893673962136bb540f71bb31f65}\label{namespacedata__manipulation_a45a4b893673962136bb540f71bb31f65} 
+\index{data\_manipulation@{data\_manipulation}!orbital\_frequencies@{orbital\_frequencies}}
+\index{orbital\_frequencies@{orbital\_frequencies}!data\_manipulation@{data\_manipulation}}
+\doxysubsubsection{\texorpdfstring{orbital\_frequencies}{orbital\_frequencies}}
+{\footnotesize\ttfamily int data\+\_\+manipulation.\+orbital\+\_\+frequencies = 1 / \mbox{\hyperlink{namespacedata__manipulation_a57c248dd427a12768fc2b2d144d49635}{Periods}}}
+
+\Hypertarget{namespacedata__manipulation_a57c248dd427a12768fc2b2d144d49635}\label{namespacedata__manipulation_a57c248dd427a12768fc2b2d144d49635} 
+\index{data\_manipulation@{data\_manipulation}!Periods@{Periods}}
+\index{Periods@{Periods}!data\_manipulation@{data\_manipulation}}
+\doxysubsubsection{\texorpdfstring{Periods}{Periods}}
+{\footnotesize\ttfamily tuple data\+\_\+manipulation.\+Periods = ( (\mbox{\hyperlink{namespacedata__manipulation_a421c09fd3faf88bf19ed1a060bab8258}{data}}\mbox{[}"{}a"{}\mbox{]}\texorpdfstring{$\ast$}{*}cst.\+R\+\_\+sun)\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}3 \texorpdfstring{$\ast$}{*} 4\texorpdfstring{$\ast$}{*}np.\+pi\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}2 / (cst.\+G \texorpdfstring{$\ast$}{*} cst.\+M\+\_\+sun \texorpdfstring{$\ast$}{*} (\mbox{\hyperlink{namespacedata__manipulation_a421c09fd3faf88bf19ed1a060bab8258}{data}}\mbox{[}"{}m1"{}\mbox{]}+\mbox{\hyperlink{namespacedata__manipulation_a421c09fd3faf88bf19ed1a060bab8258}{data}}\mbox{[}"{}m2"{}\mbox{]}) ) )\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}(1/2)}
+
+\Hypertarget{namespacedata__manipulation_a774cbb07a8f92808eadefc048311f6c0}\label{namespacedata__manipulation_a774cbb07a8f92808eadefc048311f6c0} 
+\index{data\_manipulation@{data\_manipulation}!s\_in\_Myr@{s\_in\_Myr}}
+\index{s\_in\_Myr@{s\_in\_Myr}!data\_manipulation@{data\_manipulation}}
+\doxysubsubsection{\texorpdfstring{s\_in\_Myr}{s\_in\_Myr}}
+{\footnotesize\ttfamily tuple data\+\_\+manipulation.\+s\+\_\+in\+\_\+\+Myr = (u.\+Myr).to(u.\+s)}
+
