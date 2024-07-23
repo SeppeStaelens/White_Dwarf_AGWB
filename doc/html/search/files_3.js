@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['num_5fsyst_2epy_0',['num_syst.py',['../num__syst_8py.html',1,'']]]
+  ['gwb_2epy_0',['GWB.py',['../GWB_8py.html',1,'']]],
+  ['gwb_5ft_2epy_1',['GWB_T.py',['../GWB__T_8py.html',1,'']]]
 ];

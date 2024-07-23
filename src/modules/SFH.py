@@ -1,4 +1,4 @@
-from helper import get_z_fast
+from auxiliary import get_z_fast
 
 def representative_SFH(age, Delta_t, SFH_num, max_z):
     '''
