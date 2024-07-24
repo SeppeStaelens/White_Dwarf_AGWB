@@ -1,4 +1,5 @@
 """!@file GWB.py
+@date 2024-07-24
 @brief This program calculates the GWB based on the method described in my thesis.
 @details The program calculates the GWB based on the method described in my thesis. It is divided into three main parts: the bulk part, the birth part, and the merger part. The bulk part calculates the majority of the GWB, what is referred to in my thesis as the 'generic case'. The birth part adds the contribution of the 'birth bins' to the bulk GWB. The merger part adds the contribution of the 'merger bins' due to Kepler max to the bulk GWB. The program saves a dataframe with all the essential information.
 @author Seppe Staelens
@@ -15,6 +16,7 @@ import time
 
 import modules.auxiliary as aux
 import modules.SimModel as sm
+import modules.RedshiftInterpolator as ri
 from modules.add_bulk import add_bulk
 from modules.add_birth import add_birth
 from modules.add_merge import add_merge
@@ -89,6 +91,7 @@ def main():
 
     # create the simulation model
     model = sm.SimModel(N, N_z, max_z, SFH_num)
+    z_interp = ri.RedshiftInterpolator("../data/z_at_age.txt")
 
     # data. initial file with some added calculations
     data = pd.read_csv("../Data/initials_final_3.txt", sep = ",")
