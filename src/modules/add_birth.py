@@ -1,3 +1,5 @@
+import SFH as sfh
+
 def add_birth(model, data, tag):
     '''
     This routine add the contribution of the 'birth bins' to the bulk GWB.
@@ -46,7 +48,7 @@ def add_birth(model, data, tag):
                 print(f"Bin frequencies for z {z:.2f}: [{low_f_r:.2E}, {upp_f_r:.2E}]")
 
             age = model.ages[i].value
-            psi = sfh.get_SFH(model.SFH_num, z, age, row.t0, model.max_z)
+            psi = sfh.representative_SFH(age, row.t0, model.SFH_num, model.max_z)
 
             # The time it would take the binary to evolve from nu_0 to the upper bin edge
             tau_to_bin_edge = tau_syst(2*row.nu0, upp_f_r*(1+z), row.K)

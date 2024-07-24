@@ -1,12 +1,13 @@
+"""!
+@file auxiliary.py
+@author Seppe Staelens
+@date 2024-07-24
+@brief This module contains auxiliary functions that are used in the main code.
+"""
+
 import numpy as np
-from numpy import interp
-import pandas as pd
 from astropy.cosmology import Planck18 as cosmo
-
-########### LOAD Z_AT_VALUE FILE #############
-z_at_val_data = pd.read_csv("../Data/z_at_age.txt", names=["age", "z"], header=1)
-interp_age, interp_z = z_at_val_data.age.values, z_at_val_data.z.values
-
+import matplotlib.pyplot as plt
 
 def calc_parabola_vertex(x1, y1, x2, y2, x3, y3):
     '''!
@@ -32,12 +33,12 @@ def parabola(x, a, b, c):
     """
     return a*x**2 + b*x+c
 
-def get_z_fast(age):
-    return interp(age, interp_age, interp_z)
-
 def get_bin_factors(freqs, bins):
-    '''
-    Determine bin factors that often recur in the calculation to store them.
+    '''!
+    @brief Determine bin factors that often recur in the calculation to store them.
+    @param freqs: central frequencies.
+    @param bins: frequency bin edges.
+    @return factors: factors to multiply the contributions with.
     '''
     factors = []
     for i, f in enumerate(freqs):
@@ -46,26 +47,33 @@ def get_bin_factors(freqs, bins):
     return np.array(factors)
 
 def get_width_z_shell_from_z(z_vals):
-    '''
-    Returns the widths of the z_shells in Mpc.
+    '''!
+    @brief Returns the widths of the redshift shells in Mpc.
+    @param z_vals: redshift values.
+    @return shells: shell widths in Mpc.
     '''
     widths = cosmo.comoving_distance(z_vals).value 
     shells = [widths[i+1] - widths[i] for i in range(len(widths)-1)]
     return np.array(shells)
 
 def Omega(Omega_ref, f_ref, freq):
-    '''
-    Create a f^2/3 spectrum line
+    '''!
+    @brief Create a f^{2/3} spectrum line.
+    @param Omega_ref: reference Omega value.
+    @param f_ref: reference frequency.
+    @param freq: frequency array.
+    @return Omega: Omega array.
     '''
     return Omega_ref*10**((2/3) * (np.log10(freq) - np.log10(f_ref)))
 
-def make_Omega_plot_unnorm(f, Omega_sim, save = False, save_name = "void"):
+def make_Omega_plot_unnorm(f, Omega_sim, save = False, save_name = "void", show = False):
     '''!
     @brief Make a plot showing Omega for BWD.
     @param f: frequency array.
     @param Omega_sim: Omega array.
     @param save: save the figure.
     @param save_name: name of the saved figure.
+    @param show: show the figure.
     '''
     fig, ax = plt.subplots(1, 1, figsize = (10,8))
 
@@ -81,23 +89,27 @@ def make_Omega_plot_unnorm(f, Omega_sim, save = False, save_name = "void"):
     if save:
         plt.tight_layout()
         fig.savefig("../Output/Figures/" + save_name + ".png")
-
-    #plt.show()
+    if show:
+        plt.show()
 
 def tau_syst(f_0, f_1, K):
-    '''
-    Calculates tau, the time it takes a binary with K to evolve from f_0 to f_1 (GW frequencies).
-    Returns tau in Myr.
+    '''!
+    @brief Calculates tau, the time it takes a binary with K to evolve from f_0 to f_1 (GW frequencies).
+    @param f_0: initial frequency.
+    @param f_1: final frequency.
+    @param K: constant depending on the binary.
+    @return tau: time in Myr.
     '''
     tau = 2.381*(f_0**(-8/3) - f_1**(-8/3)) / K
     return tau/s_in_Myr
 
-
-
 def determine_upper_freq(nu_low, evolve_time, K):
-    '''
-    Determines upper ORBITAL frequency for a binary with K, starting from nu_0, evolving over evolve_time.
-    Takes evolve_time in Myr, so needs to be converted.
+    '''!
+    @brief Determines upper ORBITAL frequency for a binary with K, starting from nu_0, evolving over evolve_time.
+    @param nu_low: initial orbital frequency.
+    @param evolve_time: time it takes to evolve in Myr.
+    @param K: constant depending on the binary.
+    @return nu_upp: upper orbital frequency.
     '''
     if DEBUG:
         assert (nu_low**(-8/3)) > (8 * K * evolve_time * s_in_Myr / 3)
@@ -105,16 +117,3 @@ def determine_upper_freq(nu_low, evolve_time, K):
     if DEBUG:
         assert nu_upp > nu_low
     return nu_upp
-
-# DEPRECATED FUNCTION
-# 
-# def safe_determine_upper_freq(nu_low, evolve_time, K):
-#     '''
-#     Determines upper ORBITAL frequency for a binary with K, starting from nu_0, evolving over evolve_time.
-#     However, the binary can have merged within less than evolve time, in which case the code returns -1.
-#     Takes evolve_time in Myr, so needs to be converted.
-#     '''
-#     if ((nu_low**(-8/3)) > (8 * K * evolve_time * s_in_Myr / 3)):
-#         return determine_upper_freq(nu_low, evolve_time, K)
-#     else:
-#         return -1
