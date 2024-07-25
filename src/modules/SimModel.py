@@ -3,7 +3,7 @@
 @brief This module contains the class SimModel.
 @details The class SimModel contains information about the run that needs to be shared over the different subroutines.
 @author Seppe Staelens
-@data 2024-07-24
+@date 2024-07-24
 """
 
 from astropy.cosmology import Planck18 as cosmo

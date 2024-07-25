@@ -1,7 +1,24 @@
-def add_merge(model, data, tag):
-    '''
-    This routine add the contribution of the 'merger bins' due to Kepler max to the bulk GWB.
-    Saves a dataframe with all the essential information.
+'''!
+@file add_birth.py
+@brief This file contains a routine that adds the contribution of the 'merger bins' due to Kepler max to the bulk+birth GWB.
+@author Seppe Staelens
+@date 2024-07-24
+'''
+
+import numpy as np
+import pandas as pd
+from astropy.cosmology import Planck18 as cosmo
+from auxiliary import make_Omega_plot_unnorm, tau_syst, determine_upper_freq
+import SFH as sfh
+
+def add_merge(model, z_interp, data, tag):
+    '''!
+    @brief This routine adds the contribution of the 'merger bins' due to Kepler max to the bulk+birth GWB.
+    @param model: instance of SimModel, containing the necessary information for the run.
+    @param z_interp: instance of RedshiftInterpolator, used in the SFH calculations.
+    @param data: dataframe containing the binary population data.
+    @param tag: tag to add to the output files.
+    @return Saves a dataframe with all the essential information.
     '''
    
     print("\nInitiating merger bin part of the code.\n")
@@ -64,7 +81,7 @@ def add_merge(model, data, tag):
                     if TEST_FOR_ONE:
                         print("Reached merger.")
 
-                    psi = sfh.representative_SFH(model.ages[i].value, tau, model.SFH_num, model.max_z)
+                    psi = sfh.representative_SFH(model.ages[i].value, z_interp, Delta_t=tau, SFH_num=model.SFH_num, max_z=model.max_z)
 
                     # contributions
                     freq_fac = (row.nu_max**(2/3) - (low_f_r*(1+z)/2)**(2/3))/(upp_f_r - low_f_r)
@@ -106,7 +123,7 @@ def add_merge(model, data, tag):
 
                 freq_fac = (nu_max_b**(2/3) - (low_f_r*(1+z)/2)**(2/3))/(upp_f_r - low_f_r)
                 tau = tau_syst(2*row.nu0, low_f_r*(1+z), row.K)
-                psi = sfh.representative_SFH(model.ages[i].value, tau, model.SFH_num, model.max_z)
+                psi = sfh.representative_SFH(model.ages[i].value, z_interp, Delta_t=tau, SFH_num=model.SFH_num, max_z=model.max_z)
 
                 num_syst = psi * (evolve_time - tau) * 10**6 # tau is given in Myr, psi in ... /yr
 

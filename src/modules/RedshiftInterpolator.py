@@ -3,7 +3,7 @@
 @brief This module contains the class RedshiftInterpolator.
 @details The class RedshiftInterpolator is used to quickly determine the redshift at a given age of the Universe.
 @author Seppe Staelens
-@data 2024-07-24
+@date 2024-07-24
 """
 
 from numpy import interp

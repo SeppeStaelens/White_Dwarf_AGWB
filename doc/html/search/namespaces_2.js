@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['data_5fmanipulation_0',['data_manipulation',['../namespacedata__manipulation.html',1,'']]]
+  ['num_5fsyst_0',['num_syst',['../namespacenum__syst.html',1,'']]]
 ];

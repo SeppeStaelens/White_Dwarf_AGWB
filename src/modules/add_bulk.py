@@ -1,7 +1,24 @@
-def add_bulk(model, data, tag):
-    '''
-    This routine calculates the majority of the GWB, what is referred to in my thesis as the 'generic case'.
-    Saves a dataframe with all the essential information.
+'''!
+@file add_bulk.py
+@brief This file contains a routine that calculates the majority of the GWB, what is referred to in my thesis as the 'generic case'.
+@author Seppe Staelens
+@date 2024-07-24
+'''
+
+import numpy as np
+import pandas as pd
+from astropy.cosmology import Planck18 as cosmo
+from auxiliary import make_Omega_plot_unnorm, tau_syst
+import SFH as sfh
+
+def add_bulk(model, z_interp, data, tag):
+    '''!
+    @brief This routine calculates the majority of the GWB, what is referred to in my thesis as the 'generic case'.
+    @param model: instance of SimModel, containing the necessary information for the run.
+    @param z_interp: instance of RedshiftInterpolator, used in the SFH calculations.
+    @param data: dataframe containing the binary population data.
+    @param tag: tag to add to the output files.
+    @return Saves a dataframe with all the essential information.
     '''
    
     print("\nInitiating bulk part of the code.\n")
@@ -48,7 +65,7 @@ def add_bulk(model, data, tag):
                 if time_since_ZAMS >= time_since_max_z:
                     continue
 
-                psi = sfh.representative_SFH(age, time_since_ZAMS, model.SFH_num, model.max_z)
+                psi = sfh.representative_SFH(age, z_interp, Delta_t=time_since_ZAMS, SFH_num=model.SFH_num, max_z=model.max_z)
     
                 z_fac += psi*row.M_ch**(5/3)
                 num_syst += psi * tau_syst(bin_low_f_e, bin_upp_f_e, row.K) * 10**6 # tau is given in Myr, psi in ... /yr
@@ -69,4 +86,4 @@ def add_bulk(model, data, tag):
     GWB = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
     GWB.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_{tag}.txt", index = False)
 
-    z_contr.to_csv(f"../Output/GWBs//SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_{tag}.txt", index = False)
+    z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_{tag}.txt", index = False)

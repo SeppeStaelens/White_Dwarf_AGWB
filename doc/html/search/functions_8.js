@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['omega_0',['Omega',['../namespaceGWB__T.html#a5dd4c70e3c72992c969875d2cd1ee21e',1,'GWB_T.Omega()'],['../namespaceauxiliary.html#a1d121fa0478d11470967a213d7c3247e',1,'auxiliary.Omega()']]]
+  ['parabola_0',['parabola',['../namespaceGWB__T.html#a89924deb425e91b1317d5f0b5e28ed57',1,'GWB_T.parabola()'],['../namespaceauxiliary.html#a5cd208bba1f5bccd3c86aa78f59966b4',1,'auxiliary.parabola()']]]
 ];
