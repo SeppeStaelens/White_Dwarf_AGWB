@@ -81,6 +81,9 @@ $(function() {
   <div class="headertitle"><div class="title">SFH.py File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>This file contains the functions to determine the star formation rate.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -89,14 +92,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a75a83766df2eff1037578455c30cf2f9" id="r_a75a83766df2eff1037578455c30cf2f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSFH.html#a75a83766df2eff1037578455c30cf2f9">SFH.representative_SFH</a> (age, Delta_t, SFH_num, max_z)</td></tr>
-<tr class="memdesc:a75a83766df2eff1037578455c30cf2f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks for a representative value of the <a class="el" href="namespaceSFH.html">SFH</a> given the age of the system, and an additional time delay in reaching the bin.  <br /></td></tr>
-<tr class="separator:a75a83766df2eff1037578455c30cf2f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb0109d88006fc8be6b8b11f15c67e6d" id="r_abb0109d88006fc8be6b8b11f15c67e6d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSFH.html#abb0109d88006fc8be6b8b11f15c67e6d">SFH.get_SFH</a> (SFH_num, z, age, t0, max_z)</td></tr>
-<tr class="separator:abb0109d88006fc8be6b8b11f15c67e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0350427ea6726398fbb597ebd2f91392" id="r_a0350427ea6726398fbb597ebd2f91392"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSFH.html#a0350427ea6726398fbb597ebd2f91392">SFH.SFH</a> (z)</td></tr>
-<tr class="memdesc:a0350427ea6726398fbb597ebd2f91392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Star formation history from [Madau, Dickinson 2014].  <br /></td></tr>
-<tr class="separator:a0350427ea6726398fbb597ebd2f91392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bb1721b1373aad6cb86d83c3e2d8c45" id="r_a3bb1721b1373aad6cb86d83c3e2d8c45"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSFH.html#a3bb1721b1373aad6cb86d83c3e2d8c45">SFH.representative_SFH</a> (age, redshift_interpolator, Delta_t=0, SFH_num=1, max_z=8)</td></tr>
+<tr class="memdesc:a3bb1721b1373aad6cb86d83c3e2d8c45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines an appropriate value for the star formation rate at a given age.  <br /></td></tr>
+<tr class="separator:a3bb1721b1373aad6cb86d83c3e2d8c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49999ea31a103358566d817a951f8e74" id="r_a49999ea31a103358566d817a951f8e74"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSFH.html#a49999ea31a103358566d817a951f8e74">SFH.SFH_MD</a> (z)</td></tr>
+<tr class="memdesc:a49999ea31a103358566d817a951f8e74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Star formation history from [Madau, Dickinson 2014].  <br /></td></tr>
+<tr class="separator:a49999ea31a103358566d817a951f8e74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18f8242968d6dd81b5c4310933257c6e" id="r_a18f8242968d6dd81b5c4310933257c6e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSFH.html#a18f8242968d6dd81b5c4310933257c6e">SFH.SFH2</a> (z)</td></tr>
 <tr class="memdesc:a18f8242968d6dd81b5c4310933257c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Made up star formation history.  <br /></td></tr>
 <tr class="separator:a18f8242968d6dd81b5c4310933257c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -107,7 +108,11 @@ Functions</h2></td></tr>
 <tr class="memdesc:a9e68623aa1dc3273db229b2f4ef841a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Made up star formation history.  <br /></td></tr>
 <tr class="separator:a9e68623aa1dc3273db229b2f4ef841a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This file contains the functions to determine the star formation rate. </p>
+<dl class="section date"><dt>Date</dt><dd>2024-07-24</dd></dl>
+<p>The file contains the functions to determine the star formation rate. The function representative_SFH determines an appropriate value for the star formation rate at a given age. It allows for an optional additional time delay, due to a delay in formation of the binary, or if time is required to move to the correct frequency bin. The functions SFH_MD, SFH2, SFH3, and SFH4 are star formation histories that can be selected. </p><dl class="section author"><dt>Author</dt><dd>Seppe Staelens </dd></dl>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0

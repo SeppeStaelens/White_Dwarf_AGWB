@@ -7,29 +7,18 @@
 \begin{DoxyCompactList}\small\item\em Calculate the coefficients of a parabola given three points. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{namespaceauxiliary_a5cd208bba1f5bccd3c86aa78f59966b4}{parabola}} (x, a, b, c)
 \begin{DoxyCompactList}\small\item\em Calculate the value of a parabola given the coefficients. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceauxiliary_a22505655a90f6baf6a0fdc1101b69de3}{get\+\_\+z\+\_\+fast}} (age)
-\item 
 \mbox{\hyperlink{namespaceauxiliary_adde5256b0bc973568a56f47ac50f2e9a}{get\+\_\+bin\+\_\+factors}} (freqs, bins)
 \begin{DoxyCompactList}\small\item\em Determine bin factors that often recur in the calculation to store them. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{namespaceauxiliary_a831a3f36f83e9b6628a4581181e0002c}{get\+\_\+width\+\_\+z\+\_\+shell\+\_\+from\+\_\+z}} (z\+\_\+vals)
-\begin{DoxyCompactList}\small\item\em Returns the widths of the z\+\_\+shells in Mpc. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Returns the widths of the redshift shells in Mpc. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{namespaceauxiliary_a1d121fa0478d11470967a213d7c3247e}{Omega}} (Omega\+\_\+ref, f\+\_\+ref, freq)
-\begin{DoxyCompactList}\small\item\em Create a f\texorpdfstring{$^\wedge$}{\string^}2/3 spectrum line. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceauxiliary_ac4a8d6ba64db6f171e0ddaabe346302b}{make\+\_\+\+Omega\+\_\+plot\+\_\+unnorm}} (f, Omega\+\_\+sim, save=False, save\+\_\+name="{}void"{})
+\begin{DoxyCompactList}\small\item\em Create a f\texorpdfstring{$^\wedge$}{\string^}\{2/3\} spectrum line. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceauxiliary_a3ddbb133ce3f71c523d64d4dfbc8e738}{make\+\_\+\+Omega\+\_\+plot\+\_\+unnorm}} (f, Omega\+\_\+sim, save=False, save\+\_\+name="{}void"{}, show=False)
 \begin{DoxyCompactList}\small\item\em Make a plot showing Omega for BWD. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{namespaceauxiliary_a282c1d3777981de1af799ac4865f75be}{tau\+\_\+syst}} (f\+\_\+0, f\+\_\+1, K)
 \begin{DoxyCompactList}\small\item\em Calculates tau, the time it takes a binary with K to evolve from f\+\_\+0 to f\+\_\+1 (GW frequencies). \end{DoxyCompactList}\item 
 \mbox{\hyperlink{namespaceauxiliary_a0a3c5b2222ec6a5b0f32329ada5fdb47}{determine\+\_\+upper\+\_\+freq}} (nu\+\_\+low, evolve\+\_\+time, K)
 \begin{DoxyCompactList}\small\item\em Determines upper ORBITAL frequency for a binary with K, starting from nu\+\_\+0, evolving over evolve\+\_\+time. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\hyperlink{namespaceauxiliary_a0828309cd59ada70e78ef9fed1b0cae7}{z\+\_\+at\+\_\+val\+\_\+data}} = pd.\+read\+\_\+csv("{}../Data/z\+\_\+at\+\_\+age.\+txt"{}, names=\mbox{[}"{}age"{}, "{}z"{}\mbox{]}, header=1)
-\begin{DoxyCompactList}\small\item\em LOAD Z\+\_\+\+AT\+\_\+\+VALUE FILE \#\#\#\#\#\#\#\#\#\#\#\#\#. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceauxiliary_a175dc7bb5b09ef19d7b8ec5aa35420b9}{interp\+\_\+age}}
-\item 
-\mbox{\hyperlink{namespaceauxiliary_adbc0214aa536cd76d9597c2ebec1a780}{interp\+\_\+z}}
-\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
@@ -65,7 +54,19 @@ A, B, C\+: coefficients of the parabola.
 
 Determines upper ORBITAL frequency for a binary with K, starting from nu\+\_\+0, evolving over evolve\+\_\+time. 
 
-Takes evolve\+\_\+time in Myr, so needs to be converted. \Hypertarget{namespaceauxiliary_adde5256b0bc973568a56f47ac50f2e9a}\label{namespaceauxiliary_adde5256b0bc973568a56f47ac50f2e9a} 
+
+\begin{DoxyParams}{Parameters}
+{\em nu\+\_\+low} & initial orbital frequency. \\
+\hline
+{\em evolve\+\_\+time} & time it takes to evolve in Myr. \\
+\hline
+{\em K} & constant depending on the binary. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+nu\+\_\+upp\+: upper orbital frequency. 
+\end{DoxyReturn}
+\Hypertarget{namespaceauxiliary_adde5256b0bc973568a56f47ac50f2e9a}\label{namespaceauxiliary_adde5256b0bc973568a56f47ac50f2e9a} 
 \index{auxiliary@{auxiliary}!get\_bin\_factors@{get\_bin\_factors}}
 \index{get\_bin\_factors@{get\_bin\_factors}!auxiliary@{auxiliary}}
 \doxysubsubsection{\texorpdfstring{get\_bin\_factors()}{get\_bin\_factors()}}
@@ -75,6 +76,16 @@ Takes evolve\+\_\+time in Myr, so needs to be converted. \Hypertarget{namespacea
 
 Determine bin factors that often recur in the calculation to store them. 
 
+
+\begin{DoxyParams}{Parameters}
+{\em freqs} & central frequencies. \\
+\hline
+{\em bins} & frequency bin edges. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+factors\+: factors to multiply the contributions with. 
+\end{DoxyReturn}
 \Hypertarget{namespaceauxiliary_a831a3f36f83e9b6628a4581181e0002c}\label{namespaceauxiliary_a831a3f36f83e9b6628a4581181e0002c} 
 \index{auxiliary@{auxiliary}!get\_width\_z\_shell\_from\_z@{get\_width\_z\_shell\_from\_z}}
 \index{get\_width\_z\_shell\_from\_z@{get\_width\_z\_shell\_from\_z}!auxiliary@{auxiliary}}
@@ -83,19 +94,21 @@ Determine bin factors that often recur in the calculation to store them.
 
 
 
-Returns the widths of the z\+\_\+shells in Mpc. 
+Returns the widths of the redshift shells in Mpc. 
 
-\Hypertarget{namespaceauxiliary_a22505655a90f6baf6a0fdc1101b69de3}\label{namespaceauxiliary_a22505655a90f6baf6a0fdc1101b69de3} 
-\index{auxiliary@{auxiliary}!get\_z\_fast@{get\_z\_fast}}
-\index{get\_z\_fast@{get\_z\_fast}!auxiliary@{auxiliary}}
-\doxysubsubsection{\texorpdfstring{get\_z\_fast()}{get\_z\_fast()}}
-{\footnotesize\ttfamily auxiliary.\+get\+\_\+z\+\_\+fast (\begin{DoxyParamCaption}\item[{}]{age }\end{DoxyParamCaption})}
 
-\Hypertarget{namespaceauxiliary_ac4a8d6ba64db6f171e0ddaabe346302b}\label{namespaceauxiliary_ac4a8d6ba64db6f171e0ddaabe346302b} 
+\begin{DoxyParams}{Parameters}
+{\em z\+\_\+vals} & redshift values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+shells\+: shell widths in Mpc. 
+\end{DoxyReturn}
+\Hypertarget{namespaceauxiliary_a3ddbb133ce3f71c523d64d4dfbc8e738}\label{namespaceauxiliary_a3ddbb133ce3f71c523d64d4dfbc8e738} 
 \index{auxiliary@{auxiliary}!make\_Omega\_plot\_unnorm@{make\_Omega\_plot\_unnorm}}
 \index{make\_Omega\_plot\_unnorm@{make\_Omega\_plot\_unnorm}!auxiliary@{auxiliary}}
 \doxysubsubsection{\texorpdfstring{make\_Omega\_plot\_unnorm()}{make\_Omega\_plot\_unnorm()}}
-{\footnotesize\ttfamily auxiliary.\+make\+\_\+\+Omega\+\_\+plot\+\_\+unnorm (\begin{DoxyParamCaption}\item[{}]{f,  }\item[{}]{Omega\+\_\+sim,  }\item[{}]{save = {\ttfamily False},  }\item[{}]{save\+\_\+name = {\ttfamily "{}void"{}} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily auxiliary.\+make\+\_\+\+Omega\+\_\+plot\+\_\+unnorm (\begin{DoxyParamCaption}\item[{}]{f,  }\item[{}]{Omega\+\_\+sim,  }\item[{}]{save = {\ttfamily False},  }\item[{}]{save\+\_\+name = {\ttfamily "{}void"{}},  }\item[{}]{show = {\ttfamily False} }\end{DoxyParamCaption})}
 
 
 
@@ -111,6 +124,8 @@ Make a plot showing Omega for BWD.
 \hline
 {\em save\+\_\+name} & name of the saved figure. \\
 \hline
+{\em show} & show the figure. \\
+\hline
 \end{DoxyParams}
 \Hypertarget{namespaceauxiliary_a1d121fa0478d11470967a213d7c3247e}\label{namespaceauxiliary_a1d121fa0478d11470967a213d7c3247e} 
 \index{auxiliary@{auxiliary}!Omega@{Omega}}
@@ -120,8 +135,20 @@ Make a plot showing Omega for BWD.
 
 
 
-Create a f\texorpdfstring{$^\wedge$}{\string^}2/3 spectrum line. 
+Create a f\texorpdfstring{$^\wedge$}{\string^}\{2/3\} spectrum line. 
 
+
+\begin{DoxyParams}{Parameters}
+{\em Omega\+\_\+ref} & reference Omega value. \\
+\hline
+{\em f\+\_\+ref} & reference frequency. \\
+\hline
+{\em freq} & frequency array. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Omega\+: Omega array. 
+\end{DoxyReturn}
 \Hypertarget{namespaceauxiliary_a5cd208bba1f5bccd3c86aa78f59966b4}\label{namespaceauxiliary_a5cd208bba1f5bccd3c86aa78f59966b4} 
 \index{auxiliary@{auxiliary}!parabola@{parabola}}
 \index{parabola@{parabola}!auxiliary@{auxiliary}}
@@ -152,28 +179,15 @@ y\+: y value.
 
 Calculates tau, the time it takes a binary with K to evolve from f\+\_\+0 to f\+\_\+1 (GW frequencies). 
 
-Returns tau in Myr. 
 
-\doxysubsection{Variable Documentation}
-\Hypertarget{namespaceauxiliary_a175dc7bb5b09ef19d7b8ec5aa35420b9}\label{namespaceauxiliary_a175dc7bb5b09ef19d7b8ec5aa35420b9} 
-\index{auxiliary@{auxiliary}!interp\_age@{interp\_age}}
-\index{interp\_age@{interp\_age}!auxiliary@{auxiliary}}
-\doxysubsubsection{\texorpdfstring{interp\_age}{interp\_age}}
-{\footnotesize\ttfamily auxiliary.\+interp\+\_\+age}
-
-\Hypertarget{namespaceauxiliary_adbc0214aa536cd76d9597c2ebec1a780}\label{namespaceauxiliary_adbc0214aa536cd76d9597c2ebec1a780} 
-\index{auxiliary@{auxiliary}!interp\_z@{interp\_z}}
-\index{interp\_z@{interp\_z}!auxiliary@{auxiliary}}
-\doxysubsubsection{\texorpdfstring{interp\_z}{interp\_z}}
-{\footnotesize\ttfamily auxiliary.\+interp\+\_\+z}
-
-\Hypertarget{namespaceauxiliary_a0828309cd59ada70e78ef9fed1b0cae7}\label{namespaceauxiliary_a0828309cd59ada70e78ef9fed1b0cae7} 
-\index{auxiliary@{auxiliary}!z\_at\_val\_data@{z\_at\_val\_data}}
-\index{z\_at\_val\_data@{z\_at\_val\_data}!auxiliary@{auxiliary}}
-\doxysubsubsection{\texorpdfstring{z\_at\_val\_data}{z\_at\_val\_data}}
-{\footnotesize\ttfamily auxiliary.\+z\+\_\+at\+\_\+val\+\_\+data = pd.\+read\+\_\+csv("{}../Data/z\+\_\+at\+\_\+age.\+txt"{}, names=\mbox{[}"{}age"{}, "{}z"{}\mbox{]}, header=1)}
-
-
-
-LOAD Z\+\_\+\+AT\+\_\+\+VALUE FILE \#\#\#\#\#\#\#\#\#\#\#\#\#. 
-
+\begin{DoxyParams}{Parameters}
+{\em f\+\_\+0} & initial frequency. \\
+\hline
+{\em f\+\_\+1} & final frequency. \\
+\hline
+{\em K} & constant depending on the binary. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+tau\+: time in Myr. 
+\end{DoxyReturn}

@@ -5,12 +5,11 @@
 @author Seppe Staelens
 """
 
-############### INITIALS ################
+# -------- INITIALS -------- #
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from astropy import units as u
-from astropy.cosmology import Planck18 as cosmo
 from warnings import simplefilter 
 import time
 
@@ -33,7 +32,7 @@ plt.rc('ytick',  labelsize=14)     # fontsize of the tick labels
 plt.rc('legend', fontsize=18)      # legend fontsize
 plt.rc('figure', titlesize=18)     # fontsize of the figure title
 
-########## PARAMETERS AND DATA ##########
+# -------- PARAMETERS AND DATA -------- #
 
 # LVK O3, alpha = 2/3 at 25 Hz
 Omega_upp = 3.4*10**(-9)
@@ -66,22 +65,30 @@ def main():
     ## Start time of the program
     start_time = time.time()
 
-    ### initiate ###
+    # ----- initiate ----- #
 
     ## number of bins
-    N = 50              
-    N_z = 20            ## number of z bins
-    max_z = 8           ## max_redshift
-    SFH_num = 1         ## which SFH
-    tag = "final"       ## identifier for filenames
+    N = 50
+    ## number of z bins              
+    N_z = 20
+    ## max_redshift            
+    max_z = 8
+    ## which SFH
+    SFH_num = 1
+    ## population file
+    population_file_name = "../Data/aa_4_0p02_MD/initials_final.txt"      
+    ## tag for filenames
+    tag = ""       
 
     # normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 voor Seppe
     # omega_prefactor_bulk = 8.10e-9 / normalisation # waarde = 2.4e-15,  2e-15 voor Seppe
     # omega_prefactor_birth_merger = 1.28e-8 / normalisation # waarde = 3.75e-15 # 3.2e-15 voor Seppe
 
+    # Run script with(out) saving figures
     global SAVE_FIG
     SAVE_FIG = False
 
+    # Run script with(out) more output
     global DEBUG
     DEBUG = False
 
@@ -94,25 +101,25 @@ def main():
     z_interp = ri.RedshiftInterpolator("../data/z_at_age.txt")
 
     # data. initial file with some added calculations
-    data = pd.read_csv("../Data/initials_final_3.txt", sep = ",")
+    population = pd.read_csv(population_file_name, sep = ",")
 
-    # Some binaries will never make it to our frequency window
-    initial_check = data[data["nu0"] < 5e-6]
+    # Some binaries will never make it to our frequency window within a Hubble time
+    initial_check = population[population["nu0"] < 5e-6]
     can_not_be_seen = (aux.tau_syst(2*initial_check["nu0"], 1e-5, initial_check["K"]) > 13000)
-    actual = data.drop(initial_check[can_not_be_seen].index)
+    relevant_population = population.drop(initial_check[can_not_be_seen].index)
     print(f"Out of {len(initial_check)} binaries below 1e-5 Hz, only {len(initial_check) - np.sum(can_not_be_seen)} enters our window.")
-    print(f"Dataset reduced from {len(data)} rows to {len(actual)} rows.")
-
+    print(f"Dataset reduced from {len(population)} rows to {len(relevant_population)} rows.")
 
     if TEST_FOR_ONE:
         # info on the first row of data
-        print(data.iloc[0])
+        print(population.iloc[0])
 
-    add_bulk(model, actual, tag)
-    add_birth(model, actual, tag)
-    add_merge(model, actual, tag)
+    # ----- main part of the program ----- #
+    add_bulk(model, relevant_population, z_interp, tag)
+    add_birth(model, relevant_population, z_interp, tag)
+    add_merge(model, relevant_population, z_interp, tag)
 
-    #@var Total run time
+    # total run time
     duration = time.time() - start_time
     print("--- duration: %s minutes %s seconds ---" % (duration//60, duration%60))
 

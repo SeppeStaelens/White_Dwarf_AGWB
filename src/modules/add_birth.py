@@ -1,9 +1,24 @@
+'''!
+@file add_birth.py
+@brief This file contains a routine that adds the contribution of the 'birth bins' to the bulk GWB.
+@author Seppe Staelens
+@date 2024-07-24
+'''
+
+import numpy as np
+import pandas as pd
+from astropy.cosmology import Planck18 as cosmo
+from auxiliary import make_Omega_plot_unnorm, tau_syst, determine_upper_freq
 import SFH as sfh
 
-def add_birth(model, data, tag):
-    '''
-    This routine add the contribution of the 'birth bins' to the bulk GWB.
-    Saves a dataframe with all the essential information.
+def add_birth(model, z_interp, data, tag):
+    '''!
+    @brief This routine adds the contribution of the 'birth bins' to the bulk GWB.
+    @param model: instance of SimModel, containing the necessary information for the run.
+    @param z_interp: instance of RedshiftInterpolator, used in the SFH calculations.
+    @param data: dataframe containing the binary population data.
+    @param tag: tag to add to the output files.
+    @return Saves a dataframe with all the essential information.
     '''
    
     print("\nInitating birth bin part of the code.\n")
@@ -48,7 +63,7 @@ def add_birth(model, data, tag):
                 print(f"Bin frequencies for z {z:.2f}: [{low_f_r:.2E}, {upp_f_r:.2E}]")
 
             age = model.ages[i].value
-            psi = sfh.representative_SFH(age, row.t0, model.SFH_num, model.max_z)
+            psi = sfh.representative_SFH(age, z_interp, Delta_t=row.t0, SFH_num=model.SFH_num, max_z=model.max_z)
 
             # The time it would take the binary to evolve from nu_0 to the upper bin edge
             tau_to_bin_edge = tau_syst(2*row.nu0, upp_f_r*(1+z), row.K)

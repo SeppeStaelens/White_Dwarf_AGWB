@@ -1,5 +1,10 @@
 \doxysection{/home/seppe/\+Documents/data/\+Papers/\+AnA.683.A139(2024)/\+White\+\_\+\+Dwarf\+\_\+\+AGWB/src/modules/\+SFH.py File Reference}
 \hypertarget{SFH_8py}{}\label{SFH_8py}\index{/home/seppe/Documents/data/Papers/AnA.683.A139(2024)/White\_Dwarf\_AGWB/src/modules/SFH.py@{/home/seppe/Documents/data/Papers/AnA.683.A139(2024)/White\_Dwarf\_AGWB/src/modules/SFH.py}}
+
+
+This file contains the functions to determine the star formation rate.  
+
+
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
@@ -8,11 +13,9 @@ namespace \mbox{\hyperlink{namespaceSFH}{SFH}}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{namespaceSFH_a75a83766df2eff1037578455c30cf2f9}{SFH.\+representative\+\_\+\+SFH}} (age, Delta\+\_\+t, SFH\+\_\+num, max\+\_\+z)
-\begin{DoxyCompactList}\small\item\em Looks for a representative value of the \doxylink{namespaceSFH}{SFH} given the age of the system, and an additional time delay in reaching the bin. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceSFH_abb0109d88006fc8be6b8b11f15c67e6d}{SFH.\+get\+\_\+\+SFH}} (SFH\+\_\+num, z, age, t0, max\+\_\+z)
-\item 
-\mbox{\hyperlink{namespaceSFH_a0350427ea6726398fbb597ebd2f91392}{SFH.\+SFH}} (z)
+\mbox{\hyperlink{namespaceSFH_a3bb1721b1373aad6cb86d83c3e2d8c45}{SFH.\+representative\+\_\+\+SFH}} (age, redshift\+\_\+interpolator, Delta\+\_\+t=0, SFH\+\_\+num=1, max\+\_\+z=8)
+\begin{DoxyCompactList}\small\item\em Determines an appropriate value for the star formation rate at a given age. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceSFH_a49999ea31a103358566d817a951f8e74}{SFH.\+SFH\+\_\+\+MD}} (z)
 \begin{DoxyCompactList}\small\item\em Star formation history from \mbox{[}Madau, Dickinson 2014\mbox{]}. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{namespaceSFH_a18f8242968d6dd81b5c4310933257c6e}{SFH.\+SFH2}} (z)
 \begin{DoxyCompactList}\small\item\em Made up star formation history. \end{DoxyCompactList}\item 
@@ -20,3 +23,14 @@ namespace \mbox{\hyperlink{namespaceSFH}{SFH}}
 \begin{DoxyCompactList}\small\item\em Made up star formation history. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{namespaceSFH_a9e68623aa1dc3273db229b2f4ef841a6}{SFH.\+SFH4}} (z)
 \begin{DoxyCompactList}\small\item\em Made up star formation history. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains the functions to determine the star formation rate. 
+
+\begin{DoxyDate}{Date}
+2024-\/07-\/24
+\end{DoxyDate}
+The file contains the functions to determine the star formation rate. The function representative\+\_\+\+SFH determines an appropriate value for the star formation rate at a given age. It allows for an optional additional time delay, due to a delay in formation of the binary, or if time is required to move to the correct frequency bin. The functions SFH\+\_\+\+MD, SFH2, SFH3, and SFH4 are star formation histories that can be selected. \begin{DoxyAuthor}{Author}
+Seppe Staelens 
+\end{DoxyAuthor}

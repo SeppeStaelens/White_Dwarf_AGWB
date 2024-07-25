@@ -83,12 +83,13 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>This class contains information about the run that needs to be shared over the different subroutines.  
+<p>! This class contains information about the run that needs to be shared over the different subroutines.  
  <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a42c1eaaf007ca4dc38228acc12b703c6" id="r_a42c1eaaf007ca4dc38228acc12b703c6"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42c1eaaf007ca4dc38228acc12b703c6">__init__</a> (self, <a class="el" href="#a362a9e7e8e1fdadb92a2952f0ba6c5ac">N</a>=50, <a class="el" href="#a2a6d019f180baa67b31503bd12252e80">N_z</a>=20, <a class="el" href="#aa96ccb81048229fcf05a838e4d424f0a">max_z</a>=8, <a class="el" href="#a0eda336ec62366e8f58141b38848a6f1">SFH_num</a>=1, <a class="el" href="#a1c54d4463768983ee0a37ec3fea854f2">log_f_low</a>=-5, <a class="el" href="#aa612cff41e749ca16b683e00d468fb3d">log_f_high</a>=0)</td></tr>
+<tr class="memdesc:a42c1eaaf007ca4dc38228acc12b703c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="namespaceSimModel.html" title="This module contains the class SimModel.">SimModel</a> object.  <br /></td></tr>
 <tr class="separator:a42c1eaaf007ca4dc38228acc12b703c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ef7fdbfbfbc9ed59b6e4d933f738cf9" id="r_a5ef7fdbfbfbc9ed59b6e4d933f738cf9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ef7fdbfbfbc9ed59b6e4d933f738cf9">calculate_f_bins</a> (self)</td></tr>
 <tr class="memdesc:a5ef7fdbfbfbc9ed59b6e4d933f738cf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the f bins and the bin factors.  <br /></td></tr>
@@ -97,6 +98,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aaa57d652a068a7b5df618d49fd8c3bc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the z bins.  <br /></td></tr>
 <tr class="separator:aaa57d652a068a7b5df618d49fd8c3bc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d07cc028d85e1634890450311248dc8" id="r_a2d07cc028d85e1634890450311248dc8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d07cc028d85e1634890450311248dc8">calculate_cosmology</a> (self)</td></tr>
+<tr class="memdesc:a2d07cc028d85e1634890450311248dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculations depending on the cosmology.  <br /></td></tr>
 <tr class="separator:a2d07cc028d85e1634890450311248dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -114,24 +116,33 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa612cff41e749ca16b683e00d468fb3d" id="r_aa612cff41e749ca16b683e00d468fb3d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa612cff41e749ca16b683e00d468fb3d">log_f_high</a></td></tr>
 <tr class="separator:aa612cff41e749ca16b683e00d468fb3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a441dd5b12ab58f7fb562ec230ebae4fd" id="r_a441dd5b12ab58f7fb562ec230ebae4fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a441dd5b12ab58f7fb562ec230ebae4fd">f_plot</a></td></tr>
+<tr class="memdesc:a441dd5b12ab58f7fb562ec230ebae4fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The frequencies at which we will plot.  <br /></td></tr>
 <tr class="separator:a441dd5b12ab58f7fb562ec230ebae4fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a181952a150f3866355162762a2a8060a" id="r_a181952a150f3866355162762a2a8060a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a181952a150f3866355162762a2a8060a">f_bins</a></td></tr>
+<tr class="memdesc:a181952a150f3866355162762a2a8060a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The frequency bins.  <br /></td></tr>
 <tr class="separator:a181952a150f3866355162762a2a8060a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4f38682a269967c0bc8f9fcd07be20e" id="r_ad4f38682a269967c0bc8f9fcd07be20e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4f38682a269967c0bc8f9fcd07be20e">f_bin_factors</a></td></tr>
+<tr class="memdesc:ad4f38682a269967c0bc8f9fcd07be20e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The frequency bin factors that appear in the calculation.  <br /></td></tr>
 <tr class="separator:ad4f38682a269967c0bc8f9fcd07be20e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc3e00c18d29958fb470db60b3132c3a" id="r_abc3e00c18d29958fb470db60b3132c3a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc3e00c18d29958fb470db60b3132c3a">z_list</a></td></tr>
+<tr class="memdesc:abc3e00c18d29958fb470db60b3132c3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The central values of the redshift bins.  <br /></td></tr>
 <tr class="separator:abc3e00c18d29958fb470db60b3132c3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a133d0c19701f8b3d83b17782682a61da" id="r_a133d0c19701f8b3d83b17782682a61da"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a133d0c19701f8b3d83b17782682a61da">z_bins</a></td></tr>
+<tr class="memdesc:a133d0c19701f8b3d83b17782682a61da"><td class="mdescLeft">&#160;</td><td class="mdescRight">The redshift bins.  <br /></td></tr>
 <tr class="separator:a133d0c19701f8b3d83b17782682a61da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6eca7a3b3252e645079efe8424de65c3" id="r_a6eca7a3b3252e645079efe8424de65c3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6eca7a3b3252e645079efe8424de65c3">z_widths</a></td></tr>
+<tr class="memdesc:a6eca7a3b3252e645079efe8424de65c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The width of the redshift bins in Mpc.  <br /></td></tr>
 <tr class="separator:a6eca7a3b3252e645079efe8424de65c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf9f1e2b07d55ea53e20b0fc941f3bfe" id="r_acf9f1e2b07d55ea53e20b0fc941f3bfe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf9f1e2b07d55ea53e20b0fc941f3bfe">z_time_since_max_z</a></td></tr>
+<tr class="memdesc:acf9f1e2b07d55ea53e20b0fc941f3bfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">The time since the maximum redshift <br  />
+  <br /></td></tr>
 <tr class="separator:acf9f1e2b07d55ea53e20b0fc941f3bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c8bf64a04e6a4a7f134a1c644d88a63" id="r_a5c8bf64a04e6a4a7f134a1c644d88a63"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c8bf64a04e6a4a7f134a1c644d88a63">ages</a></td></tr>
+<tr class="memdesc:a5c8bf64a04e6a4a7f134a1c644d88a63"><td class="mdescLeft">&#160;</td><td class="mdescRight">The age of the universe at each redshift.  <br /></td></tr>
 <tr class="separator:a5c8bf64a04e6a4a7f134a1c644d88a63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class contains information about the run that needs to be shared over the different subroutines. </p>
+<div class="textblock"><p>! This class contains information about the run that needs to be shared over the different subroutines. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a42c1eaaf007ca4dc38228acc12b703c6" name="a42c1eaaf007ca4dc38228acc12b703c6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a42c1eaaf007ca4dc38228acc12b703c6">&#9670;&#160;</a></span>__init__()</h2>
@@ -177,6 +188,20 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Initializes the <a class="el" href="namespaceSimModel.html" title="This module contains the class SimModel.">SimModel</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">N</td><td>number of frequency bins. </td></tr>
+    <tr><td class="paramname">N_z</td><td>number of redshift bins. </td></tr>
+    <tr><td class="paramname">max_z</td><td>maximum redshift. </td></tr>
+    <tr><td class="paramname">SFH_num</td><td>which star formation history to select. 1: Madau &amp; Dickinson 2014, 2-4: made up, 5: constant 0.01. </td></tr>
+    <tr><td class="paramname">log_f_low</td><td>lower bound of the frequency bins in log10 space. </td></tr>
+    <tr><td class="paramname">log_f_high</td><td>upper bound of the frequency bins in log10 space. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>instance of <a class="el" href="namespaceSimModel.html" title="This module contains the class SimModel.">SimModel</a>, with frequency and redshift bins calculated, and cosmology set. </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -194,6 +219,9 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Calculations depending on the cosmology. </p>
+<p>Sets the widths of the z bins and the time since max z, as well as the age of the universe at each redshift. </p>
 
 </div>
 </div>
@@ -248,6 +276,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The age of the universe at each redshift. </p>
+
 </div>
 </div>
 <a id="ad4f38682a269967c0bc8f9fcd07be20e" name="ad4f38682a269967c0bc8f9fcd07be20e"></a>
@@ -261,6 +291,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The frequency bin factors that appear in the calculation. </p>
 
 </div>
 </div>
@@ -276,6 +308,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The frequency bins. </p>
+
 </div>
 </div>
 <a id="a441dd5b12ab58f7fb562ec230ebae4fd" name="a441dd5b12ab58f7fb562ec230ebae4fd"></a>
@@ -289,6 +323,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The frequencies at which we will plot. </p>
 
 </div>
 </div>
@@ -388,6 +424,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The redshift bins. </p>
+
 </div>
 </div>
 <a id="abc3e00c18d29958fb470db60b3132c3a" name="abc3e00c18d29958fb470db60b3132c3a"></a>
@@ -401,6 +439,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The central values of the redshift bins. </p>
 
 </div>
 </div>
@@ -416,6 +456,9 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The time since the maximum redshift <br  />
+ </p>
+
 </div>
 </div>
 <a id="a6eca7a3b3252e645079efe8424de65c3" name="a6eca7a3b3252e645079efe8424de65c3"></a>
@@ -429,6 +472,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The width of the redshift bins in Mpc. </p>
 
 </div>
 </div>
