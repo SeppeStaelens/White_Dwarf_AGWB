@@ -1,5 +1,5 @@
 '''!
-@file add_birth.py
+@file add_merge.py
 @brief This file contains a routine that adds the contribution of the 'merger bins' due to Kepler max to the bulk+birth GWB.
 @author Seppe Staelens
 @date 2024-07-24
@@ -23,11 +23,13 @@ def add_merge(model, z_interp, data, tag):
    
     print("\nInitiating merger bin part of the code.\n")
 
-    previous_Omega = pd.read_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_wbirth_{tag}.txt", sep = ",")
+    previous_Omega = pd.read_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{tag}.txt", sep = ",")
     Omega_plot = previous_Omega.Om.values
 
     # Create dataframe to store results
     z_contr = pd.DataFrame({"z":model.z_list})
+    if model.INTEG_MODE == "time":
+        z_contr["T"] = model.T_list
 
     for i in range(model.N):
         z_contr[f"freq_{i}"] = np.zeros_like(model.z_list)
@@ -131,22 +133,30 @@ def add_merge(model, z_interp, data, tag):
                     np.testing.assert_allclose(evolve_time, tau + tau_syst(low_f_r*(1+z), 2*nu_max_b, row.K), rtol=1e-2)
 
             # contributions
+            Omega_cont = model.f_plot[bin_index] * row.M_ch**(5/3) * freq_fac * (1+z)**(-1) * psi
+            if model.INTEG_MODE == "redshift":
+                Omega_cont *= 3.2e-15 * (1+z)**(-1) * model.z_widths[i]
+            
+            if model.INTEG_MODE == "redshift":
+                z_contr[f"freq_{bin_index}"][i] += Omega_cont / (2e-15 * model.f_bin_factors[bin_index])
+                z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / 4e6)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
+            elif model.INTEG_MODE == "time":
+                z_contr[f"freq_{bin_index}"][i] += Omega_cont / model.f_bin_factors[bin_index]
+                z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / 4e6)* num_syst * (cosmo.comoving_distance(z).value ** 2) * light_speed * (1+z) * model.dT
 
-            Omega_cont = 3.2e-15* model.f_plot[bin_index] * row.M_ch**(5/3) * freq_fac * (1+z)**(-2) * psi * model.z_widths[i]
-            z_contr[f"freq_{bin_index}"][i] += Omega_cont / (2e-15 * model.f_bin_factors[bin_index])
+            if model.INTEG_MODE == "time":
+                Omega_cont *= light_speed * 3.2e-15 * model.dT
+
             Omega_plot[bin_index] += Omega_cont
-
-            z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / 4e6)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
-
 
     if DEBUG:
         print(f"Number of numerical errors: {NUM_ERRORS}\n")
 
     # Plots
-    make_Omega_plot_unnorm(model.f_plot, Omega_plot, SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N}_{model.N_z}_wmerge_{tag}")
+    make_Omega_plot_unnorm(model.f_plot, Omega_plot, model.SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{tag}")
 
     # Save GWB
     GWBnew = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWBnew.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_wmerge_{tag}.txt", index = False)
+    GWBnew.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{tag}.txt", index = False)
 
     z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_merge_{tag}.txt", index = False)
