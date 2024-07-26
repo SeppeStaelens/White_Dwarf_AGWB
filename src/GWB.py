@@ -1,7 +1,7 @@
 """!@file GWB.py
-@date 2024-07-24
-@brief This program calculates the GWB based on the method described in my thesis.
-@details The program calculates the GWB based on the method described in my thesis. It is divided into three main parts: the bulk part, the birth part, and the merger part. The bulk part calculates the majority of the GWB, what is referred to in my thesis as the 'generic case'. The birth part adds the contribution of the 'birth bins' to the bulk GWB. The merger part adds the contribution of the 'merger bins' due to Kepler max to the bulk GWB. The program saves a dataframe with all the essential information.
+@date 2024-07-26
+@brief This program calculates the GWB based on the method described in my thesis, using uniform redshift bins.
+@details The program calculates the GWB based on the method described in my thesis, using uniform redshift bins. It is divided into three main parts: the bulk part, the birth part, and the merger part. The bulk part calculates the majority of the GWB, what is referred to in my thesis as the 'generic case'. The birth part adds the contribution of the 'birth bins' to the bulk GWB. The merger part adds the contribution of the 'merger bins' due to Kepler max to the bulk GWB. The program saves a dataframe with all the essential information.
 @author Seppe Staelens
 """
 
@@ -51,6 +51,7 @@ Omega_BWD_low = 1.*10**(-12)
 
 # other quantities
 s_in_Myr = (u.Myr).to(u.s)
+light_speed = 0.30660139        # in units of Mpc/Myr
 
 # LISA sensitivity curve: parabola approximation
 a, b, c = aux.calc_parabola_vertex(-3, -12, -2.5, -12.5, -2, -12)
@@ -67,10 +68,10 @@ def main():
 
     # ----- initiate ----- #
 
-    ## number of bins
-    N = 50
-    ## number of z bins              
-    N_z = 20
+    ## number of frequency bins
+    N_freq = 50
+    ## number of integration bins (z or T)              
+    N_int = 20
     ## max_redshift            
     max_z = 8
     ## which SFH
@@ -84,21 +85,19 @@ def main():
     # omega_prefactor_bulk = 8.10e-9 / normalisation # waarde = 2.4e-15,  2e-15 voor Seppe
     # omega_prefactor_birth_merger = 1.28e-8 / normalisation # waarde = 3.75e-15 # 3.2e-15 voor Seppe
 
+    # Integrate over "redshift" or (cosmic) "time"
+    INTEGRATION_MODE = "redshift"
     # Run script with(out) saving figures
-    global SAVE_FIG
     SAVE_FIG = False
-
     # Run script with(out) more output
-    global DEBUG
     DEBUG = False
-
     # Run script for only one system if True
-    global TEST_FOR_ONE
     TEST_FOR_ONE = False
 
-    # create the simulation model
-    model = sm.SimModel(N, N_z, max_z, SFH_num)
+    # create the simulation 
     z_interp = ri.RedshiftInterpolator("../data/z_at_age.txt")
+    model = sm.SimModel(INTEGRATION_MODE, z_interp, N_freq, N_int, max_z, SFH_num)
+    model.set_mode(SAVE_FIG, DEBUG, TEST_FOR_ONE)
 
     # data. initial file with some added calculations
     population = pd.read_csv(population_file_name, sep = ",")

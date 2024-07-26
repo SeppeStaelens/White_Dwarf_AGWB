@@ -28,6 +28,8 @@ def add_bulk(model, z_interp, data, tag):
 
     # array that will store the contributions of each shell
     z_contr = pd.DataFrame({"z" : model.z_list})
+    if model.INTEG_MODE == "time":
+        z_contr["T"] = model.T_list
 
     for i in range(model.N):
         z_contr[f"freq_{i}"] = np.zeros_like(model.z_list)
@@ -70,20 +72,32 @@ def add_bulk(model, z_interp, data, tag):
                 z_fac += psi*row.M_ch**(5/3)
                 num_syst += psi * tau_syst(bin_low_f_e, bin_upp_f_e, row.K) * 10**6 # tau is given in Myr, psi in ... /yr
 
-            # print(f"{err_count} errors for z {z}")
-            Omega_cont = z_fac * (1+z)**(-4/3) * model.z_widths[i]
+            # the contribution if we integrate over T
+            Omega_cont = z_fac * (1+z)**(-1/3)
+            # if we integrate over z, we need to add another factor (1+z)^(-1) Delta z
+            if model.INTEG_MODE == "redshift":
+                Omega_cont *= model.z_widths[i]*(1+z)**(-1)
             Omega += Omega_cont
             z_contr[f"freq_{j}"][i] = Omega_cont
-            z_contr[f"freq_{j}_num"][i] = (4*np.pi / 4e6) * num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
+
+            # the contribution to the number of systems
+            pre_num = (4*np.pi / 4e6) * num_syst * (cosmo.comoving_distance(z).value ** 2)
+            if model.INTEG_MODE == "redshift":
+                z_contr[f"freq_{j}_num"][i] = pre_num * model.z_widths[i]
+            elif model.INTEG_MODE == "time":
+                z_contr[f"freq_{j}_num"][i] = pre_num * light_speed * (1+z) * model.dT
         
         Omega_plot[j] = 2e-15 * Omega * model.f_bin_factors[j]
+        if model.INTEG_MODE == "time":
+            Omega_plot[j] *= light_speed * model.dT
+
         print(f"At frequency {f_r:.5f}: {Omega_plot[j]:.3E}.")
 
     # Plots
-    make_Omega_plot_unnorm(model.f_plot, Omega_plot, SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N}_{model.N_z}_{tag}")
+    make_Omega_plot_unnorm(model.f_plot, Omega_plot, model.SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}")
 
     # Save GWB
     GWB = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWB.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_{tag}.txt", index = False)
+    GWB.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}.txt", index = False)
 
-    z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_{tag}.txt", index = False)
+    z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_{tag}.txt", index = False)
