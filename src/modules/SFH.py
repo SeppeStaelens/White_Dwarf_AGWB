@@ -8,7 +8,7 @@ The functions SFH_MD, SFH2, SFH3, and SFH4 are star formation histories that can
 @author Seppe Staelens
 """
 
-import RedshiftInterpolator as ri
+import modules.RedshiftInterpolator as ri
 
 def representative_SFH(age: float, redshift_interpolator: ri.RedshiftInterpolator, Delta_t: float = 0., SFH_num: int = 1, max_z: float = 8.):
     '''!

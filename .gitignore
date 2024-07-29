@@ -5,4 +5,6 @@ TODO.txt
 src/GWB_T.py
 output/old_GWBs/*
 doc/latex/*
+output/GWBs/*
 !doc/latex/refman.pdf
+src/modules/__pycache__/*

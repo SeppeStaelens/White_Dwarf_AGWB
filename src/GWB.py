@@ -6,6 +6,8 @@
 """
 
 # -------- INITIALS -------- #
+import sys
+sys.path.append("src/modules")
 import numpy as np
 import pandas as pd
 from astropy import units as u
@@ -31,6 +33,7 @@ plt.rc('figure', titlesize=18)     # fontsize of the figure title
 
 # ignore pandas warning
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
+simplefilter(action="ignore", category=FutureWarning)
 
 global s_in_Myr 
 s_in_Myr = (u.Myr).to(u.s)
@@ -55,16 +58,16 @@ def main():
     ## which SFH
     SFH_num = 1
     ## population file
-    population_file_name = "../Data/aa_4_0p02_MD/initials_final.txt"      
+    population_file_name = "../data/seppe_ini/initials_final.txt"      
     ## tag for filenames
-    tag = ""       
+    tag = "test2_T"       
 
     # normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 voor Seppe
     # omega_prefactor_bulk = 8.10e-9 / normalisation # waarde = 2.4e-15,  2e-15 voor Seppe
     # omega_prefactor_birth_merger = 1.28e-8 / normalisation # waarde = 3.75e-15 # 3.2e-15 voor Seppe
 
     # Integrate over "redshift" or (cosmic) "time"
-    INTEGRATION_MODE = "redshift"
+    INTEGRATION_MODE = "time"
     # Run script with(out) saving figures
     SAVE_FIG = False
     # Run script with(out) more output
@@ -87,6 +90,8 @@ def main():
     print(f"Out of {len(initial_check)} binaries below 1e-5 Hz, only {len(initial_check) - np.sum(can_not_be_seen)} enters our window.")
     print(f"Dataset reduced from {len(population)} rows to {len(relevant_population)} rows.")
 
+    relevant_population.reset_index(drop=True, inplace=True)
+
     if TEST_FOR_ONE:
         # info on the first row of data
         print(population.iloc[0])
@@ -98,6 +103,6 @@ def main():
 
     # total run time
     duration = time.time() - start_time
-    print("--- duration: %s minutes %s seconds ---" % (duration//60, duration%60))
+    print(f"--- duration: {duration//60:.0f} minutes {duration%60:.0f} seconds ---")
 
 main()

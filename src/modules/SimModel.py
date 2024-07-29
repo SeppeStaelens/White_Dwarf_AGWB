@@ -9,8 +9,8 @@
 from astropy.cosmology import Planck18 as cosmo
 import numpy as np
 import astropy.units as u
-from auxiliary import get_bin_factors, get_width_z_shell_from_z
-import RedshiftInterpolator as ri
+from  modules.auxiliary import get_bin_factors, get_width_z_shell_from_z
+import modules.RedshiftInterpolator as ri
 
 class SimModel:
     """
@@ -81,10 +81,10 @@ class SimModel:
         '''
         self.T0 = cosmo.lookback_time(self.max_z).to(u.Myr)
 
-        self.T_range = np.linspace(0, self.T0.value, 2*self.N_t+1)
+        self.T_range = np.linspace(0, self.T0.value, 2*self.N_int+1)
     
-        self.T_list = np.array([self.T_range[2*i+1] for i in range(self.N_t)])
-        self.T_bins = np.array([self.T_range[2*i] for i in range(self.N_t+1)])
+        self.T_list = np.array([self.T_range[2*i+1] for i in range(self.N_int)])
+        self.T_bins = np.array([self.T_range[2*i] for i in range(self.N_int+1)])
 
         self.dT = (self.T_list[1] - self.T_list[0])
 
