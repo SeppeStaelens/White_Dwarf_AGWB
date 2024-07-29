@@ -10,8 +10,10 @@ import pandas as pd
 from astropy.cosmology import Planck18 as cosmo
 from auxiliary import make_Omega_plot_unnorm, tau_syst, determine_upper_freq
 import SFH as sfh
+import SimModel as sm
+import RedshiftInterpolator as ri
 
-def add_birth(model, z_interp, data, tag):
+def add_birth(model: sm.SimModel, z_interp: ri.RedshiftInterpolator, data: pd.DataFrame, tag: str) -> None:
     '''!
     @brief This routine adds the contribution of the 'birth bins' to the bulk GWB.
     @param model: instance of SimModel, containing the necessary information for the run.
@@ -40,7 +42,7 @@ def add_birth(model, z_interp, data, tag):
 
     # We go over the rows in the data and determine the birth bins, and their contribution
     for index, row in data.iterrows():
-        if TEST_FOR_ONE and (index>0):
+        if model.TEST_FOR_ONE and (index>0):
             break
 
         if index % 500 == 0:                   # there are ~ 14k rows
@@ -61,7 +63,7 @@ def add_birth(model, z_interp, data, tag):
             # determine the birth bin
             bin_index = np.digitize(2*row.nu0/(1+z), model.f_bins)-1
             low_f_r, upp_f_r = model.f_bins[bin_index], model.f_bins[bin_index + 1] 
-            if TEST_FOR_ONE:
+            if model.TEST_FOR_ONE:
                 print(f"Bin frequencies for z {z:.2f}: [{low_f_r:.2E}, {upp_f_r:.2E}]")
 
             age = model.ages[i].value
@@ -93,10 +95,10 @@ def add_birth(model, z_interp, data, tag):
                 z_contr[f"freq_{bin_index}_num"][i] += (4*np.pi / 4e6) * num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
             elif model.INTEG_MODE == "time":
                 z_contr[f"freq_{bin_index}"][i] += Omega_cont / model.f_bin_factors[bin_index] # The denominator is to keep the relative size wrt the bulk
-                z_contr[f"freq_{bin_index}_num"][i] += (4*np.pi / 4e6) * num_syst * (cosmo.comoving_distance(z).value ** 2) * light_speed * (1+z) * model.dT
+                z_contr[f"freq_{bin_index}_num"][i] += (4*np.pi / 4e6) * num_syst * (cosmo.comoving_distance(z).value ** 2) * model.light_speed * (1+z) * model.dT
             
             if model.INTEG_MODE == "time":
-                Omega_cont *= light_speed * 3.2e-15 * model.dT
+                Omega_cont *= model.light_speed * 3.2e-15 * model.dT
 
             Omega_plot[bin_index] += Omega_cont
 

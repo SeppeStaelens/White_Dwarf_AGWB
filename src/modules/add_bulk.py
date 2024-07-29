@@ -10,8 +10,10 @@ import pandas as pd
 from astropy.cosmology import Planck18 as cosmo
 from auxiliary import make_Omega_plot_unnorm, tau_syst
 import SFH as sfh
+import SimModel as sm
+import RedshiftInterpolator as ri
 
-def add_bulk(model, z_interp, data, tag):
+def add_bulk(model: sm.SimModel, z_interp: ri.RedshiftInterpolator, data: pd.DataFrame, tag: str) -> None:
     '''!
     @brief This routine calculates the majority of the GWB, what is referred to in my thesis as the 'generic case'.
     @param model: instance of SimModel, containing the necessary information for the run.
@@ -53,7 +55,7 @@ def add_bulk(model, z_interp, data, tag):
             # We calculate the contribution for every type of binary in the Population Synthesis
             for index, row in data.iterrows():
 
-                if TEST_FOR_ONE and (index>0):
+                if model.TEST_FOR_ONE and (index>0):
                     break
 
                 # Working on generic case, so strictly f_0 <  low_f_e < high_f_e < f_max
@@ -85,11 +87,11 @@ def add_bulk(model, z_interp, data, tag):
             if model.INTEG_MODE == "redshift":
                 z_contr[f"freq_{j}_num"][i] = pre_num * model.z_widths[i]
             elif model.INTEG_MODE == "time":
-                z_contr[f"freq_{j}_num"][i] = pre_num * light_speed * (1+z) * model.dT
+                z_contr[f"freq_{j}_num"][i] = pre_num * model.light_speed * (1+z) * model.dT
         
         Omega_plot[j] = 2e-15 * Omega * model.f_bin_factors[j]
         if model.INTEG_MODE == "time":
-            Omega_plot[j] *= light_speed * model.dT
+            Omega_plot[j] *= model.light_speed * model.dT
 
         print(f"At frequency {f_r:.5f}: {Omega_plot[j]:.3E}.")
 

@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['n_0',['N',['../classGWB__T_1_1sim__model.html#a6e368b36fb76dd47c9f14f33f675434a',1,'GWB_T.sim_model.N'],['../classSimModel_1_1SimModel.html#a362a9e7e8e1fdadb92a2952f0ba6c5ac',1,'SimModel.SimModel.N'],['../classnum__syst_1_1sim__model.html#ac3180bd0c840411f24d7c771cae56d15',1,'num_syst.sim_model.N']]],
-  ['n_5ft_1',['N_t',['../classGWB__T_1_1sim__model.html#a533fe142061cd5007c77e94d91e41058',1,'GWB_T::sim_model']]],
-  ['n_5fz_2',['N_z',['../classSimModel_1_1SimModel.html#a2a6d019f180baa67b31503bd12252e80',1,'SimModel.SimModel.N_z'],['../classnum__syst_1_1sim__model.html#a203a502339e83d98807af3158c1f475a',1,'num_syst.sim_model.N_z']]]
+  ['s_5fin_5fmyr_0',['s_in_Myr',['../namespaceGWB.html#a0b35885b6d9b005c9d3ea7519abb937a',1,'GWB.s_in_Myr'],['../namespaceauxiliary.html#af9107ee365596fc7769915179117f02d',1,'auxiliary.s_in_Myr'],['../namespacenum__syst.html#a5ff48e09c0291d57ea849efd8285c807',1,'num_syst.s_in_Myr']]],
+  ['save_5ffig_1',['SAVE_FIG',['../classSimModel_1_1SimModel.html#af43f289ef3546eda1629653aae1a0706',1,'SimModel::SimModel']]],
+  ['sfh_5fnum_2',['SFH_num',['../classSimModel_1_1SimModel.html#a0eda336ec62366e8f58141b38848a6f1',1,'SimModel.SimModel.SFH_num'],['../classnum__syst_1_1sim__model.html#a603b65f76c010844480e59dd635847f8',1,'num_syst.sim_model.SFH_num']]],
+  ['size_3',['size',['../namespaceGWB.html#a01da15236a0146951160d1c7661aa445',1,'GWB.size'],['../namespacenum__syst.html#acbef5468636cc2d7d6d61a0a6c623dcd',1,'num_syst.size']]]
 ];

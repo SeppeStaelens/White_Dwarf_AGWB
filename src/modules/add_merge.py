@@ -10,8 +10,10 @@ import pandas as pd
 from astropy.cosmology import Planck18 as cosmo
 from auxiliary import make_Omega_plot_unnorm, tau_syst, determine_upper_freq
 import SFH as sfh
+import SimModel as sm
+import RedshiftInterpolator as ri
 
-def add_merge(model, z_interp, data, tag):
+def add_merge(model: sm.SimModel, z_interp: ri.RedshiftInterpolator, data: pd.DataFrame, tag: str) -> None:
     '''!
     @brief This routine adds the contribution of the 'merger bins' due to Kepler max to the bulk+birth GWB.
     @param model: instance of SimModel, containing the necessary information for the run.
@@ -45,7 +47,7 @@ def add_merge(model, z_interp, data, tag):
     # We go over the rows in the data and determine the merger bins, and their contribution
     for index, row in data.iterrows():
 
-        if TEST_FOR_ONE and (index>0):
+        if model.TEST_FOR_ONE and (index>0):
             break
 
         if index % 500 == 0:                   # there is ~ 14k rows
@@ -76,11 +78,11 @@ def add_merge(model, z_interp, data, tag):
 
                 if tau >= evolve_time:
                     MERGER_CAN_BE_REACHED = False
-                    if TEST_FOR_ONE:
+                    if model.TEST_FOR_ONE:
                         print("Did not reach merger.")
 
                 else:
-                    if TEST_FOR_ONE:
+                    if model.TEST_FOR_ONE:
                         print("Reached merger.")
 
                     psi = sfh.representative_SFH(model.ages[i].value, z_interp, Delta_t=tau, SFH_num=model.SFH_num, max_z=model.max_z)
@@ -99,7 +101,7 @@ def add_merge(model, z_interp, data, tag):
                     NUM_ERRORS += 1
                     continue
 
-                if DEBUG:
+                if model.DEBUG:
                     tolerance = 0.01
                     if (nu_max_b_ini > (1+tolerance) * row.nu_max):
                         # The first means that evolve_time too large, second should be caught in previous part
@@ -129,7 +131,7 @@ def add_merge(model, z_interp, data, tag):
 
                 num_syst = psi * (evolve_time - tau) * 10**6 # tau is given in Myr, psi in ... /yr
 
-                if DEBUG:
+                if model.DEBUG:
                     np.testing.assert_allclose(evolve_time, tau + tau_syst(low_f_r*(1+z), 2*nu_max_b, row.K), rtol=1e-2)
 
             # contributions
@@ -142,14 +144,14 @@ def add_merge(model, z_interp, data, tag):
                 z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / 4e6)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
             elif model.INTEG_MODE == "time":
                 z_contr[f"freq_{bin_index}"][i] += Omega_cont / model.f_bin_factors[bin_index]
-                z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / 4e6)* num_syst * (cosmo.comoving_distance(z).value ** 2) * light_speed * (1+z) * model.dT
+                z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / 4e6)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.light_speed * (1+z) * model.dT
 
             if model.INTEG_MODE == "time":
-                Omega_cont *= light_speed * 3.2e-15 * model.dT
+                Omega_cont *= model.light_speed * 3.2e-15 * model.dT
 
             Omega_plot[bin_index] += Omega_cont
 
-    if DEBUG:
+    if model.DEBUG:
         print(f"Number of numerical errors: {NUM_ERRORS}\n")
 
     # Plots

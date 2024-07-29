@@ -2,5 +2,7 @@
 *cst.txt
 Src/num_syst.py
 TODO.txt
-output/GWBs/*
 src/GWB_T.py
+output/old_GWBs/*
+doc/latex/*
+!doc/latex/refman.pdf

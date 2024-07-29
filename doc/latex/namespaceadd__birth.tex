@@ -3,19 +3,32 @@
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{namespaceadd__birth_a438436ebef249cc5e8c290a2aa3aea52}{add\+\_\+birth}} (model, data, tag)
-\begin{DoxyCompactList}\small\item\em This routine add the contribution of the \textquotesingle{}birth bins\textquotesingle{} to the bulk \doxylink{namespaceGWB}{GWB}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+None \mbox{\hyperlink{namespaceadd__birth_a91b7a89e401338a6d010be61662eb095}{add\+\_\+birth}} (sm.\+Sim\+Model model, ri.\+Redshift\+Interpolator z\+\_\+interp, pd.\+Data\+Frame data, str tag)
+\begin{DoxyCompactList}\small\item\em This routine adds the contribution of the \textquotesingle{}birth bins\textquotesingle{} to the bulk \doxylink{namespaceGWB}{GWB}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{namespaceadd__birth_a438436ebef249cc5e8c290a2aa3aea52}\label{namespaceadd__birth_a438436ebef249cc5e8c290a2aa3aea52} 
+\Hypertarget{namespaceadd__birth_a91b7a89e401338a6d010be61662eb095}\label{namespaceadd__birth_a91b7a89e401338a6d010be61662eb095} 
 \index{add\_birth@{add\_birth}!add\_birth@{add\_birth}}
 \index{add\_birth@{add\_birth}!add\_birth@{add\_birth}}
 \doxysubsubsection{\texorpdfstring{add\_birth()}{add\_birth()}}
-{\footnotesize\ttfamily add\+\_\+birth.\+add\+\_\+birth (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{data,  }\item[{}]{tag }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily  None add\+\_\+birth.\+add\+\_\+birth (\begin{DoxyParamCaption}\item[{sm.\+Sim\+Model}]{model,  }\item[{ri.\+Redshift\+Interpolator}]{z\+\_\+interp,  }\item[{pd.\+Data\+Frame}]{data,  }\item[{str}]{tag }\end{DoxyParamCaption})}
 
 
 
-This routine add the contribution of the \textquotesingle{}birth bins\textquotesingle{} to the bulk \doxylink{namespaceGWB}{GWB}. 
+This routine adds the contribution of the \textquotesingle{}birth bins\textquotesingle{} to the bulk \doxylink{namespaceGWB}{GWB}. 
 
+
+\begin{DoxyParams}{Parameters}
+{\em model} & instance of \doxylink{namespaceSimModel}{Sim\+Model}, containing the necessary information for the run. \\
+\hline
+{\em z\+\_\+interp} & instance of \doxylink{namespaceRedshiftInterpolator}{Redshift\+Interpolator}, used in the \doxylink{namespaceSFH}{SFH} calculations. \\
+\hline
+{\em data} & dataframe containing the binary population data. \\
+\hline
+{\em tag} & tag to add to the output files. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 Saves a dataframe with all the essential information. 
+\end{DoxyReturn}

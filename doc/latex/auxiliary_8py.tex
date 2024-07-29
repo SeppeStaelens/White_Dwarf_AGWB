@@ -13,22 +13,27 @@ namespace \mbox{\hyperlink{namespaceauxiliary}{auxiliary}}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{namespaceauxiliary_a22be92d4b60541d61a942e427ca76998}{auxiliary.\+calc\+\_\+parabola\+\_\+vertex}} (x1, y1, x2, y2, x3, y3)
+tuple \mbox{\hyperlink{namespaceauxiliary_aa26995e08afb8438b549dfd6a5e1caed}{auxiliary.\+calc\+\_\+parabola\+\_\+vertex}} (float x1, float y1, float x2, float y2, float x3, float y3)
 \begin{DoxyCompactList}\small\item\em Calculate the coefficients of a parabola given three points. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceauxiliary_a5cd208bba1f5bccd3c86aa78f59966b4}{auxiliary.\+parabola}} (x, a, b, c)
+float \mbox{\hyperlink{namespaceauxiliary_a22368561a8058f6c9e0aa4aa1cd85e97}{auxiliary.\+parabola}} (float x, float a, float b, float c)
 \begin{DoxyCompactList}\small\item\em Calculate the value of a parabola given the coefficients. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceauxiliary_adde5256b0bc973568a56f47ac50f2e9a}{auxiliary.\+get\+\_\+bin\+\_\+factors}} (freqs, bins)
+np.\+array \mbox{\hyperlink{namespaceauxiliary_a78b03ae737dea025daa5d46f0b4a5f4f}{auxiliary.\+get\+\_\+bin\+\_\+factors}} (np.\+array freqs, np.\+array bins)
 \begin{DoxyCompactList}\small\item\em Determine bin factors that often recur in the calculation to store them. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceauxiliary_a831a3f36f83e9b6628a4581181e0002c}{auxiliary.\+get\+\_\+width\+\_\+z\+\_\+shell\+\_\+from\+\_\+z}} (z\+\_\+vals)
+np.\+array \mbox{\hyperlink{namespaceauxiliary_a34a9fcde219f5a032b8c3b9b08c676c1}{auxiliary.\+get\+\_\+width\+\_\+z\+\_\+shell\+\_\+from\+\_\+z}} (np.\+array z\+\_\+vals)
 \begin{DoxyCompactList}\small\item\em Returns the widths of the redshift shells in Mpc. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceauxiliary_a1d121fa0478d11470967a213d7c3247e}{auxiliary.\+Omega}} (Omega\+\_\+ref, f\+\_\+ref, freq)
+np.\+array \mbox{\hyperlink{namespaceauxiliary_a49b374f309df8448073ad5c979da5caa}{auxiliary.\+Omega}} (float Omega\+\_\+ref, float f\+\_\+ref, np.\+array freq)
 \begin{DoxyCompactList}\small\item\em Create a f\texorpdfstring{$^\wedge$}{\string^}\{2/3\} spectrum line. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceauxiliary_a3ddbb133ce3f71c523d64d4dfbc8e738}{auxiliary.\+make\+\_\+\+Omega\+\_\+plot\+\_\+unnorm}} (f, Omega\+\_\+sim, save=False, save\+\_\+name="{}void"{}, show=False)
+None \mbox{\hyperlink{namespaceauxiliary_a5947c5a47fd3c066f834ebdaed5c5d08}{auxiliary.\+make\+\_\+\+Omega\+\_\+plot\+\_\+unnorm}} (np.\+array f, np.\+array Omega\+\_\+sim, bool save=False, str save\+\_\+name="{}void"{}, bool show=False)
 \begin{DoxyCompactList}\small\item\em Make a plot showing Omega for BWD. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceauxiliary_a282c1d3777981de1af799ac4865f75be}{auxiliary.\+tau\+\_\+syst}} (f\+\_\+0, f\+\_\+1, K)
+float \mbox{\hyperlink{namespaceauxiliary_a70828bfb049138663b414e334f4e0a44}{auxiliary.\+tau\+\_\+syst}} (float f\+\_\+0, float f\+\_\+1, float K, float \mbox{\hyperlink{namespaceauxiliary_af9107ee365596fc7769915179117f02d}{s\+\_\+in\+\_\+\+Myr}})
 \begin{DoxyCompactList}\small\item\em Calculates tau, the time it takes a binary with K to evolve from f\+\_\+0 to f\+\_\+1 (GW frequencies). \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceauxiliary_a0a3c5b2222ec6a5b0f32329ada5fdb47}{auxiliary.\+determine\+\_\+upper\+\_\+freq}} (nu\+\_\+low, evolve\+\_\+time, K)
+float \mbox{\hyperlink{namespaceauxiliary_ad288c2c54fb43c93abd43d89dfbb8c9e}{auxiliary.\+determine\+\_\+upper\+\_\+freq}} (float nu\+\_\+low, float evolve\+\_\+time, float K, bool DEBUG=False)
 \begin{DoxyCompactList}\small\item\em Determines upper ORBITAL frequency for a binary with K, starting from nu\+\_\+0, evolving over evolve\+\_\+time. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+tuple \mbox{\hyperlink{namespaceauxiliary_af9107ee365596fc7769915179117f02d}{auxiliary.\+s\+\_\+in\+\_\+\+Myr}} = (u.\+Myr).to(u.\+s)
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
