@@ -79,37 +79,51 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a438436ebef249cc5e8c290a2aa3aea52" id="r_a438436ebef249cc5e8c290a2aa3aea52"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a438436ebef249cc5e8c290a2aa3aea52">add_birth</a> (model, data, tag)</td></tr>
-<tr class="memdesc:a438436ebef249cc5e8c290a2aa3aea52"><td class="mdescLeft">&#160;</td><td class="mdescRight">This routine add the contribution of the 'birth bins' to the bulk <a class="el" href="namespaceGWB.html">GWB</a>.  <br /></td></tr>
-<tr class="separator:a438436ebef249cc5e8c290a2aa3aea52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91b7a89e401338a6d010be61662eb095" id="r_a91b7a89e401338a6d010be61662eb095"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91b7a89e401338a6d010be61662eb095">add_birth</a> (sm.SimModel model, ri.RedshiftInterpolator z_interp, pd.DataFrame data, str tag)</td></tr>
+<tr class="memdesc:a91b7a89e401338a6d010be61662eb095"><td class="mdescLeft">&#160;</td><td class="mdescRight">This routine adds the contribution of the 'birth bins' to the bulk <a class="el" href="namespaceGWB.html">GWB</a>.  <br /></td></tr>
+<tr class="separator:a91b7a89e401338a6d010be61662eb095"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a438436ebef249cc5e8c290a2aa3aea52" name="a438436ebef249cc5e8c290a2aa3aea52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a438436ebef249cc5e8c290a2aa3aea52">&#9670;&#160;</a></span>add_birth()</h2>
+<a id="a91b7a89e401338a6d010be61662eb095" name="a91b7a89e401338a6d010be61662eb095"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91b7a89e401338a6d010be61662eb095">&#9670;&#160;</a></span>add_birth()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">add_birth.add_birth </td>
+          <td class="memname"> None add_birth.add_birth </td>
           <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>model</em>, </span></td>
+          <td class="paramtype">sm.SimModel</td>          <td class="paramname"><span class="paramname"><em>model</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>data</em>, </span></td>
+          <td class="paramtype">ri.RedshiftInterpolator</td>          <td class="paramname"><span class="paramname"><em>z_interp</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>tag</em></span>&#160;)</td>
+          <td class="paramtype">pd.DataFrame</td>          <td class="paramname"><span class="paramname"><em>data</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str</td>          <td class="paramname"><span class="paramname"><em>tag</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>This routine add the contribution of the 'birth bins' to the bulk <a class="el" href="namespaceGWB.html">GWB</a>. </p>
-<p>Saves a dataframe with all the essential information. </p>
+<p>This routine adds the contribution of the 'birth bins' to the bulk <a class="el" href="namespaceGWB.html">GWB</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">model</td><td>instance of <a class="el" href="namespaceSimModel.html" title="This module contains the class SimModel.">SimModel</a>, containing the necessary information for the run. </td></tr>
+    <tr><td class="paramname">z_interp</td><td>instance of <a class="el" href="namespaceRedshiftInterpolator.html" title="This module contains the class RedshiftInterpolator.">RedshiftInterpolator</a>, used in the <a class="el" href="namespaceSFH.html">SFH</a> calculations. </td></tr>
+    <tr><td class="paramname">data</td><td>dataframe containing the binary population data. </td></tr>
+    <tr><td class="paramname">tag</td><td>tag to add to the output files. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Saves a dataframe with all the essential information. </dd></dl>
 
 </div>
 </div>

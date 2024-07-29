@@ -13,7 +13,7 @@ class RedshiftInterpolator:
     """!
     This class is used to quickly determine the redshift at a given age of the Universe.
     """
-    def __init__(self, z_at_age_file) -> None:
+    def __init__(self, z_at_age_file: str) -> None:
         """!
         Initializes the RedshiftInterpolator object.
         @param z_at_age_file: file containing the redshift at a given age of the Universe.
@@ -24,7 +24,7 @@ class RedshiftInterpolator:
         ## The redshift at the given age of the Universe
         self.interp_z = z_at_val_data.z.values
     
-    def get_z_fast(self, age):
+    def get_z_fast(self, age: float) -> float:
         """!
         Quickly determine the redshift at a given age of the Universe.
         @param age: age of the Universe in Myr.

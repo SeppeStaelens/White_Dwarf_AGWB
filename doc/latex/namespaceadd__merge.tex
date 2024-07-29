@@ -3,19 +3,32 @@
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{namespaceadd__merge_a8b565b440ef1c0a6f8071a4389af380f}{add\+\_\+merge}} (model, data, tag)
-\begin{DoxyCompactList}\small\item\em This routine add the contribution of the \textquotesingle{}merger bins\textquotesingle{} due to Kepler max to the bulk \doxylink{namespaceGWB}{GWB}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+None \mbox{\hyperlink{namespaceadd__merge_a7632a98b844d2ddb76c5c55e4fb4c6b6}{add\+\_\+merge}} (sm.\+Sim\+Model model, ri.\+Redshift\+Interpolator z\+\_\+interp, pd.\+Data\+Frame data, str tag)
+\begin{DoxyCompactList}\small\item\em This routine adds the contribution of the \textquotesingle{}merger bins\textquotesingle{} due to Kepler max to the bulk+birth \doxylink{namespaceGWB}{GWB}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{namespaceadd__merge_a8b565b440ef1c0a6f8071a4389af380f}\label{namespaceadd__merge_a8b565b440ef1c0a6f8071a4389af380f} 
+\Hypertarget{namespaceadd__merge_a7632a98b844d2ddb76c5c55e4fb4c6b6}\label{namespaceadd__merge_a7632a98b844d2ddb76c5c55e4fb4c6b6} 
 \index{add\_merge@{add\_merge}!add\_merge@{add\_merge}}
 \index{add\_merge@{add\_merge}!add\_merge@{add\_merge}}
 \doxysubsubsection{\texorpdfstring{add\_merge()}{add\_merge()}}
-{\footnotesize\ttfamily add\+\_\+merge.\+add\+\_\+merge (\begin{DoxyParamCaption}\item[{}]{model,  }\item[{}]{data,  }\item[{}]{tag }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily  None add\+\_\+merge.\+add\+\_\+merge (\begin{DoxyParamCaption}\item[{sm.\+Sim\+Model}]{model,  }\item[{ri.\+Redshift\+Interpolator}]{z\+\_\+interp,  }\item[{pd.\+Data\+Frame}]{data,  }\item[{str}]{tag }\end{DoxyParamCaption})}
 
 
 
-This routine add the contribution of the \textquotesingle{}merger bins\textquotesingle{} due to Kepler max to the bulk \doxylink{namespaceGWB}{GWB}. 
+This routine adds the contribution of the \textquotesingle{}merger bins\textquotesingle{} due to Kepler max to the bulk+birth \doxylink{namespaceGWB}{GWB}. 
 
+
+\begin{DoxyParams}{Parameters}
+{\em model} & instance of \doxylink{namespaceSimModel}{Sim\+Model}, containing the necessary information for the run. \\
+\hline
+{\em z\+\_\+interp} & instance of \doxylink{namespaceRedshiftInterpolator}{Redshift\+Interpolator}, used in the \doxylink{namespaceSFH}{SFH} calculations. \\
+\hline
+{\em data} & dataframe containing the binary population data. \\
+\hline
+{\em tag} & tag to add to the output files. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 Saves a dataframe with all the essential information. 
+\end{DoxyReturn}

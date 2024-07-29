@@ -8,7 +8,9 @@ The functions SFH_MD, SFH2, SFH3, and SFH4 are star formation histories that can
 @author Seppe Staelens
 """
 
-def representative_SFH(age, redshift_interpolator, Delta_t = 0, SFH_num = 1, max_z = 8):
+import RedshiftInterpolator as ri
+
+def representative_SFH(age: float, redshift_interpolator: ri.RedshiftInterpolator, Delta_t: float = 0., SFH_num: int = 1, max_z: float = 8.):
     '''!
     @brief Determines an appropriate value for the star formation rate at a given age.
     @details The function looks for a representative value of the star formation rate given the age of the system, and takes into account an optional additional time delay.
@@ -35,7 +37,7 @@ def representative_SFH(age, redshift_interpolator, Delta_t = 0, SFH_num = 1, max
     if SFH_num == 5:
         return 0.01
 
-def SFH_MD(z):
+def SFH_MD(z: float) -> float:
     '''!
     @brief Star formation history from [Madau, Dickinson 2014].
     @param z: redshift.
@@ -43,7 +45,7 @@ def SFH_MD(z):
     '''
     return 0.015*(1+z)**(2.7)/(1+((1+z)/2.9)**(5.6)) 
 
-def SFH2(z):
+def SFH2(z: float) -> float:
     '''!
     @brief Made up star formation history.
     @param z: redshift.
@@ -51,7 +53,7 @@ def SFH2(z):
     '''
     return 0.143*(1+z)**(0.3)/(1+((1+z)/2.9)**(3.2)) 
 
-def SFH3(z):
+def SFH3(z: float) -> float:
     '''!
     @brief Made up star formation history.
     @param z: redshift.
@@ -59,7 +61,7 @@ def SFH3(z):
     '''
     return 0.00533*(1+z)**(2.7)/(1+((1+z)/2.9)**(3.))
 
-def SFH4(z):
+def SFH4(z: float) -> float:
     '''!
     @brief Made up star formation history.
     @param z: redshift.

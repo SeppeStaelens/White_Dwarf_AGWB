@@ -7,11 +7,11 @@
 
 # -------- INITIALS -------- #
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 from astropy import units as u
 from warnings import simplefilter 
 import time
+import matplotlib.pyplot as plt
 
 import modules.auxiliary as aux
 import modules.SimModel as sm
@@ -19,9 +19,6 @@ import modules.RedshiftInterpolator as ri
 from modules.add_bulk import add_bulk
 from modules.add_birth import add_birth
 from modules.add_merge import add_merge
-
-# ignore pandas warning
-simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 # matplotlib globals
 plt.rc('font',   size=16)          # controls default text sizes
@@ -32,30 +29,11 @@ plt.rc('ytick',  labelsize=14)     # fontsize of the tick labels
 plt.rc('legend', fontsize=18)      # legend fontsize
 plt.rc('figure', titlesize=18)     # fontsize of the figure title
 
-# -------- PARAMETERS AND DATA -------- #
+# ignore pandas warning
+simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
-# LVK O3, alpha = 2/3 at 25 Hz
-Omega_upp = 3.4*10**(-9)
-Omega_BBH = 4.7*10**(-10)
-Omega_BNS = 2.*10**(-10)
-
-Omega_BBH_up = 6.3*10**(-10)
-Omega_BNS_up = 5.2*10**(-10)
-Omega_BBH_low = 3.3*10**(-10)
-Omega_BNS_low = 0.6*10**(-10)
-
-# Farmer and Phinney, at 1 mHz
-Omega_BWD = 3.57*10**(-12)
-Omega_BWD_up = 6.*10**(-12)
-Omega_BWD_low = 1.*10**(-12)
-
-# other quantities
+global s_in_Myr 
 s_in_Myr = (u.Myr).to(u.s)
-light_speed = 0.30660139        # in units of Mpc/Myr
-
-# LISA sensitivity curve: parabola approximation
-a, b, c = aux.calc_parabola_vertex(-3, -12, -2.5, -12.5, -2, -12)
-
 
 def main():
     '''!

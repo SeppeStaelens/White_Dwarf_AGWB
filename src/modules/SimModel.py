@@ -10,12 +10,17 @@ from astropy.cosmology import Planck18 as cosmo
 import numpy as np
 import astropy.units as u
 from auxiliary import get_bin_factors, get_width_z_shell_from_z
+import RedshiftInterpolator as ri
 
 class SimModel:
     """
     ! This class contains information about the run that needs to be shared over the different subroutines.
     """
-    def __init__(self, INTEG_MODE, z_interp, N_freq = 50, N_int = 20, max_z = 8, SFH_num = 1, log_f_low = -5, log_f_high = 0) -> None:
+
+    ## The speed of light in units of Mpc/Myr
+    light_speed = 0.30660139        
+
+    def __init__(self, INTEG_MODE: str, z_interp: int, N_freq: int = 50, N_int: int = 20, max_z: float = 8, SFH_num: int = 1, log_f_low: float = -5, log_f_high: float = 0) -> None:
         '''!
         Initializes the SimModel object.
         @param N_freq: number of frequency bins.
@@ -44,7 +49,7 @@ class SimModel:
             self.calculate_T_bins()
             self.calculate_cosmology_from_T(z_interpolator=z_interp)
 
-    def calculate_f_bins(self):
+    def calculate_f_bins(self) -> None:
         '''!
         Calculates the f bins and the bin factors.
         '''    
@@ -58,7 +63,7 @@ class SimModel:
 
         print(f"\nThe frequencies are {self.f_plot}\n")
 
-    def calculate_z_bins(self):
+    def calculate_z_bins(self) -> None:
         '''!
         Calculates the z bins.
         '''
@@ -70,7 +75,10 @@ class SimModel:
 
         print(f"The redshifts are {self.z_list}\n")
 
-    def calculate_T_bins(self):
+    def calculate_T_bins(self) -> None:
+        '''!
+        Calculates the T bins.
+        '''
         self.T0 = cosmo.lookback_time(self.max_z).to(u.Myr)
 
         self.T_range = np.linspace(0, self.T0.value, 2*self.N_t+1)
@@ -83,9 +91,10 @@ class SimModel:
         print(f"The cosmic timestep is {self.dT} Myr\n")
         print(f"The times are {self.T_list}\n")
 
-    def calculate_cosmology_from_z(self):
+    def calculate_cosmology_from_z(self) -> None:
         '''!
-        Calculations depending on the cosmology. Sets the widths of the z bins and the time since max z, as well
+        Calculations depending on the cosmology, starting from redshift bins. 
+        Sets the widths of the z bins and the time since max z, as well
         as the age of the universe at each redshift.
         '''
         ## The width of the redshift bins in Mpc
@@ -95,15 +104,18 @@ class SimModel:
         ## The age of the universe at each redshift
         self.ages = (cosmo.age(0) - cosmo.lookback_time(self.z_list)).to(u.Myr)
     
-    def calculate_cosmology_from_T(self, z_interpolator):
-
+    def calculate_cosmology_from_T(self, z_interpolator: ri.RedshiftInterpolator) -> None:
+        '''!
+        Calculations depending on the cosmology, starting from cosmic time bins. 
+        Calculates the redshifts, the time since the maximum redshift, and the ages of the universe at each time.
+        '''
         self.ages = cosmo.age(0).to(u.Myr) - self.T_list * u.Myr
         self.z_list = z_interpolator.get_z_fast(self.ages.value)
         self.z_time_since_max_z = (self.T0.value - self.T_list) * u.Myr
 
         print(f"The redshifts are {self.z_list}\n")
 
-    def set_mode(self, SAVE_FIG, DEBUG, TEST_FOR_ONE):
+    def set_mode(self, SAVE_FIG: bool, DEBUG: bool, TEST_FOR_ONE: bool) -> None:
         '''!
         Sets the mode of the simulation.
         @param SAVE_FIG: whether to save the figures.

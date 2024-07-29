@@ -79,37 +79,51 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:abff50ab44e81b106ebe1b9552602c9e4" id="r_abff50ab44e81b106ebe1b9552602c9e4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abff50ab44e81b106ebe1b9552602c9e4">add_bulk</a> (model, data, tag)</td></tr>
-<tr class="memdesc:abff50ab44e81b106ebe1b9552602c9e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This routine calculates the majority of the <a class="el" href="namespaceGWB.html">GWB</a>, what is referred to in my thesis as the 'generic case'.  <br /></td></tr>
-<tr class="separator:abff50ab44e81b106ebe1b9552602c9e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7276aaf3134409e5fdd9a4886bead02" id="r_ab7276aaf3134409e5fdd9a4886bead02"><td class="memItemLeft" align="right" valign="top">None&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7276aaf3134409e5fdd9a4886bead02">add_bulk</a> (sm.SimModel model, ri.RedshiftInterpolator z_interp, pd.DataFrame data, str tag)</td></tr>
+<tr class="memdesc:ab7276aaf3134409e5fdd9a4886bead02"><td class="mdescLeft">&#160;</td><td class="mdescRight">This routine calculates the majority of the <a class="el" href="namespaceGWB.html">GWB</a>, what is referred to in my thesis as the 'generic case'.  <br /></td></tr>
+<tr class="separator:ab7276aaf3134409e5fdd9a4886bead02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="abff50ab44e81b106ebe1b9552602c9e4" name="abff50ab44e81b106ebe1b9552602c9e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abff50ab44e81b106ebe1b9552602c9e4">&#9670;&#160;</a></span>add_bulk()</h2>
+<a id="ab7276aaf3134409e5fdd9a4886bead02" name="ab7276aaf3134409e5fdd9a4886bead02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7276aaf3134409e5fdd9a4886bead02">&#9670;&#160;</a></span>add_bulk()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">add_bulk.add_bulk </td>
+          <td class="memname"> None add_bulk.add_bulk </td>
           <td>(</td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>model</em>, </span></td>
+          <td class="paramtype">sm.SimModel</td>          <td class="paramname"><span class="paramname"><em>model</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>data</em>, </span></td>
+          <td class="paramtype">ri.RedshiftInterpolator</td>          <td class="paramname"><span class="paramname"><em>z_interp</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>tag</em></span>&#160;)</td>
+          <td class="paramtype">pd.DataFrame</td>          <td class="paramname"><span class="paramname"><em>data</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">str</td>          <td class="paramname"><span class="paramname"><em>tag</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>This routine calculates the majority of the <a class="el" href="namespaceGWB.html">GWB</a>, what is referred to in my thesis as the 'generic case'. </p>
-<p>Saves a dataframe with all the essential information. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">model</td><td>instance of <a class="el" href="namespaceSimModel.html" title="This module contains the class SimModel.">SimModel</a>, containing the necessary information for the run. </td></tr>
+    <tr><td class="paramname">z_interp</td><td>instance of <a class="el" href="namespaceRedshiftInterpolator.html" title="This module contains the class RedshiftInterpolator.">RedshiftInterpolator</a>, used in the <a class="el" href="namespaceSFH.html">SFH</a> calculations. </td></tr>
+    <tr><td class="paramname">data</td><td>dataframe containing the binary population data. </td></tr>
+    <tr><td class="paramname">tag</td><td>tag to add to the output files. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Saves a dataframe with all the essential information. </dd></dl>
 
 </div>
 </div>

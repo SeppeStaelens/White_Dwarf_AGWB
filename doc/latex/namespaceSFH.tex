@@ -3,24 +3,24 @@
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{namespaceSFH_a3bb1721b1373aad6cb86d83c3e2d8c45}{representative\+\_\+\+SFH}} (age, redshift\+\_\+interpolator, Delta\+\_\+t=0, SFH\+\_\+num=1, max\+\_\+z=8)
+\mbox{\hyperlink{namespaceSFH_a4fa14f1a4e2bd56c4eadc0034162c0a8}{representative\+\_\+\+SFH}} (float age, ri.\+Redshift\+Interpolator redshift\+\_\+interpolator, float Delta\+\_\+t=0., int SFH\+\_\+num=1, float max\+\_\+z=8.)
 \begin{DoxyCompactList}\small\item\em Determines an appropriate value for the star formation rate at a given age. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceSFH_a49999ea31a103358566d817a951f8e74}{SFH\+\_\+\+MD}} (z)
+float \mbox{\hyperlink{namespaceSFH_afa2b153c48aa6fdf13a65c7ce3c8e77e}{SFH\+\_\+\+MD}} (float z)
 \begin{DoxyCompactList}\small\item\em Star formation history from \mbox{[}Madau, Dickinson 2014\mbox{]}. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceSFH_a18f8242968d6dd81b5c4310933257c6e}{SFH2}} (z)
+float \mbox{\hyperlink{namespaceSFH_a4e00a9dd07046742bf1997b6f4b07d26}{SFH2}} (float z)
 \begin{DoxyCompactList}\small\item\em Made up star formation history. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceSFH_aa33fcb6e5c280c4bc3d0c94a551eb3d1}{SFH3}} (z)
+float \mbox{\hyperlink{namespaceSFH_a22fd1c0edc5dd3e14fcbf7df052ecf71}{SFH3}} (float z)
 \begin{DoxyCompactList}\small\item\em Made up star formation history. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{namespaceSFH_a9e68623aa1dc3273db229b2f4ef841a6}{SFH4}} (z)
+float \mbox{\hyperlink{namespaceSFH_a72af41e68190b5cbf03dff48e359c3cb}{SFH4}} (float z)
 \begin{DoxyCompactList}\small\item\em Made up star formation history. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
-\Hypertarget{namespaceSFH_a3bb1721b1373aad6cb86d83c3e2d8c45}\label{namespaceSFH_a3bb1721b1373aad6cb86d83c3e2d8c45} 
+\Hypertarget{namespaceSFH_a4fa14f1a4e2bd56c4eadc0034162c0a8}\label{namespaceSFH_a4fa14f1a4e2bd56c4eadc0034162c0a8} 
 \index{SFH@{SFH}!representative\_SFH@{representative\_SFH}}
 \index{representative\_SFH@{representative\_SFH}!SFH@{SFH}}
 \doxysubsubsection{\texorpdfstring{representative\_SFH()}{representative\_SFH()}}
-{\footnotesize\ttfamily SFH.\+representative\+\_\+\+SFH (\begin{DoxyParamCaption}\item[{}]{age,  }\item[{}]{redshift\+\_\+interpolator,  }\item[{}]{Delta\+\_\+t = {\ttfamily 0},  }\item[{}]{SFH\+\_\+num = {\ttfamily 1},  }\item[{}]{max\+\_\+z = {\ttfamily 8} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily SFH.\+representative\+\_\+\+SFH (\begin{DoxyParamCaption}\item[{float}]{age,  }\item[{ri.\+Redshift\+Interpolator}]{redshift\+\_\+interpolator,  }\item[{float }]{Delta\+\_\+t = {\ttfamily 0.},  }\item[{int }]{SFH\+\_\+num = {\ttfamily 1},  }\item[{float }]{max\+\_\+z = {\ttfamily 8.} }\end{DoxyParamCaption})}
 
 
 
@@ -42,11 +42,11 @@ The function looks for a representative value of the star formation rate given t
 \begin{DoxyReturn}{Returns}
 SFR\+: star formation rate. Units\+: solar mass / yr / Mpc\texorpdfstring{$^\wedge$}{\string^}3. 
 \end{DoxyReturn}
-\Hypertarget{namespaceSFH_a18f8242968d6dd81b5c4310933257c6e}\label{namespaceSFH_a18f8242968d6dd81b5c4310933257c6e} 
+\Hypertarget{namespaceSFH_a4e00a9dd07046742bf1997b6f4b07d26}\label{namespaceSFH_a4e00a9dd07046742bf1997b6f4b07d26} 
 \index{SFH@{SFH}!SFH2@{SFH2}}
 \index{SFH2@{SFH2}!SFH@{SFH}}
 \doxysubsubsection{\texorpdfstring{SFH2()}{SFH2()}}
-{\footnotesize\ttfamily SFH.\+SFH2 (\begin{DoxyParamCaption}\item[{}]{z }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily  float SFH.\+SFH2 (\begin{DoxyParamCaption}\item[{float}]{z }\end{DoxyParamCaption})}
 
 
 
@@ -60,11 +60,11 @@ Made up star formation history.
 \begin{DoxyReturn}{Returns}
 SFR\+: star formation rate. Units\+: solar mass / yr / Mpc\texorpdfstring{$^\wedge$}{\string^}3. 
 \end{DoxyReturn}
-\Hypertarget{namespaceSFH_aa33fcb6e5c280c4bc3d0c94a551eb3d1}\label{namespaceSFH_aa33fcb6e5c280c4bc3d0c94a551eb3d1} 
+\Hypertarget{namespaceSFH_a22fd1c0edc5dd3e14fcbf7df052ecf71}\label{namespaceSFH_a22fd1c0edc5dd3e14fcbf7df052ecf71} 
 \index{SFH@{SFH}!SFH3@{SFH3}}
 \index{SFH3@{SFH3}!SFH@{SFH}}
 \doxysubsubsection{\texorpdfstring{SFH3()}{SFH3()}}
-{\footnotesize\ttfamily SFH.\+SFH3 (\begin{DoxyParamCaption}\item[{}]{z }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily  float SFH.\+SFH3 (\begin{DoxyParamCaption}\item[{float}]{z }\end{DoxyParamCaption})}
 
 
 
@@ -78,11 +78,11 @@ Made up star formation history.
 \begin{DoxyReturn}{Returns}
 SFR\+: star formation rate. Units\+: solar mass / yr / Mpc\texorpdfstring{$^\wedge$}{\string^}3. 
 \end{DoxyReturn}
-\Hypertarget{namespaceSFH_a9e68623aa1dc3273db229b2f4ef841a6}\label{namespaceSFH_a9e68623aa1dc3273db229b2f4ef841a6} 
+\Hypertarget{namespaceSFH_a72af41e68190b5cbf03dff48e359c3cb}\label{namespaceSFH_a72af41e68190b5cbf03dff48e359c3cb} 
 \index{SFH@{SFH}!SFH4@{SFH4}}
 \index{SFH4@{SFH4}!SFH@{SFH}}
 \doxysubsubsection{\texorpdfstring{SFH4()}{SFH4()}}
-{\footnotesize\ttfamily SFH.\+SFH4 (\begin{DoxyParamCaption}\item[{}]{z }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily  float SFH.\+SFH4 (\begin{DoxyParamCaption}\item[{float}]{z }\end{DoxyParamCaption})}
 
 
 
@@ -96,11 +96,11 @@ Made up star formation history.
 \begin{DoxyReturn}{Returns}
 SFR\+: star formation rate. Units\+: solar mass / yr / Mpc\texorpdfstring{$^\wedge$}{\string^}3. 
 \end{DoxyReturn}
-\Hypertarget{namespaceSFH_a49999ea31a103358566d817a951f8e74}\label{namespaceSFH_a49999ea31a103358566d817a951f8e74} 
+\Hypertarget{namespaceSFH_afa2b153c48aa6fdf13a65c7ce3c8e77e}\label{namespaceSFH_afa2b153c48aa6fdf13a65c7ce3c8e77e} 
 \index{SFH@{SFH}!SFH\_MD@{SFH\_MD}}
 \index{SFH\_MD@{SFH\_MD}!SFH@{SFH}}
 \doxysubsubsection{\texorpdfstring{SFH\_MD()}{SFH\_MD()}}
-{\footnotesize\ttfamily SFH.\+SFH\+\_\+\+MD (\begin{DoxyParamCaption}\item[{}]{z }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily  float SFH.\+SFH\+\_\+\+MD (\begin{DoxyParamCaption}\item[{float}]{z }\end{DoxyParamCaption})}
 
 
 

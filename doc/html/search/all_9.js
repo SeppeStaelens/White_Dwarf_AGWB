@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['main_0',['main',['../namespaceGWB.html#af122839e91d57456346993dcd3be8fda',1,'GWB.main()'],['../namespaceGWB__T.html#adf43bbe4d8befa46545ce5681d6760e5',1,'GWB_T.main()'],['../namespacenum__syst.html#a6009afbd098d3db94e5959ceb542c0db',1,'num_syst.main()']]],
-  ['main_5fadd_5fbirth_1',['main_add_birth',['../namespaceGWB__T.html#ae1390750c92c993bc4d40172fbb27b3b',1,'GWB_T']]],
-  ['main_5fadd_5fbulk_2',['main_add_bulk',['../namespaceGWB__T.html#a4e842a95b888b02fcec7749f94a719e5',1,'GWB_T']]],
-  ['main_5fadd_5fmerge_5fat_5fmax_3',['main_add_merge_at_max',['../namespaceGWB__T.html#ade5f1df5487fc6aa01ec30a902c76fc6',1,'GWB_T']]],
-  ['make_5fomega_5fplot_5funnorm_4',['make_Omega_plot_unnorm',['../namespaceGWB__T.html#adcfd3ac6de49f640c7b7e073e6845f83',1,'GWB_T.make_Omega_plot_unnorm()'],['../namespaceauxiliary.html#a3ddbb133ce3f71c523d64d4dfbc8e738',1,'auxiliary.make_Omega_plot_unnorm()']]],
-  ['max_5fz_5',['max_z',['../classGWB__T_1_1sim__model.html#a349f7350c1dda07519957f396d7c4171',1,'GWB_T.sim_model.max_z'],['../classSimModel_1_1SimModel.html#aa96ccb81048229fcf05a838e4d424f0a',1,'SimModel.SimModel.max_z'],['../classnum__syst_1_1sim__model.html#a9a14bc47382f63673e2c989338fee15c',1,'num_syst.sim_model.max_z']]]
+  ['n_0',['N',['../classnum__syst_1_1sim__model.html#ac3180bd0c840411f24d7c771cae56d15',1,'num_syst::sim_model']]],
+  ['n_5ffreq_1',['N_freq',['../classSimModel_1_1SimModel.html#a76766fe0959c07a367c3f9729b6605c2',1,'SimModel::SimModel']]],
+  ['n_5fint_2',['N_int',['../classSimModel_1_1SimModel.html#a48417db20c37d4161642e02e40066c99',1,'SimModel::SimModel']]],
+  ['n_5fz_3',['N_z',['../classnum__syst_1_1sim__model.html#a203a502339e83d98807af3158c1f475a',1,'num_syst::sim_model']]],
+  ['num_5fmerge_5fbins_4',['num_merge_bins',['../namespacenum__syst.html#a4f68dbfc50d97c1a9fb61d6cce4aaae3',1,'num_syst']]],
+  ['num_5fsyst_5',['num_syst',['../namespacenum__syst.html',1,'']]],
+  ['num_5fsyst_2epy_6',['num_syst.py',['../num__syst_8py.html',1,'']]]
 ];

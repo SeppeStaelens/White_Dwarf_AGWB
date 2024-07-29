@@ -8,8 +8,12 @@
 import numpy as np
 from astropy.cosmology import Planck18 as cosmo
 import matplotlib.pyplot as plt
+from astropy import units as u
 
-def calc_parabola_vertex(x1, y1, x2, y2, x3, y3):
+global s_in_Myr 
+s_in_Myr = (u.Myr).to(u.s)
+
+def calc_parabola_vertex(x1: float, y1: float, x2: float, y2: float, x3: float, y3: float) -> tuple:
     '''!
     @brief Calculate the coefficients of a parabola given three points.
     @param x1, y1: x and y coordinates of the first point.
@@ -24,7 +28,7 @@ def calc_parabola_vertex(x1, y1, x2, y2, x3, y3):
 
     return A, B, C
 
-def parabola(x, a, b, c):
+def parabola(x: float, a: float, b: float, c: float) -> float:
     """!
     @brief Calculate the value of a parabola given the coefficients.
     @param x: x value.
@@ -33,7 +37,7 @@ def parabola(x, a, b, c):
     """
     return a*x**2 + b*x+c
 
-def get_bin_factors(freqs, bins):
+def get_bin_factors(freqs: np.array, bins: np.array) -> np.array:
     '''!
     @brief Determine bin factors that often recur in the calculation to store them.
     @param freqs: central frequencies.
@@ -46,7 +50,7 @@ def get_bin_factors(freqs, bins):
         factors.append(fac)
     return np.array(factors)
 
-def get_width_z_shell_from_z(z_vals):
+def get_width_z_shell_from_z(z_vals: np.array) -> np.array:
     '''!
     @brief Returns the widths of the redshift shells in Mpc.
     @param z_vals: redshift values.
@@ -56,7 +60,7 @@ def get_width_z_shell_from_z(z_vals):
     shells = [widths[i+1] - widths[i] for i in range(len(widths)-1)]
     return np.array(shells)
 
-def Omega(Omega_ref, f_ref, freq):
+def Omega(Omega_ref: float, f_ref: float, freq: np.array) -> np.array:
     '''!
     @brief Create a f^{2/3} spectrum line.
     @param Omega_ref: reference Omega value.
@@ -66,7 +70,7 @@ def Omega(Omega_ref, f_ref, freq):
     '''
     return Omega_ref*10**((2/3) * (np.log10(freq) - np.log10(f_ref)))
 
-def make_Omega_plot_unnorm(f, Omega_sim, save = False, save_name = "void", show = False):
+def make_Omega_plot_unnorm(f: np.array, Omega_sim: np.array, save: bool = False, save_name: str = "void", show: bool = False) -> None:
     '''!
     @brief Make a plot showing Omega for BWD.
     @param f: frequency array.
@@ -92,7 +96,7 @@ def make_Omega_plot_unnorm(f, Omega_sim, save = False, save_name = "void", show 
     if show:
         plt.show()
 
-def tau_syst(f_0, f_1, K):
+def tau_syst(f_0: float, f_1: float, K: float, s_in_Myr: float) -> float:
     '''!
     @brief Calculates tau, the time it takes a binary with K to evolve from f_0 to f_1 (GW frequencies).
     @param f_0: initial frequency.
@@ -101,9 +105,9 @@ def tau_syst(f_0, f_1, K):
     @return tau: time in Myr.
     '''
     tau = 2.381*(f_0**(-8/3) - f_1**(-8/3)) / K
-    return tau/s_in_Myr
+    return tau / s_in_Myr
 
-def determine_upper_freq(nu_low, evolve_time, K):
+def determine_upper_freq(nu_low: float, evolve_time: float, K: float, DEBUG: bool = False) -> float:
     '''!
     @brief Determines upper ORBITAL frequency for a binary with K, starting from nu_0, evolving over evolve_time.
     @param nu_low: initial orbital frequency.
