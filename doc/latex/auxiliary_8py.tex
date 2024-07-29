@@ -8,40 +8,50 @@ This module contains auxiliary functions that are used in the main code.
 \doxysubsubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
-namespace \mbox{\hyperlink{namespaceauxiliary}{auxiliary}}
+namespace \mbox{\hyperlink{namespacemodules}{modules}}
+\item 
+namespace \mbox{\hyperlink{namespacemodules_1_1auxiliary}{modules.\+auxiliary}}
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-tuple \mbox{\hyperlink{namespaceauxiliary_aa26995e08afb8438b549dfd6a5e1caed}{auxiliary.\+calc\+\_\+parabola\+\_\+vertex}} (float x1, float y1, float x2, float y2, float x3, float y3)
+tuple \mbox{\hyperlink{namespacemodules_1_1auxiliary_a61de85c6b23a396e9b6fc79f9d9b5b1b}{modules.\+auxiliary.\+calc\+\_\+parabola\+\_\+vertex}} (float x1, float y1, float x2, float y2, float x3, float y3)
 \begin{DoxyCompactList}\small\item\em Calculate the coefficients of a parabola given three points. \end{DoxyCompactList}\item 
-float \mbox{\hyperlink{namespaceauxiliary_a22368561a8058f6c9e0aa4aa1cd85e97}{auxiliary.\+parabola}} (float x, float a, float b, float c)
+float \mbox{\hyperlink{namespacemodules_1_1auxiliary_aa0b48f9864f4f79c3c5d5a57a4ff9b2b}{modules.\+auxiliary.\+parabola}} (float x, float a, float b, float c)
 \begin{DoxyCompactList}\small\item\em Calculate the value of a parabola given the coefficients. \end{DoxyCompactList}\item 
-np.\+array \mbox{\hyperlink{namespaceauxiliary_a78b03ae737dea025daa5d46f0b4a5f4f}{auxiliary.\+get\+\_\+bin\+\_\+factors}} (np.\+array freqs, np.\+array bins)
+np.\+array \mbox{\hyperlink{namespacemodules_1_1auxiliary_a761fefb0451ca9656044c9176091ec77}{modules.\+auxiliary.\+get\+\_\+bin\+\_\+factors}} (np.\+array freqs, np.\+array bins)
 \begin{DoxyCompactList}\small\item\em Determine bin factors that often recur in the calculation to store them. \end{DoxyCompactList}\item 
-np.\+array \mbox{\hyperlink{namespaceauxiliary_a34a9fcde219f5a032b8c3b9b08c676c1}{auxiliary.\+get\+\_\+width\+\_\+z\+\_\+shell\+\_\+from\+\_\+z}} (np.\+array z\+\_\+vals)
+np.\+array \mbox{\hyperlink{namespacemodules_1_1auxiliary_a2283aa67af53da1915e56c21afe331b4}{modules.\+auxiliary.\+get\+\_\+width\+\_\+z\+\_\+shell\+\_\+from\+\_\+z}} (np.\+array z\+\_\+vals)
 \begin{DoxyCompactList}\small\item\em Returns the widths of the redshift shells in Mpc. \end{DoxyCompactList}\item 
-np.\+array \mbox{\hyperlink{namespaceauxiliary_a49b374f309df8448073ad5c979da5caa}{auxiliary.\+Omega}} (float Omega\+\_\+ref, float f\+\_\+ref, np.\+array freq)
+np.\+array \mbox{\hyperlink{namespacemodules_1_1auxiliary_ae22a8e664e705d4df1fbb3ff6aefb92f}{modules.\+auxiliary.\+Omega}} (float Omega\+\_\+ref, float f\+\_\+ref, np.\+array freq)
 \begin{DoxyCompactList}\small\item\em Create a f\texorpdfstring{$^\wedge$}{\string^}\{2/3\} spectrum line. \end{DoxyCompactList}\item 
-None \mbox{\hyperlink{namespaceauxiliary_a5947c5a47fd3c066f834ebdaed5c5d08}{auxiliary.\+make\+\_\+\+Omega\+\_\+plot\+\_\+unnorm}} (np.\+array f, np.\+array Omega\+\_\+sim, bool save=False, str save\+\_\+name="{}void"{}, bool show=False)
+None \mbox{\hyperlink{namespacemodules_1_1auxiliary_ad2f66663ad7443ea14bd8ceb9748ee3d}{modules.\+auxiliary.\+make\+\_\+\+Omega\+\_\+plot\+\_\+unnorm}} (np.\+array f, np.\+array Omega\+\_\+sim, bool save=False, str save\+\_\+name="{}void"{}, bool show=False)
 \begin{DoxyCompactList}\small\item\em Make a plot showing Omega for BWD. \end{DoxyCompactList}\item 
-float \mbox{\hyperlink{namespaceauxiliary_a70828bfb049138663b414e334f4e0a44}{auxiliary.\+tau\+\_\+syst}} (float f\+\_\+0, float f\+\_\+1, float K, float \mbox{\hyperlink{namespaceauxiliary_af9107ee365596fc7769915179117f02d}{s\+\_\+in\+\_\+\+Myr}})
+float \mbox{\hyperlink{namespacemodules_1_1auxiliary_a9b0afce0919176ee3463ab7f5717b802}{modules.\+auxiliary.\+tau\+\_\+syst}} (float f\+\_\+0, float f\+\_\+1, float K)
 \begin{DoxyCompactList}\small\item\em Calculates tau, the time it takes a binary with K to evolve from f\+\_\+0 to f\+\_\+1 (GW frequencies). \end{DoxyCompactList}\item 
-float \mbox{\hyperlink{namespaceauxiliary_ad288c2c54fb43c93abd43d89dfbb8c9e}{auxiliary.\+determine\+\_\+upper\+\_\+freq}} (float nu\+\_\+low, float evolve\+\_\+time, float K, bool DEBUG=False)
+float \mbox{\hyperlink{namespacemodules_1_1auxiliary_a5261111b8a4e3045636687f3ce6ad433}{modules.\+auxiliary.\+determine\+\_\+upper\+\_\+freq}} (float nu\+\_\+low, float evolve\+\_\+time, float K, bool DEBUG=False)
 \begin{DoxyCompactList}\small\item\em Determines upper ORBITAL frequency for a binary with K, starting from nu\+\_\+0, evolving over evolve\+\_\+time. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-tuple \mbox{\hyperlink{namespaceauxiliary_af9107ee365596fc7769915179117f02d}{auxiliary.\+s\+\_\+in\+\_\+\+Myr}} = (u.\+Myr).to(u.\+s)
+tuple \mbox{\hyperlink{namespacemodules_1_1auxiliary_af115f327286fa59ee6840bcf4862df71}{modules.\+auxiliary.\+s\+\_\+in\+\_\+\+Myr}} = (u.\+Myr).to(u.\+s)
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 This module contains auxiliary functions that are used in the main code. 
 
+This module contains auxiliary physics functions that are used to pre-\/process the population synthesis data.
+
 \begin{DoxyAuthor}{Author}
 Seppe Staelens 
 \end{DoxyAuthor}
 \begin{DoxyDate}{Date}
-2024-\/07-\/24 
+2024-\/07-\/24
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Seppe Staelens 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2024-\/07-\/29 
 \end{DoxyDate}

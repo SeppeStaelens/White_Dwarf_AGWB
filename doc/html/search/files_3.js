@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['redshiftinterpolator_2epy_0',['RedshiftInterpolator.py',['../RedshiftInterpolator_8py.html',1,'']]]
+  ['gwb_2epy_0',['GWB.py',['../GWB_8py.html',1,'']]]
 ];

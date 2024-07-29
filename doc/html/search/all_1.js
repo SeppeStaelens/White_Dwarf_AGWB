@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['action_0',['action',['../namespaceGWB.html#ac90e988719208e16d0b7476b0055e3b1',1,'GWB']]],
-  ['add_5fbirth_1',['add_birth',['../namespaceadd__birth.html',1,'add_birth'],['../namespaceadd__birth.html#a91b7a89e401338a6d010be61662eb095',1,'add_birth.add_birth()']]],
-  ['add_5fbirth_2epy_2',['add_birth.py',['../add__birth_8py.html',1,'']]],
-  ['add_5fbulk_3',['add_bulk',['../namespaceadd__bulk.html',1,'add_bulk'],['../namespaceadd__bulk.html#ab7276aaf3134409e5fdd9a4886bead02',1,'add_bulk.add_bulk()']]],
-  ['add_5fbulk_2epy_4',['add_bulk.py',['../add__bulk_8py.html',1,'']]],
-  ['add_5fmerge_5',['add_merge',['../namespaceadd__merge.html',1,'add_merge'],['../namespaceadd__merge.html#a7632a98b844d2ddb76c5c55e4fb4c6b6',1,'add_merge.add_merge()']]],
-  ['add_5fmerge_2epy_6',['add_merge.py',['../add__merge_8py.html',1,'']]],
-  ['ages_7',['ages',['../classSimModel_1_1SimModel.html#a5c8bf64a04e6a4a7f134a1c644d88a63',1,'SimModel.SimModel.ages'],['../classnum__syst_1_1sim__model.html#a4ffdf0f2a76f42795dbfc11caaa17c32',1,'num_syst.sim_model.ages']]],
-  ['auxiliary_8',['auxiliary',['../namespaceauxiliary.html',1,'']]],
+  ['a_5fmin_0',['a_min',['../namespacemodules_1_1physics.html#ab2d210f47d89715efd300217ec38044f',1,'modules::physics']]],
+  ['action_1',['action',['../namespaceGWB.html#ac90e988719208e16d0b7476b0055e3b1',1,'GWB']]],
+  ['add_5fbirth_2',['add_birth',['../namespacemodules_1_1add__birth.html#a9df1a101f1386f8cdf98737f0022fdc5',1,'modules::add_birth']]],
+  ['add_5fbirth_2epy_3',['add_birth.py',['../add__birth_8py.html',1,'']]],
+  ['add_5fbulk_4',['add_bulk',['../namespacemodules_1_1add__bulk.html#a2620de018cd0bc05cc557f3ee7395c79',1,'modules::add_bulk']]],
+  ['add_5fbulk_2epy_5',['add_bulk.py',['../add__bulk_8py.html',1,'']]],
+  ['add_5fmerge_6',['add_merge',['../namespacemodules_1_1add__merge.html#abf1171a20afe535e3accda3847061396',1,'modules::add_merge']]],
+  ['add_5fmerge_2epy_7',['add_merge.py',['../add__merge_8py.html',1,'']]],
+  ['ages_8',['ages',['../classmodules_1_1SimModel_1_1SimModel.html#a76d3566efaaa55cef8f16975d94ac7e6',1,'modules.SimModel.SimModel.ages'],['../classnum__syst_1_1sim__model.html#a4ffdf0f2a76f42795dbfc11caaa17c32',1,'num_syst.sim_model.ages']]],
   ['auxiliary_2epy_9',['auxiliary.py',['../auxiliary_8py.html',1,'']]]
 ];

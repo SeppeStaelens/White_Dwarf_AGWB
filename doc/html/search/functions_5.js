@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['main_0',['main',['../namespaceGWB.html#af122839e91d57456346993dcd3be8fda',1,'GWB.main()'],['../namespacenum__syst.html#a6009afbd098d3db94e5959ceb542c0db',1,'num_syst.main()']]],
-  ['make_5fomega_5fplot_5funnorm_1',['make_Omega_plot_unnorm',['../namespaceauxiliary.html#a5947c5a47fd3c066f834ebdaed5c5d08',1,'auxiliary']]]
+  ['k_0',['K',['../namespacemodules_1_1physics.html#a0fb2c33ab8b3b6a84737f590dcb9fbed',1,'modules::physics']]],
+  ['kepler_1',['Kepler',['../namespacemodules_1_1physics.html#a84cc0568eefc98b8716d7b386e2df3c7',1,'modules::physics']]]
 ];

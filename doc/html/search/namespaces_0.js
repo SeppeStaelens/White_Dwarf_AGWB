@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['add_5fbirth_0',['add_birth',['../namespaceadd__birth.html',1,'']]],
-  ['add_5fbulk_1',['add_bulk',['../namespaceadd__bulk.html',1,'']]],
-  ['add_5fmerge_2',['add_merge',['../namespaceadd__merge.html',1,'']]],
-  ['auxiliary_3',['auxiliary',['../namespaceauxiliary.html',1,'']]]
+  ['create_5fz_5fat_5fvalue_0',['Create_z_at_value',['../namespaceCreate__z__at__value.html',1,'']]]
 ];

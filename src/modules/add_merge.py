@@ -20,7 +20,7 @@ def add_merge(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
     @param z_interp: instance of RedshiftInterpolator, used in the SFH calculations.
     @param data: dataframe containing the binary population data.
     @param tag: tag to add to the output files.
-    @return Saves a dataframe with all the essential information.
+    @return Saves a dataframe that contains the GWB at all freqyencies, and a dataframe that has the breakdown for the different redshift bins.
     '''
    
     print("\nInitiating merger bin part of the code.\n")
@@ -85,6 +85,7 @@ def add_merge(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
                     if model.TEST_FOR_ONE:
                         print("Reached merger.")
 
+                    # calculate representative SFH at the time of formation
                     psi = sfh.representative_SFH(model.ages[i].value, z_interp, Delta_t=tau, SFH_num=model.SFH_num, max_z=model.max_z)
 
                     # contributions
@@ -161,5 +162,4 @@ def add_merge(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
     # Save GWB
     GWBnew = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
     GWBnew.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{tag}.txt", index = False)
-
     z_contr.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_merge_{tag}.txt", index = False)
