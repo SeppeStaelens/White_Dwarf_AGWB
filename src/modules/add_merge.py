@@ -8,12 +8,12 @@
 import numpy as np
 import pandas as pd
 from astropy.cosmology import Planck18 as cosmo
-from auxiliary import make_Omega_plot_unnorm, tau_syst, determine_upper_freq
-import SFH as sfh
-import SimModel as sm
-import RedshiftInterpolator as ri
+from modules.auxiliary import make_Omega_plot_unnorm, tau_syst, determine_upper_freq
+import modules.SFH as sfh
+import modules.SimModel as sm
+import modules.RedshiftInterpolator as ri
 
-def add_merge(model: sm.SimModel, z_interp: ri.RedshiftInterpolator, data: pd.DataFrame, tag: str) -> None:
+def add_merge(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterpolator, tag: str) -> None:
     '''!
     @brief This routine adds the contribution of the 'merger bins' due to Kepler max to the bulk+birth GWB.
     @param model: instance of SimModel, containing the necessary information for the run.
@@ -25,7 +25,7 @@ def add_merge(model: sm.SimModel, z_interp: ri.RedshiftInterpolator, data: pd.Da
    
     print("\nInitiating merger bin part of the code.\n")
 
-    previous_Omega = pd.read_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{tag}.txt", sep = ",")
+    previous_Omega = pd.read_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{tag}.txt", sep = ",")
     Omega_plot = previous_Omega.Om.values
 
     # Create dataframe to store results
@@ -33,7 +33,7 @@ def add_merge(model: sm.SimModel, z_interp: ri.RedshiftInterpolator, data: pd.Da
     if model.INTEG_MODE == "time":
         z_contr["T"] = model.T_list
 
-    for i in range(model.N):
+    for i in range(model.N_freq):
         z_contr[f"freq_{i}"] = np.zeros_like(model.z_list)
         z_contr[f"freq_{i}_num"] = np.zeros_like(model.z_list)
 
@@ -50,8 +50,8 @@ def add_merge(model: sm.SimModel, z_interp: ri.RedshiftInterpolator, data: pd.Da
         if model.TEST_FOR_ONE and (index>0):
             break
 
-        if index % 500 == 0:                   # there is ~ 14k rows
-            print(f"At row {index}.")
+        if index % 1000 == 0:                  
+            print(f"At row {index} out of {len(data)}.")
         
         MERGER_CAN_BE_REACHED = True
 
@@ -155,10 +155,11 @@ def add_merge(model: sm.SimModel, z_interp: ri.RedshiftInterpolator, data: pd.Da
         print(f"Number of numerical errors: {NUM_ERRORS}\n")
 
     # Plots
-    make_Omega_plot_unnorm(model.f_plot, Omega_plot, model.SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{tag}")
+    if model.SAVE_FIG:
+        make_Omega_plot_unnorm(model.f_plot, Omega_plot, model.SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{tag}")
 
     # Save GWB
     GWBnew = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWBnew.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{tag}.txt", index = False)
+    GWBnew.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{tag}.txt", index = False)
 
-    z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N}_{model.N_z}_z_contr_merge_{tag}.txt", index = False)
+    z_contr.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_merge_{tag}.txt", index = False)

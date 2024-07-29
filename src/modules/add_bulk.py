@@ -8,12 +8,12 @@
 import numpy as np
 import pandas as pd
 from astropy.cosmology import Planck18 as cosmo
-from auxiliary import make_Omega_plot_unnorm, tau_syst
-import SFH as sfh
-import SimModel as sm
-import RedshiftInterpolator as ri
+from modules.auxiliary import make_Omega_plot_unnorm, tau_syst
+import modules.SFH as sfh
+import modules.SimModel as sm
+import modules.RedshiftInterpolator as ri
 
-def add_bulk(model: sm.SimModel, z_interp: ri.RedshiftInterpolator, data: pd.DataFrame, tag: str) -> None:
+def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterpolator, tag: str) -> None:
     '''!
     @brief This routine calculates the majority of the GWB, what is referred to in my thesis as the 'generic case'.
     @param model: instance of SimModel, containing the necessary information for the run.
@@ -33,7 +33,7 @@ def add_bulk(model: sm.SimModel, z_interp: ri.RedshiftInterpolator, data: pd.Dat
     if model.INTEG_MODE == "time":
         z_contr["T"] = model.T_list
 
-    for i in range(model.N):
+    for i in range(model.N_freq):
         z_contr[f"freq_{i}"] = np.zeros_like(model.z_list)
         z_contr[f"freq_{i}_num"] = np.zeros_like(model.z_list)
 
@@ -96,10 +96,11 @@ def add_bulk(model: sm.SimModel, z_interp: ri.RedshiftInterpolator, data: pd.Dat
         print(f"At frequency {f_r:.5f}: {Omega_plot[j]:.3E}.")
 
     # Plots
-    make_Omega_plot_unnorm(model.f_plot, Omega_plot, model.SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}")
+    if model.SAVE_FIG:
+        make_Omega_plot_unnorm(model.f_plot, Omega_plot, model.SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}")
 
     # Save GWB
     GWB = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWB.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}.txt", index = False)
+    GWB.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}.txt", index = False)
 
-    z_contr.to_csv(f"../Output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_{tag}.txt", index = False)
+    z_contr.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_{tag}.txt", index = False)

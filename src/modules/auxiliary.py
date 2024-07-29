@@ -92,11 +92,11 @@ def make_Omega_plot_unnorm(f: np.array, Omega_sim: np.array, save: bool = False,
     ax.set_xlim(-6, 0)
     if save:
         plt.tight_layout()
-        fig.savefig("../Output/Figures/" + save_name + ".png")
+        fig.savefig("../output/Figures/" + save_name + ".png")
     if show:
         plt.show()
 
-def tau_syst(f_0: float, f_1: float, K: float, s_in_Myr: float) -> float:
+def tau_syst(f_0: float, f_1: float, K: float) -> float:
     '''!
     @brief Calculates tau, the time it takes a binary with K to evolve from f_0 to f_1 (GW frequencies).
     @param f_0: initial frequency.
