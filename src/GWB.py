@@ -8,12 +8,16 @@
 # -------- INITIALS -------- #
 import sys
 sys.path.append("src/modules")
+import time
 import numpy as np
 import pandas as pd
 from astropy import units as u
-from warnings import simplefilter 
-import time
 import matplotlib.pyplot as plt
+from warnings import simplefilter 
+
+# ignore pandas warning
+simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
+simplefilter(action="ignore", category=FutureWarning)
 
 import modules.auxiliary as aux
 import modules.SimModel as sm
@@ -30,10 +34,6 @@ plt.rc('xtick',  labelsize=14)     # fontsize of the tick labels
 plt.rc('ytick',  labelsize=14)     # fontsize of the tick labels
 plt.rc('legend', fontsize=18)      # legend fontsize
 plt.rc('figure', titlesize=18)     # fontsize of the figure title
-
-# ignore pandas warning
-simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
-simplefilter(action="ignore", category=FutureWarning)
 
 global s_in_Myr 
 s_in_Myr = (u.Myr).to(u.s)

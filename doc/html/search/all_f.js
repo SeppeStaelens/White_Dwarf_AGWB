@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['z_5fat_5fval_5fdata_0',['z_at_val_data',['../namespacenum__syst.html#a412d16c11ecd717ffcb91aa1e52f9b76',1,'num_syst']]],
-  ['z_5fbins_1',['z_bins',['../classSimModel_1_1SimModel.html#a133d0c19701f8b3d83b17782682a61da',1,'SimModel.SimModel.z_bins'],['../classnum__syst_1_1sim__model.html#a78c7e83df2c1df9578e79dcdee41a08c',1,'num_syst.sim_model.z_bins']]],
-  ['z_5flist_2',['z_list',['../classSimModel_1_1SimModel.html#abc3e00c18d29958fb470db60b3132c3a',1,'SimModel.SimModel.z_list'],['../classnum__syst_1_1sim__model.html#a3a0840e588988e5dc5f7b8f37e2bfcdc',1,'num_syst.sim_model.z_list']]],
-  ['z_5ftime_5fsince_5fmax_5fz_3',['z_time_since_max_z',['../classSimModel_1_1SimModel.html#acf9f1e2b07d55ea53e20b0fc941f3bfe',1,'SimModel.SimModel.z_time_since_max_z'],['../classnum__syst_1_1sim__model.html#ae0f46bd68661a55fafe16c812f2ae06e',1,'num_syst.sim_model.z_time_since_max_z']]],
-  ['z_5fwidths_4',['z_widths',['../classSimModel_1_1SimModel.html#a6eca7a3b3252e645079efe8424de65c3',1,'SimModel.SimModel.z_widths'],['../classnum__syst_1_1sim__model.html#a3e7ce74a2854d2ca8693bb70c724be62',1,'num_syst.sim_model.z_widths']]]
+  ['t0_0',['T0',['../classmodules_1_1SimModel_1_1SimModel.html#aef457f8d48d176a60e4d7ce933f8ec74',1,'modules::SimModel::SimModel']]],
+  ['t_5fbins_1',['T_bins',['../classmodules_1_1SimModel_1_1SimModel.html#a9a0dded265a97edc14ea81de4ca57323',1,'modules::SimModel::SimModel']]],
+  ['t_5flist_2',['T_list',['../classmodules_1_1SimModel_1_1SimModel.html#ae8db1e99755a057cd5149f09f1e1fc23',1,'modules::SimModel::SimModel']]],
+  ['t_5frange_3',['T_range',['../classmodules_1_1SimModel_1_1SimModel.html#a17fed4bf1af27a9ce0fc3e81eb1f7942',1,'modules::SimModel::SimModel']]],
+  ['tau_5fsyst_4',['tau_syst',['../namespacemodules_1_1auxiliary.html#a9b0afce0919176ee3463ab7f5717b802',1,'modules.auxiliary.tau_syst()'],['../namespacenum__syst.html#a7295a08e19d564cfd9a048761c710c7a',1,'num_syst.tau_syst()']]],
+  ['test_5ffor_5fone_5',['TEST_FOR_ONE',['../classmodules_1_1SimModel_1_1SimModel.html#a06660881aba19cd1474e3be36f8020a6',1,'modules::SimModel::SimModel']]],
+  ['titlesize_6',['titlesize',['../namespaceGWB.html#a24a5cf3adf88beaddee0fca52eca791d',1,'GWB.titlesize'],['../namespacenum__syst.html#af7e23c2f008a8cd1473932f08c242286',1,'num_syst.titlesize']]]
 ];

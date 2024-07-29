@@ -1,10 +1,10 @@
 *cst_one.txt
 *cst.txt
-Src/num_syst.py
+src/num_syst.py
 TODO.txt
 src/GWB_T.py
 output/old_GWBs/*
-doc/latex/*
 output/GWBs/*
-!doc/latex/refman.pdf
 src/modules/__pycache__/*
+doc/latex/*
+!doc/latex/refman.pdf

@@ -20,11 +20,12 @@ def add_birth(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
     @param z_interp: instance of RedshiftInterpolator, used in the SFH calculations.
     @param data: dataframe containing the binary population data.
     @param tag: tag to add to the output files.
-    @return Saves a dataframe with all the essential information.
+    @return Saves a dataframe that contains the GWB at all freqyencies, and a dataframe that has the breakdown for the different redshift bins.
     '''
    
     print("\nInitating birth bin part of the code.\n")
     
+    # read the bulk part of the GWB
     previous_Omega = pd.read_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}.txt", sep = ",")
     Omega_plot = previous_Omega.Om.values
 
@@ -42,10 +43,11 @@ def add_birth(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
 
     # We go over the rows in the data and determine the birth bins, and their contribution
     for index, row in data.iterrows():
+
         if model.TEST_FOR_ONE and (index>0):
             break
 
-        if index % 1000 == 0:                   # there are ~ 14k rows
+        if index % 1000 == 0:                   
             print(f"At row {index} out of {len(data)}.")
 
         # Determine birth bins for every z bin
@@ -67,6 +69,7 @@ def add_birth(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
                 print(f"Bin frequencies for z {z:.2f}: [{low_f_r:.2E}, {upp_f_r:.2E}]")
 
             age = model.ages[i].value
+            # calculate representative SFH at the time of formation
             psi = sfh.representative_SFH(age, z_interp, Delta_t=row.t0, SFH_num=model.SFH_num, max_z=model.max_z)
 
             # The time it would take the binary to evolve from nu_0 to the upper bin edge
@@ -109,5 +112,4 @@ def add_birth(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
     # Save GWB
     GWBnew = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
     GWBnew.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{tag}.txt", index = False)
-
     z_contr.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_birth_{tag}.txt", index = False)

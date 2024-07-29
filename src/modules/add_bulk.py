@@ -20,7 +20,7 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterp
     @param z_interp: instance of RedshiftInterpolator, used in the SFH calculations.
     @param data: dataframe containing the binary population data.
     @param tag: tag to add to the output files.
-    @return Saves a dataframe with all the essential information.
+    @return Saves a dataframe that contains the GWB at all freqyencies, and a dataframe that has the breakdown for the different redshift bins.
     '''
    
     print("\nInitiating bulk part of the code.\n")
@@ -33,6 +33,7 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterp
     if model.INTEG_MODE == "time":
         z_contr["T"] = model.T_list
 
+    # to stor the contributions for each frequency bin, and the number of systems
     for i in range(model.N_freq):
         z_contr[f"freq_{i}"] = np.zeros_like(model.z_list)
         z_contr[f"freq_{i}_num"] = np.zeros_like(model.z_list)
@@ -68,17 +69,21 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterp
                 # Binary can't be older then the beginning of the Universe (with max_z ~ the beginning) 
                 if time_since_ZAMS >= time_since_max_z:
                     continue
-
+                
+                # calculate SFR at the time of formation
                 psi = sfh.representative_SFH(age, z_interp, Delta_t=time_since_ZAMS, SFH_num=model.SFH_num, max_z=model.max_z)
     
+                # binary specific contribution to the stored quantities
                 z_fac += psi*row.M_ch**(5/3)
                 num_syst += psi * tau_syst(bin_low_f_e, bin_upp_f_e, row.K) * 10**6 # tau is given in Myr, psi in ... /yr
 
             # the contribution if we integrate over T
             Omega_cont = z_fac * (1+z)**(-1/3)
+
             # if we integrate over z, we need to add another factor (1+z)^(-1) Delta z
             if model.INTEG_MODE == "redshift":
                 Omega_cont *= model.z_widths[i]*(1+z)**(-1)
+
             Omega += Omega_cont
             z_contr[f"freq_{j}"][i] = Omega_cont
 
@@ -89,6 +94,7 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterp
             elif model.INTEG_MODE == "time":
                 z_contr[f"freq_{j}_num"][i] = pre_num * model.light_speed * (1+z) * model.dT
         
+        # We store the value of Omega for this frequency bin
         Omega_plot[j] = 2e-15 * Omega * model.f_bin_factors[j]
         if model.INTEG_MODE == "time":
             Omega_plot[j] *= model.light_speed * model.dT
@@ -102,5 +108,4 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterp
     # Save GWB
     GWB = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
     GWB.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}.txt", index = False)
-
     z_contr.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_{tag}.txt", index = False)
