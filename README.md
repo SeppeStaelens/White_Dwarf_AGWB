@@ -19,6 +19,10 @@ This folder contains subfolders relating to different BWD populations, as produc
 
 Finally, this folder also contains a file `z_at_age.txt`, which is just a data file relating the age of the Universe to the redshift in a Planck 18 cosmology. It is used in the `RedshiftInterpolator` class to quickly determine $z$ at a given age of the Universe. This is in order to circumvent calling the `astropy.cosmology.z_at_value` function too often, as it is computationally very expensive.
 
+### output
+
+`GWBs` contains 2 examples, both with SFH 1 - 50 frequency bins - 20 integration bins, but integrated over redshift and cosmic time respectively. Some figures based on post-processing this data is stored in `Figures` as an example.
+
 ### src
 
 This folder contains the code. `GWB.py` is the main script to calculate the GWB. It relies on many of the functions defined in the modules subfolder. The latter contains the three main parts of the code, auciliary functions, physical functions, star formation histories and two classes `SimModel` and `RedshiftInterpolator`.
