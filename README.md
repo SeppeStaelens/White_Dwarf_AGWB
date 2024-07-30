@@ -9,7 +9,7 @@ This code was originally created for research in context of a Master's Thesis [M
 - `data`: contains the results of the population synthesis and the z_at_age.txt file.
 - `doc`: contains documentation in html and pdf format.
 - `output`: contains Figures and GWBs folders, where the latter stores the GWBs and the contributions to the different bins.
-- `post_proc`: contains Jupyter Notebooks to process the data.
+- `post_proc`: contains a Jupyter Notebook with some examples of how to process the data.
 - `references`: contain the two Master's Theses as PDF files.
 - `src`: contains the main scripts.
 
@@ -23,7 +23,7 @@ Finally, this folder also contains a file `z_at_age.txt`, which is just a data f
 
 This folder contains the code. `GWB.py` is the main script to calculate the GWB. It relies on many of the functions defined in the modules subfolder. The latter contains the three main parts of the code, auciliary functions, physical functions, star formation histories and two classes `SimModel` and `RedshiftInterpolator`.
 
- `Create_z_at_age.py` is used to create a file `z_at_age.txt` stored in `data`, which is used in the main script to interpolate $z$ at a given age of the Universe. `SeBa_pre_process.py` is used to add more columns to the output data from SeBa, which is then used in the main script.
+`Create_z_at_age.py` is used to create a file `z_at_age.txt` stored in `data`, which is used in the main script to interpolate $z$ at a given age of the Universe. `SeBa_pre_process.py` is used to add more columns to the output data from SeBa, which is then used in the main script.
 
 ## Installation
 
@@ -34,7 +34,12 @@ $ conda env create -f WD_GWB.yml
 
 ## Running the code
 
-The code should be run from the source directory. All three scripts can simply be run by doing
+The code can be run from the main directory or `src`. 
+One should start by activating the `WD_GWB` environment as follows:
+```
+$ conda activate WD_GWB
+```
+Afterwards, all three scripts can simply be run by doing
 ```
 $ python Create_z_at_age.py
 $ python SeBa_pre_process.py
@@ -46,6 +51,7 @@ For `Create_z_at_age.py` one only needs to specify a maximum redshift and the nu
 For `SeBa_pre_process.py`, one only needs to specify the data paths and whether to save the file. Additional datafolders can be made here, and they should be adapted in the main code.
 
 For `GWB.py` there is a couple of settings in the main function that can be changed, i.e. the SFH, the population ...
+As an example, the code takes 7-8 minutes to create the examples `SFH1_50_20_*_example.txt`.
 
 ## Clarification on some of the formulas
 
@@ -74,3 +80,32 @@ $$ n(z, f) = \sum_k \frac{\psi(z; k)}{4\cdot 10^6 M_\odot} \cdot \tau(z, f; k) .
 In this expression, $\psi$ is again the SFH, determined at the birth time of the system and normalized by 4E6 solar masses; and $\tau$ is the time it takes the system to traverse the bin. The reasoning is that all systems produced in the past, during a time corresponding to $\tau$, will have moved to the bin under consideration.
 
 In the code, $\tau$ is calculated in Myr, and therefore multiplied by 1E6 as $\psi$ has units of 1/yr.
+
+## Citation
+
+If you want to cite this code, please cite the accompanying papers
+
+```
+@article{staelens2024likelihood,
+	author = {{Staelens, Seppe} and {Nelemans, Gijs}},
+	title = {Likelihood of white dwarf binaries to dominate the astrophysical gravitational wave background in the mHz band},
+	DOI= "10.1051/0004-6361/202348429",
+	url= "https://doi.org/10.1051/0004-6361/202348429",
+	journal = {A&A},
+	year = 2024,
+	volume = 683,
+	pages = "A139",
+}
+```
+and
+```
+@misc{hofman2024uncertaintywhitedwarfastrophysical,
+      title={On the uncertainty of the White Dwarf Astrophysical Gravitational Wave Background}, 
+      author={Sophie Hofman and Gijs Nelemans},
+      year={2024},
+      eprint={2407.10642},
+      archivePrefix={arXiv},
+      primaryClass={astro-ph.HE},
+      url={https://arxiv.org/abs/2407.10642}, 
+}
+```
