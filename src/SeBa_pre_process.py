@@ -12,11 +12,20 @@ from modules.physics import *
 from modules.auxiliary import tau_syst
 
 def main() -> None:
+    """!
+    @brief Function to calculate values from the SeBa output and save them in a dataframe.
+    """
 
-    SAVE_FILE = False
+    # --- Settings --- #
+    SAVE_FILE = False                   # save the resulting file or not
 
     # which population file to use
-    data_file = "../data/seppe_ini/t0aim1m2.dat"
+    data_file =       "../data/AlphaAlpha/Alpha4/z02/z02_t0aim1m1_Seppe.dat"
+    # where and how to save the data
+    save_filename =   "../data/AlphaAlpha/Alpha4/z02/Initials_z02_Seppe.txt"
+
+
+    # --- Main code --- #
 
     # Load data
     population = pd.read_csv(data_file, names = ["t0", "a", "m1", "m2"], sep = "\s+")
@@ -38,9 +47,10 @@ def main() -> None:
         nu_list.append(Kepler(ma, mb))
     population["nu_max"] = np.array(nu_list)
 
+    # Calculate the maximal time to coalescence
     population["Dt_max"] = tau_syst(2*population.nu0, 2*population.nu_max, population.K)
 
     if SAVE_FILE:
-        population.to_csv("../data/seppe_ini/initials_final.txt", index = False)
+        population.to_csv(save_filename, index = False)
 
 main()
