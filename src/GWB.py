@@ -47,7 +47,7 @@ def main():
     ## Start time of the program
     start_time = time.time()
 
-    # ----- initiate ----- #
+    # ----- SETTINGS ----- #
 
     ## number of frequency bins
     N_freq = 50
@@ -59,12 +59,10 @@ def main():
     SFH_num = 1
     ## population file
     population_file_name = "../data/seppe_ini/initials_final.txt"      
+    ## redshift interpolator file
+    ri_file = "../data/z_at_age.txt"
     ## tag for filenames
     tag = "test2_T"       
-
-    # normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 voor Seppe
-    # omega_prefactor_bulk = 8.10e-9 / normalisation # waarde = 2.4e-15,  2e-15 voor Seppe
-    # omega_prefactor_birth_merger = 1.28e-8 / normalisation # waarde = 3.75e-15 # 3.2e-15 voor Seppe
 
     # Integrate over "redshift" or (cosmic) "time"
     INTEGRATION_MODE = "time"
@@ -75,8 +73,10 @@ def main():
     # Run script for only one system if True
     TEST_FOR_ONE = False
 
+    # ----- END SETTINGS ----- #
+
     # create the simulation 
-    z_interp = ri.RedshiftInterpolator("../data/z_at_age.txt")
+    z_interp = ri.RedshiftInterpolator(ri_file)
     model = sm.SimModel(INTEGRATION_MODE, z_interp, N_freq, N_int, max_z, SFH_num)
     model.set_mode(SAVE_FIG, DEBUG, TEST_FOR_ONE)
 

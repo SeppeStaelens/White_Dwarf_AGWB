@@ -6,28 +6,46 @@ This code was originally created for research in context of a Master's Thesis [M
 
 ## Overview of repository:
 
-- `data`: contains the initial values and the interpolated z_at_value function.
-- `doc`: contains documentation.
+- `data`: contains the results of the population synthesis and the z_at_age.txt file.
+- `doc`: contains documentation in html and pdf format.
 - `output`: contains Figures and GWBs folders, where the latter stores the GWBs and the contributions to the different bins.
 - `post_proc`: contains Jupyter Notebooks to process the data.
-- `references`: contain the Master's Theses as PDF files.
-- `src`: contains the main scripts. `GWB.py` is the main script to calculate the GWB, `Create_z_at_age.py` is used to create a file, `z_at_age.txt`, stored in `data`, which is used in the main script to interpolate $z$ at a given age of the Universe. `SeBa_pre_process.py` is used to add more columns to the output data from SeBa, which is then used in the main script.
+- `references`: contain the two Master's Theses as PDF files.
+- `src`: contains the main scripts.
 
 ### data
 
-This folder contains subfolders relating to different BWD populations, as produced by the [SeBa](https://github.com/amusecode/SeBa) code:
+This folder contains subfolders relating to different BWD populations, as produced by the [SeBa](https://github.com/amusecode/SeBa) code. Data is structured along the different models as described in [2407.10642](https://arxiv.org/abs/2407.10642). The population used in [Staelens, Nelemans 2024](https://www.aanda.org/articles/aa/full_html/2024/03/aa48429-23/aa48429-23.html) is stored in `AlphaAlpha/Alpha4/z02`, alongside a similar population used in the other article.
 
-- `aa_4_0p02_MD`: original population used in [Staelens, Nelemans 2024](https://www.aanda.org/articles/aa/full_html/2024/03/aa48429-23/aa48429-23.html). This is an $\alpha\alpha$ model with $\alpha = 4$, $Z = 0.02$ and the SFRD by [Madau & Dickinson (2014)](https://www.annualreviews.org/content/journals/10.1146/annurev-astro-081811-125615).
+Finally, this folder also contains a file `z_at_age.txt`, which is just a data file relating the age of the Universe to the redshift in a Planck 18 cosmology. It is used in the `RedshiftInterpolator` class to quickly determine $z$ at a given age of the Universe. This is in order to circumvent calling the `astropy.cosmology.z_at_value` function too often, as it is computationally very expensive.
 
-Finally, this folder also contains a file `z_at_age.txt`, which is just a data file relating the age of the Universe to the redshift in a Planck 18 cosmology. This is in order to circumvent calling the `astropy.cosmology.z_at_value` function too often, as it is very expensive.
+### src
+
+This folder contains the code. `GWB.py` is the main script to calculate the GWB. It relies on many of the functions defined in the modules subfolder. The latter contains the three main parts of the code, auciliary functions, physical functions, star formation histories and two classes `SimModel` and `RedshiftInterpolator`.
+
+ `Create_z_at_age.py` is used to create a file `z_at_age.txt` stored in `data`, which is used in the main script to interpolate $z$ at a given age of the Universe. `SeBa_pre_process.py` is used to add more columns to the output data from SeBa, which is then used in the main script.
 
 ## Installation
 
-Conda environment, yaml file. TODO
+The code can be installed simply by cloning the repository. The repository contains a `WD_GWB.yml` file that can be used to create a `conda` environment that contains all the required packages to run the code in `src` and `post_proc`. This is done by running
+```
+$ conda env create -f WD_GWB.yml
+```
 
 ## Running the code
 
-Run code from Src directory. TODO
+The code should be run from the source directory. All three scripts can simply be run by doing
+```
+$ python Create_z_at_age.py
+$ python SeBa_pre_process.py
+$ python GWB.py
+```
+
+For `Create_z_at_age.py` one only needs to specify a maximum redshift and the number of interpolation points desired.
+
+For `SeBa_pre_process.py`, one only needs to specify the data paths and whether to save the file. Additional datafolders can be made here, and they should be adapted in the main code.
+
+For `GWB.py` there is a couple of settings in the main function that can be changed, i.e. the SFH, the population ...
 
 ## Clarification on some of the formulas
 
