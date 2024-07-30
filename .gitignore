@@ -1,2 +1,11 @@
-*cst_one.txt
-*cst.txt
+TODO.txt
+output/old_GWBs/*
+output/GWBs/*.txt
+src/modules/__pycache__/*
+doc/latex/*
+!doc/latex/refman.pdf
+data/**/*.txt
+data/**/*.dat
+data/z_at_age.txt
+post_proc/old.ipynb
+
