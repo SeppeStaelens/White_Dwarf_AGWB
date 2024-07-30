@@ -8,6 +8,6 @@ var searchData=
   ['add_5fbulk_2epy_5',['add_bulk.py',['../add__bulk_8py.html',1,'']]],
   ['add_5fmerge_6',['add_merge',['../namespacemodules_1_1add__merge.html#abf1171a20afe535e3accda3847061396',1,'modules::add_merge']]],
   ['add_5fmerge_2epy_7',['add_merge.py',['../add__merge_8py.html',1,'']]],
-  ['ages_8',['ages',['../classmodules_1_1SimModel_1_1SimModel.html#a76d3566efaaa55cef8f16975d94ac7e6',1,'modules.SimModel.SimModel.ages'],['../classnum__syst_1_1sim__model.html#a4ffdf0f2a76f42795dbfc11caaa17c32',1,'num_syst.sim_model.ages']]],
+  ['ages_8',['ages',['../classmodules_1_1SimModel_1_1SimModel.html#a76d3566efaaa55cef8f16975d94ac7e6',1,'modules::SimModel::SimModel']]],
   ['auxiliary_2epy_9',['auxiliary.py',['../auxiliary_8py.html',1,'']]]
 ];
