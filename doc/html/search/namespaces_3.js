@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['num_5fsyst_0',['num_syst',['../namespacenum__syst.html',1,'']]]
+  ['redshiftinterpolator_0',['RedshiftInterpolator',['../namespaceRedshiftInterpolator.html',1,'']]]
 ];

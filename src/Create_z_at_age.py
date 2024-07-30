@@ -1,5 +1,5 @@
 """!
-@file Create_z_at_value.py
+@file Create_z_at_age.py
 @date 2024-07-29
 @author Seppe Staelens
 @brief This program creates a list of redshift values at a list of ages of the Universe, that can be saved and used to interpolate in the main code.
@@ -31,7 +31,7 @@ def main() -> None:
     z_vals = np.array(z_at_value(cosmo.age, ages * u.Myr).value)
 
     data = pd.DataFrame({"Age (Myr)" : ages, "Redshift" : z_vals})
-    data.to_csv("Data/z_at_age.txt", index=False)
+    data.to_csv("../data/z_at_age.txt", index=False)
 
 main()
 

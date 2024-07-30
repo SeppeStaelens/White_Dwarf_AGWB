@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['physics_2epy_0',['physics.py',['../physics_8py.html',1,'']]]
+  ['redshiftinterpolator_2epy_0',['RedshiftInterpolator.py',['../RedshiftInterpolator_8py.html',1,'']]]
 ];
