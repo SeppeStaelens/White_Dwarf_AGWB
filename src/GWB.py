@@ -7,7 +7,14 @@
 
 # -------- INITIALS -------- #
 import sys
-sys.path.append("src/modules")
+# sys.path.append("src/modules")
+import os
+
+# change directory to src
+if os.getcwd().split("/")[-1] != "src":
+    print("Changing directory to src")
+    os.chdir("src")
+
 import time
 import numpy as np
 import pandas as pd
@@ -58,14 +65,14 @@ def main():
     ## which SFH
     SFH_num = 1
     ## population file
-    population_file_name = "../data/seppe_ini/initials_final.txt"      
+    population_file_name = "../data/AlphaAlpha/Alpha4/z02/Initials_z02_Seppe.txt.gz"      
     ## redshift interpolator file
     ri_file = "../data/z_at_age.txt"
     ## tag for filenames
-    tag = "test2_T"       
+    tag = "example_z"       
 
     # Integrate over "redshift" or (cosmic) "time"
-    INTEGRATION_MODE = "time"
+    INTEGRATION_MODE = "redshift"
     # Run script with(out) saving figures
     SAVE_FIG = False
     # Run script with(out) more output

@@ -113,6 +113,7 @@ dependencies:
   - qt-main=5.15.2
   - readline=8.2
   - scipy=1.13.1
+  - seaborn=0.13.2
   - setuptools=69.5.1
   - sip=6.7.12
   - six=1.16.0
