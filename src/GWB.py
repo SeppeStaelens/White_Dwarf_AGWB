@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 from astropy import units as u
 import matplotlib.pyplot as plt
-from warnings import simplefilter 
+from warnings import simplefilter
 
 # ignore pandas warning
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
@@ -62,10 +62,16 @@ def main():
     N_int = 20
     ## max_redshift            
     max_z = 8
-    ## which SFH
+    ## which SFH, 1 = Madau & Dickinson, 6 = Z dependant SFRD
     SFH_num = 1
+    ## which SFRD type, can be 'MZ19', 'LZ19', 'HZ19', 'LZ21', 'HZ21' or 'MD' (Madau & Dickinson)
+    SFH_type = 'MZ19' 
+    ## which population synthesis model, can be 'AlphaAlpha' or 'GammaAlpha'
+    pop_synth = 'AlphaAlpha'
+    ## which numerical value for alpha, can be 'Alpha1' or 'Alpha4'
+    alpha = 'Alpha1' 
     ## population file
-    population_file_name = "../data/AlphaAlpha/Alpha4/z02/Initials_z02_Seppe.txt.gz"      
+    population_file_name = f"../data/{model.pop_synth}/{model.alpha}/{model.metallicity}/Initials_{model.metallicity}.txt.gz" #add _Seppe before .txt.gz to run Seppe's data     
     ## redshift interpolator file
     ri_file = "../data/z_at_age.txt"
     ## tag for filenames
@@ -84,7 +90,7 @@ def main():
 
     # create the simulation 
     z_interp = ri.RedshiftInterpolator(ri_file)
-    model = sm.SimModel(INTEGRATION_MODE, z_interp, N_freq, N_int, max_z, SFH_num)
+    model = sm.SimModel(INTEGRATION_MODE, z_interp, N_freq, N_int, max_z, SFH_num, SFH_type, metallicity, pop_synth, alpha)
     model.set_mode(SAVE_FIG, DEBUG, TEST_FOR_ONE)
 
     # data. initial file with some added calculations
@@ -112,4 +118,7 @@ def main():
     duration = time.time() - start_time
     print(f"--- duration: {duration//60:.0f} minutes {duration%60:.0f} seconds ---")
 
-main()
+metallicities = ['z0001', 'z001', 'z005', 'z01', 'z02', 'z03']
+for m in range(len(metallicities)):
+    metallicity = metallicities [m]
+    main()
