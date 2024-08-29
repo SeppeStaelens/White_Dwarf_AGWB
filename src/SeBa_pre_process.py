@@ -19,10 +19,16 @@ def main() -> None:
     # --- Settings --- #
     SAVE_FILE = False                   # save the resulting file or not
 
+    # population model, can be 'AlphaAlpha' or 'GammaAlpha'
+    pop_synth = 'AlphaAlpha'
+
+    # alpha, can be 'Alpha1' or 'Alpha4'
+    alpha = 'Alpha1'
+
     # which population file to use
-    data_file =       "../data/AlphaAlpha/Alpha4/z02/z02_t0aim1m1_Seppe.dat"
+    data_file =       f"../data/{pop_synth}/{alpha}/{metallicity}/{metallicity}_t0aim1m1.dat.gz" # add _Seppe to run his data
     # where and how to save the data
-    save_filename =   "../data/AlphaAlpha/Alpha4/z02/Initials_z02_Seppe.txt"
+    save_filename =   f"../data/{pop_synth}/{alpha}/{metallicity}/Initials_{metallicity}.txt" #add _Seppe when running his data
 
 
     # --- Main code --- #
@@ -53,4 +59,7 @@ def main() -> None:
     if SAVE_FILE:
         population.to_csv(save_filename, index = False)
 
-main()
+metallicities = ['z0001', 'z001', 'z005', 'z01', 'z02', 'z03']
+for m in range(len(metallicities)):
+    metallicity = metallicities [m]
+    main()

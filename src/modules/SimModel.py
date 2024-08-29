@@ -20,7 +20,7 @@ class SimModel:
     ## The speed of light in units of Mpc/Myr
     light_speed = 0.30660139        
 
-    def __init__(self, INTEG_MODE: str, z_interp: int, N_freq: int = 50, N_int: int = 20, max_z: float = 8, SFH_num: int = 1, log_f_low: float = -5, log_f_high: float = 0) -> None:
+    def __init__(self, INTEG_MODE: str, z_interp: int, N_freq: int = 50, N_int: int = 20, max_z: float = 8, SFH_num: int = 1, log_f_low: float = -5, log_f_high: float = 0, SFH_type:str = 'MZ19', metallicity:str = 'z02', pop_synth: str = 'AlphaAlpha', alpha: str = 'Alpha1') -> None:
         '''!
         Initializes the SimModel object.
         @param N_freq: number of frequency bins.
@@ -29,6 +29,10 @@ class SimModel:
         @param SFH_num: which star formation history to select. 1: Madau & Dickinson 2014, 2-4: made up, 5: constant 0.01.
         @param log_f_low: lower bound of the frequency bins in log10 space.
         @param log_f_high: upper bound of the frequency bins in log10 space.
+        @param SFH_type: type of SFH/SFRD (LZ19, MZ19, HZ19, LZ21, HZ21 or MD (Madau & Dickinson 2014))
+        @param metallicity: metallicity range around z0001 (z = 0.0001), z001 (z = 0.001), z005 (z = 0.005), z01 (z = 0.01), z02 (z = 0.02) or z03 (z = 0.03)
+        @param pop_synth: population synthesis model, can be AlphaAlpha or GammaAlpha
+        @param alpha: value for alpha, can be Alpha1 (alpha = 1) or Alpha4 (alpha = 4)
         @return instance of SimModel, with frequency and redshift bins calculated, and cosmology set.
         '''
         self.N_freq = N_freq
@@ -38,6 +42,10 @@ class SimModel:
         assert log_f_low < log_f_high, "log_f_low should be smaller than log_f_high"
         self.log_f_low = log_f_low
         self.log_f_high = log_f_high
+        self.SFH_type = SFH_type
+        self.metallicity = metallicity
+        self.pop_synth = pop_synth
+        self.alpha = alpha
 
         self.calculate_f_bins()
         self.INTEG_MODE = INTEG_MODE

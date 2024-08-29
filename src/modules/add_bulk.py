@@ -13,6 +13,10 @@ import modules.SFH as sfh
 import modules.SimModel as sm
 import modules.RedshiftInterpolator as ri
 
+# omega prefactors
+normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 for Seppe
+omega_prefactor_bulk = 8.10e-9 / normalisation # value = 2.4e-15, value = 2e-15 for Seppe
+
 def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterpolator, tag: str) -> None:
     '''!
     @brief This routine calculates the majority of the GWB, what is referred to in my thesis as the 'generic case'.
@@ -71,7 +75,7 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterp
                     continue
                 
                 # calculate SFR at the time of formation
-                psi = sfh.representative_SFH(age, z_interp, Delta_t=time_since_ZAMS, SFH_num=model.SFH_num, max_z=model.max_z)
+                psi = sfh.representative_SFH(age, z_interp, Delta_t=time_since_ZAMS, SFH_num=model.SFH_num, max_z=model.max_z, SFH_type = model.SFH_type, metallicity = model.metallicity)
     
                 # binary specific contribution to the stored quantities
                 z_fac += psi*row.M_ch**(5/3)
@@ -88,14 +92,14 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterp
             z_contr[f"freq_{j}"][i] = Omega_cont
 
             # the contribution to the number of systems
-            pre_num = (4*np.pi / 4e6) * num_syst * (cosmo.comoving_distance(z).value ** 2)
+            pre_num = (4*np.pi / normalisation) * num_syst * (cosmo.comoving_distance(z).value ** 2)
             if model.INTEG_MODE == "redshift":
                 z_contr[f"freq_{j}_num"][i] = pre_num * model.z_widths[i]
             elif model.INTEG_MODE == "time":
                 z_contr[f"freq_{j}_num"][i] = pre_num * model.light_speed * (1+z) * model.dT
         
         # We store the value of Omega for this frequency bin
-        Omega_plot[j] = 2e-15 * Omega * model.f_bin_factors[j]
+        Omega_plot[j] = omega_prefactor_bulk * Omega * model.f_bin_factors[j]
         if model.INTEG_MODE == "time":
             Omega_plot[j] *= model.light_speed * model.dT
 
@@ -107,5 +111,5 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterp
 
     # Save GWB
     GWB = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWB.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}.txt", index = False)
-    z_contr.to_csv(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_{tag}.txt", index = False)
+    GWB.to_csv(f"../output/{model.pop_synth}/{model.alpha}/{model.metallicity}/{model.SFH_type}/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}.txt", index = False)
+    z_contr.to_csv(f"../output/{model.pop_synth}/{model.alpha}/{model.metallicity}/{model.SFH_type}/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_{tag}.txt", index = False)
