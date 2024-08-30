@@ -7,6 +7,7 @@
 
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
 from modules.physics import *
 from modules.auxiliary import tau_syst
@@ -26,9 +27,9 @@ def main() -> None:
     alpha = 'Alpha1'
 
     # which population file to use
-    data_file =       f"../data/{pop_synth}/{alpha}/{metallicity}/{metallicity}_t0aim1m1.dat.gz" # add _Seppe to run his data
+    data_file = Path(f"../data/{pop_synth}/{alpha}/{metallicity}/{metallicity}_t0aim1m1.dat.gz") # add _Seppe to run his data
     # where and how to save the data
-    save_filename =   f"../data/{pop_synth}/{alpha}/{metallicity}/Initials_{metallicity}.txt" #add _Seppe when running his data
+    save_filename = Path(f"../data/{pop_synth}/{alpha}/{metallicity}/Initials_{metallicity}.txt") #add _Seppe when running his data
 
 
     # --- Main code --- #

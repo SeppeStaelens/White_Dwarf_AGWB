@@ -11,6 +11,7 @@ The functions SFH_MD, SFH2, SFH3, and SFH4 are star formation histories that can
 import modules.RedshiftInterpolator as ri
 import pandas as pd
 from scipy.interpolate import interp1d 
+from pathlib import Path
 
 def representative_SFH(age: float, redshift_interpolator: ri.RedshiftInterpolator, Delta_t: float = 0., SFH_num: int = 1, max_z: float = 8., SFH_type: str = 'MZ19', metallicity: str = 'z02'):
     '''!
@@ -81,7 +82,7 @@ def Z_dep_SFH(z: float, SFH_type: str, metallicity:str):
     @param metallicity: metallicity range around z03, z02, z01, z005, z001, z0001
     @return SFRD: star formation rate density in solar mass / yr / Mpc^3
     '''
-    SFH_data = pd.read_csv(f"data/SFRD/{SFH_type}_SFRD_allbins.txt")
+    SFH_data = pd.read_csv(Path(f"../data/SFRD/{SFH_type}_SFRD_allbins.txt"))
     redshift1 = SFH_data['redshift'].tolist()
     # Number in square brackets corresponds to different metallicities
     if metallicity == 'z03':

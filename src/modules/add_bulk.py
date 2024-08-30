@@ -12,6 +12,7 @@ from modules.auxiliary import make_Omega_plot_unnorm, tau_syst
 import modules.SFH as sfh
 import modules.SimModel as sm
 import modules.RedshiftInterpolator as ri
+from pathlib import Path
 
 # omega prefactors
 normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 for Seppe
@@ -111,5 +112,5 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterp
 
     # Save GWB
     GWB = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWB.to_csv(f"../output/{model.pop_synth}/{model.alpha}/{model.metallicity}/{model.SFH_type}/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}.txt", index = False)
-    z_contr.to_csv(f"../output/{model.pop_synth}/{model.alpha}/{model.metallicity}/{model.SFH_type}/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_{tag}.txt", index = False)
+    GWB.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}.txt"), index = False)
+    z_contr.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_{tag}.txt"), index = False)

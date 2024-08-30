@@ -21,6 +21,7 @@ import pandas as pd
 from astropy import units as u
 import matplotlib.pyplot as plt
 from warnings import simplefilter
+from pathlib import Path
 
 # ignore pandas warning
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
@@ -63,19 +64,23 @@ def main():
     ## max_redshift            
     max_z = 8
     ## which SFH, 1 = Madau & Dickinson, 6 = Z dependant SFRD
-    SFH_num = 1
+    SFH_num = 6
+    ## log of lowest frequency
+    log_f_low = -5
+    ## log of highest frequency
+    log_f_high = 0
     ## which SFRD type, can be 'MZ19', 'LZ19', 'HZ19', 'LZ21', 'HZ21' or 'MD' (Madau & Dickinson)
     SFH_type = 'MZ19' 
     ## which population synthesis model, can be 'AlphaAlpha' or 'GammaAlpha'
-    pop_synth = 'AlphaAlpha'
+    pop_synth = 'GammaAlpha'
     ## which numerical value for alpha, can be 'Alpha1' or 'Alpha4'
-    alpha = 'Alpha1' 
+    alpha = 'Alpha4' 
     ## population file
-    population_file_name = f"../data/{model.pop_synth}/{model.alpha}/{model.metallicity}/Initials_{model.metallicity}.txt.gz" #add _Seppe before .txt.gz to run Seppe's data     
+    population_file_name = Path(f"../data/{pop_synth}/{alpha}/{metallicity}/Initials_{metallicity}.txt.gz") #add _Seppe before .txt.gz to run Seppe's data     
     ## redshift interpolator file
-    ri_file = "../data/z_at_age.txt"
+    ri_file = Path("../data/z_at_age.txt.gz") #data\z_at_age.txt.gz
     ## tag for filenames
-    tag = "example_z"       
+    tag = f"ga4_MZ19_{metallicity}_example_z"       
 
     # Integrate over "redshift" or (cosmic) "time"
     INTEGRATION_MODE = "redshift"
@@ -87,10 +92,10 @@ def main():
     TEST_FOR_ONE = False
 
     # ----- END SETTINGS ----- #
-
+    
     # create the simulation 
     z_interp = ri.RedshiftInterpolator(ri_file)
-    model = sm.SimModel(INTEGRATION_MODE, z_interp, N_freq, N_int, max_z, SFH_num, SFH_type, metallicity, pop_synth, alpha)
+    model = sm.SimModel(INTEGRATION_MODE, z_interp, N_freq, N_int, max_z, SFH_num, log_f_low, log_f_high, SFH_type, metallicity, pop_synth, alpha)
     model.set_mode(SAVE_FIG, DEBUG, TEST_FOR_ONE)
 
     # data. initial file with some added calculations
