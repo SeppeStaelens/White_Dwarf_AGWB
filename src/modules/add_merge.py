@@ -12,6 +12,7 @@ from modules.auxiliary import make_Omega_plot_unnorm, tau_syst, determine_upper_
 import modules.SFH as sfh
 import modules.SimModel as sm
 import modules.RedshiftInterpolator as ri
+from pathlib import Path
 
 # omega prefactors
 normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 for Seppe
@@ -30,7 +31,7 @@ def add_merge(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
    
     print("\nInitiating merger bin part of the code.\n")
 
-    previous_Omega = pd.read_csv(f"../output/{model.pop_synth}/{model.alpha}/{model.metallicity}/{model.SFH_type}/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{tag}.txt", sep = ",")
+    previous_Omega = pd.read_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{tag}.txt"), sep = ",")
     Omega_plot = previous_Omega.Om.values
 
     # Create dataframe to store results
@@ -166,5 +167,5 @@ def add_merge(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
 
     # Save GWB
     GWBnew = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWBnew.to_csv(f"../output/{model.pop_synth}/{model.alpha}/{model.metallicity}/{model.SFH_type}/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{tag}.txt", index = False)
-    z_contr.to_csv(f"../output/{model.pop_synth}/{model.alpha}/{model.metallicity}/{model.SFH_type}/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_merge_{tag}.txt", index = False)
+    GWBnew.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{tag}.txt"), index = False)
+    z_contr.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_merge_{tag}.txt"), index = False)
