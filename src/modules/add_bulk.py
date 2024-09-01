@@ -9,20 +9,17 @@ import numpy as np
 import pandas as pd
 from astropy.cosmology import Planck18 as cosmo
 from modules.auxiliary import make_Omega_plot_unnorm, tau_syst
-import modules.SFH as sfh
 import modules.SimModel as sm
-import modules.RedshiftInterpolator as ri
 from pathlib import Path
 
 # omega prefactors
 normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 for Seppe
 omega_prefactor_bulk = 8.10e-9 / normalisation # value = 2.4e-15, value = 2e-15 for Seppe
 
-def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterpolator, tag: str) -> None:
+def add_bulk(model: sm.SimModel, data: pd.DataFrame, tag: str) -> None:
     '''!
     @brief This routine calculates the majority of the GWB, what is referred to in my thesis as the 'generic case'.
     @param model: instance of SimModel, containing the necessary information for the run.
-    @param z_interp: instance of RedshiftInterpolator, used in the SFH calculations.
     @param data: dataframe containing the binary population data.
     @param tag: tag to add to the output files.
     @return Saves a dataframe that contains the GWB at all freqyencies, and a dataframe that has the breakdown for the different redshift bins.
@@ -76,7 +73,7 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterp
                     continue
                 
                 # calculate SFR at the time of formation
-                psi = sfh.representative_SFH(age, z_interp, Delta_t=time_since_ZAMS, SFH_num=model.SFH_num, max_z=model.max_z, SFH_type = model.SFH_type, metallicity = model.metallicity)
+                psi = model.sfr_interp.representative_SFH(age, Delta_t=time_since_ZAMS)
     
                 # binary specific contribution to the stored quantities
                 z_fac += psi*row.M_ch**(5/3)

@@ -9,9 +9,7 @@ import numpy as np
 import pandas as pd
 from astropy.cosmology import Planck18 as cosmo
 from modules.auxiliary import make_Omega_plot_unnorm, tau_syst, determine_upper_freq
-import modules.SFH as sfh
 import modules.SimModel as sm
-import modules.RedshiftInterpolator as ri
 from pathlib import Path
 
 # omega prefactors
@@ -19,11 +17,10 @@ normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 for Seppe
 omega_prefactor_bulk = 8.10e-9 / normalisation # value = 2.4e-15, value = 2e-15 for Seppe
 omega_prefactor_birth_merger = 1.28e-8 / normalisation # value = 3.75e-15 # value = 3.2e-15 for Seppe
 
-def add_birth(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterpolator, tag: str) -> None:
+def add_birth(model: sm.SimModel, data: pd.DataFrame, tag: str) -> None:
     '''!
     @brief This routine adds the contribution of the 'birth bins' to the bulk GWB.
     @param model: instance of SimModel, containing the necessary information for the run.
-    @param z_interp: instance of RedshiftInterpolator, used in the SFH calculations.
     @param data: dataframe containing the binary population data.
     @param tag: tag to add to the output files.
     @return Saves a dataframe that contains the GWB at all freqyencies, and a dataframe that has the breakdown for the different redshift bins.
@@ -76,7 +73,7 @@ def add_birth(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
 
             age = model.ages[i].value
             # calculate representative SFH at the time of formation
-            psi = sfh.representative_SFH(age, z_interp, Delta_t=row.t0, SFH_num=model.SFH_num, max_z=model.max_z, SFH_type = model.SFH_type, metallicity = model.metallicity)
+            psi = model.sfr_interp.representative_SFH(age, Delta_t=row.t0)
 
             # The time it would take the binary to evolve from nu_0 to the upper bin edge
             tau_to_bin_edge = tau_syst(2*row.nu0, upp_f_r*(1+z), row.K)
