@@ -9,9 +9,7 @@ import numpy as np
 import pandas as pd
 from astropy.cosmology import Planck18 as cosmo
 from modules.auxiliary import make_Omega_plot_unnorm, tau_syst, determine_upper_freq
-import modules.SFH as sfh
 import modules.SimModel as sm
-import modules.RedshiftInterpolator as ri
 from pathlib import Path
 
 # omega prefactors
@@ -19,11 +17,10 @@ normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 for Seppe
 omega_prefactor_bulk = 8.10e-9 / normalisation # value = 2.4e-15, value = 2e-15 for Seppe
 omega_prefactor_birth_merger = 1.28e-8 / normalisation # value = 3.75e-15 # value = 3.2e-15 for Seppe
 
-def add_merge(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInterpolator, tag: str) -> None:
+def add_merge(model: sm.SimModel, data: pd.DataFrame, tag: str) -> None:
     '''!
     @brief This routine adds the contribution of the 'merger bins' due to Kepler max to the bulk+birth GWB.
     @param model: instance of SimModel, containing the necessary information for the run.
-    @param z_interp: instance of RedshiftInterpolator, used in the SFH calculations.
     @param data: dataframe containing the binary population data.
     @param tag: tag to add to the output files.
     @return Saves a dataframe that contains the GWB at all freqyencies, and a dataframe that has the breakdown for the different redshift bins.
@@ -92,7 +89,7 @@ def add_merge(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
                         print("Reached merger.")
 
                     # calculate representative SFH at the time of formation
-                    psi = sfh.representative_SFH(model.ages[i].value, z_interp, Delta_t=tau, SFH_num=model.SFH_num, max_z=model.max_z, SFH_type = model.SFH_type, metallicity = model.metallicity)
+                    psi = model.sfr_interp.representative_SFH(model.ages[i].value, Delta_t=tau)
 
                     # contributions
                     freq_fac = (row.nu_max**(2/3) - (low_f_r*(1+z)/2)**(2/3))/(upp_f_r - low_f_r)
@@ -134,7 +131,7 @@ def add_merge(model: sm.SimModel, data: pd.DataFrame, z_interp: ri.RedshiftInter
 
                 freq_fac = (nu_max_b**(2/3) - (low_f_r*(1+z)/2)**(2/3))/(upp_f_r - low_f_r)
                 tau = tau_syst(2*row.nu0, low_f_r*(1+z), row.K)
-                psi = sfh.representative_SFH(model.ages[i].value, z_interp, Delta_t=tau, SFH_num=model.SFH_num, max_z=model.max_z, SFH_type = model.SFH_type, metallicity = model.metallicity)
+                psi = model.sfr_interp.representative_SFH(model.ages[i].value, Delta_t=tau)
 
                 num_syst = psi * (evolve_time - tau) * 10**6 # tau is given in Myr, psi in ... /yr
 

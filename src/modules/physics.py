@@ -6,7 +6,6 @@
 """
 
 import numpy as np
-import pandas as pd
 from astropy import constants as cst
 
 def chirp(m1: float, m2: float) -> float:

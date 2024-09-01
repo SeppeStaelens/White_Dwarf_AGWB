@@ -63,14 +63,16 @@ def main():
     N_int = 20
     ## max_redshift            
     max_z = 8
-    ## which SFH, 1 = Madau & Dickinson, 6 = Z dependant SFRD
+    ## which SFH, 1 = Madau & Dickinson, 6 = Z dependent SFRD
     SFH_num = 6
     ## log of lowest frequency
     log_f_low = -5
     ## log of highest frequency
     log_f_high = 0
-    ## which SFRD type, can be 'MZ19', 'LZ19', 'HZ19', 'LZ21', 'HZ21' or 'MD' (Madau & Dickinson)
+    ## which SFRD type, can be 'MZ19', 'LZ19', 'HZ19', 'LZ21', 'HZ21' or 'MD' (Madau & Dickinson). Only used in case SFH_num = 6
     SFH_type = 'MZ19' 
+    ## which metallicity, can be 'z0001', 'z001', 'z005', 'z01', 'z02' or 'z03'. Only used in case SFH_num = 6
+    metallicity = 'z02'
     ## which population synthesis model, can be 'AlphaAlpha' or 'GammaAlpha'
     pop_synth = 'GammaAlpha'
     ## which numerical value for alpha, can be 'Alpha1' or 'Alpha4'
@@ -78,9 +80,9 @@ def main():
     ## population file
     population_file_name = Path(f"../data/{pop_synth}/{alpha}/{metallicity}/Initials_{metallicity}.txt.gz") #add _Seppe before .txt.gz to run Seppe's data     
     ## redshift interpolator file
-    ri_file = Path("../data/z_at_age.txt.gz") #data\z_at_age.txt.gz
+    ri_file = Path("../data/z_at_age.txt.gz")
     ## tag for filenames
-    tag = f"ga4_MZ19_{metallicity}_example_z"       
+    tag = f"ga4_MZ19_{metallicity}_example_z_TEST"       
 
     # Integrate over "redshift" or (cosmic) "time"
     INTEGRATION_MODE = "redshift"
@@ -94,9 +96,11 @@ def main():
     # ----- END SETTINGS ----- #
     
     # create the simulation 
-    z_interp = ri.RedshiftInterpolator(ri_file)
-    model = sm.SimModel(INTEGRATION_MODE, z_interp, N_freq, N_int, max_z, SFH_num, log_f_low, log_f_high, SFH_type, metallicity, pop_synth, alpha)
+    model = sm.SimModel(INTEGRATION_MODE, N_freq, N_int, max_z, SFH_num, log_f_low, log_f_high, SFH_type, metallicity, pop_synth, alpha)
     model.set_mode(SAVE_FIG, DEBUG, TEST_FOR_ONE)
+    model.set_redshift_interpolator(ri_file)
+    model.calculate_int_bins_and_cosmology()
+    model.set_sfr_interpolator()
 
     # data. initial file with some added calculations
     population = pd.read_csv(population_file_name, sep = ",")
@@ -105,7 +109,7 @@ def main():
     initial_check = population[population["nu0"] < 5e-6]
     can_not_be_seen = (aux.tau_syst(2*initial_check["nu0"], 1e-5, initial_check["K"]) > 13000)
     relevant_population = population.drop(initial_check[can_not_be_seen].index)
-    print(f"Out of {len(initial_check)} binaries below 1e-5 Hz, only {len(initial_check) - np.sum(can_not_be_seen)} enters our window.")
+    print(f"Out of {len(initial_check)} binaries below 1e-5 Hz, only {len(initial_check) - np.sum(can_not_be_seen)} enter(s) our window.")
     print(f"Dataset reduced from {len(population)} rows to {len(relevant_population)} rows.")
 
     relevant_population.reset_index(drop=True, inplace=True)
@@ -115,15 +119,12 @@ def main():
         print(population.iloc[0])
 
     # ----- main part of the program ----- #
-    add_bulk(model, relevant_population, z_interp, tag)
-    add_birth(model, relevant_population, z_interp, tag)
-    add_merge(model, relevant_population, z_interp, tag)
+    add_bulk(model, relevant_population, tag)
+    add_birth(model, relevant_population, tag)
+    add_merge(model, relevant_population, tag)
 
     # total run time
     duration = time.time() - start_time
     print(f"--- duration: {duration//60:.0f} minutes {duration%60:.0f} seconds ---")
 
-metallicities = ['z0001', 'z001', 'z005', 'z01', 'z02', 'z03']
-for m in range(len(metallicities)):
-    metallicity = metallicities [m]
-    main()
+main()
