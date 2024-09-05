@@ -7,6 +7,7 @@
 
 import numpy as np
 import pandas as pd
+import pathlib as pl
 
 from modules.physics import *
 from modules.auxiliary import tau_syst
@@ -28,7 +29,7 @@ def main() -> None:
     # --- Main code --- #
 
     # Load data
-    population = pd.read_csv(data_file, names = ["t0", "a", "m1", "m2"], sep = "/s+", engine='python')
+    population = pd.read_csv(data_file, names = ["t0", "a", "m1", "m2"], sep = " ", engine='python')
 
     # Calculate the initial orbital frequency from a_i, based on Kepler's law. 
     # The GW frequency is twice the orbital frequency.
