@@ -16,6 +16,7 @@ class SFRInterpolator:
     """!
     This class is used to quickly determine the SFR at a given age of the Universe.
     """
+
     def __init__(self, redshift_interpolator: ri.RedshiftInterpolator, SFH_num: int = 1, SFH_type: str = 'MZ19', metallicity: str = 'z02', max_z: float = 8.,) -> None:
         """!
         Initializes the SFRInterpolator object.
@@ -30,19 +31,19 @@ class SFRInterpolator:
         self.max_z = max_z
 
         if SFH_num == 1:
-            def SFR(z: float) -> float:
+            def SFRimpl(z: float) -> float:
                 return sfh.SFH_MD(z)
         elif SFH_num == 2:
-            def SFR(z: float) -> float:
+            def SFRimpl(z: float) -> float:
                 return sfh.SFH2(z)
         elif SFH_num == 3:
-            def SFR(z: float) -> float:
+            def SFRimpl(z: float) -> float:
                 return sfh.SFH3(z)
         elif SFH_num == 4:
-            def SFR(z: float) -> float:
+            def SFRimpl(z: float) -> float:
                 return sfh.SFH4(z)
         elif SFH_num == 5:
-            def SFR(z: float) -> float:
+            def SFRimpl(z: float) -> float:
                 return 0.01
             
         elif SFH_num == 6:
@@ -65,12 +66,22 @@ class SFRInterpolator:
             else:
                 raise ValueError("Invalid metallicity value. Choose from 'z03', 'z02', 'z01', 'z005', 'z001' or 'z0001'.")
             
-            def SFR(z: float) -> float:
+            def SFRimpl(z: float) -> float:
                 return interp(z, self.interp_z, self.interp_SFR)
         
         else:
             raise ValueError("Invalid SFH_num value. Choose from 1, 2, 3, 4, 5 or 6.")
-            
+    
+        self.SFR = SFRimpl
+
+    def SFR(self, z: float) -> float:
+        '''!
+        @brief Determines the star formation rate at a given redshift.
+        @param z: redshift.
+        @return SFR: star formation rate. Units: solar mass / yr / Mpc^3.
+        '''
+        print("This is a placeholder function.")
+
     def representative_SFH(self, age: float, Delta_t: float = 0.) -> float:
         '''!
         @brief Determines an appropriate value for the star formation rate at a given age.
