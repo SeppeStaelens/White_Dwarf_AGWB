@@ -7,6 +7,7 @@
 
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
 from modules.physics import *
 from modules.auxiliary import tau_syst
@@ -17,12 +18,23 @@ def main() -> None:
     """
 
     # --- Settings --- #
-    SAVE_FILE = False                   # save the resulting file or not
+
+    # save the resulting file or not
+    SAVE_FILE = False                  
+
+    # metallicity, can be 'z02', 'z01', 'z005', 'z001', 'z0001' or 'z00001'
+    metallicity = 'z02'
+
+    # population model, can be 'AlphaAlpha' or 'GammaAlpha'
+    pop_synth = 'AlphaAlpha'
+
+    # alpha, can be 'Alpha1' or 'Alpha4'
+    alpha = 'Alpha1'
 
     # which population file to use
-    data_file =       "../data/AlphaAlpha/Alpha4/z02/z02_t0aim1m1_Seppe.dat"
+    data_file = Path(f"../data/{pop_synth}/{alpha}/{metallicity}/{metallicity}_t0aim1m1.dat.gz") # add _Seppe before .dat.gz to run his data
     # where and how to save the data
-    save_filename =   "../data/AlphaAlpha/Alpha4/z02/Initials_z02_Seppe.txt"
+    save_filename = Path(f"../data/{pop_synth}/{alpha}/{metallicity}/Initials_{metallicity}.txt") #add _Seppe before .dat.gz when running his data
 
 
     # --- Main code --- #
