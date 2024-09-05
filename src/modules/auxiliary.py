@@ -9,6 +9,7 @@ import numpy as np
 from astropy.cosmology import Planck18 as cosmo
 import matplotlib.pyplot as plt
 from astropy import units as u
+from pathlib import Path
 
 global s_in_Myr 
 s_in_Myr = (u.Myr).to(u.s)
@@ -92,7 +93,7 @@ def make_Omega_plot_unnorm(f: np.array, Omega_sim: np.array, save: bool = False,
     ax.set_xlim(-6, 0)
     if save:
         plt.tight_layout()
-        fig.savefig("../output/Figures/" + save_name + ".png")
+        fig.savefig(Path("../output/Figures/" + save_name + ".png"))
     if show:
         plt.show()
 

@@ -11,6 +11,7 @@ from astropy import units as u
 from astropy.cosmology import Planck18 as cosmo
 from astropy.cosmology import z_at_value
 import os
+from pathlib import Path
 
 print("Current dir: " + os.getcwd())
 
@@ -31,7 +32,7 @@ def main() -> None:
     z_vals = np.array(z_at_value(cosmo.age, ages * u.Myr).value)
 
     data = pd.DataFrame({"Age (Myr)" : ages, "Redshift" : z_vals})
-    data.to_csv("../data/z_at_age.txt", index=False)
+    data.to_csv(Path("../data/z_at_age.txt"), index=False)
 
 main()
 

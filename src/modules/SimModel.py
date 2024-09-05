@@ -11,6 +11,7 @@ import numpy as np
 import astropy.units as u
 from  modules.auxiliary import get_bin_factors, get_width_z_shell_from_z
 import modules.RedshiftInterpolator as ri
+import modules.SFRInterpolator as sfri
 
 class SimModel:
     """
@@ -20,34 +21,66 @@ class SimModel:
     ## The speed of light in units of Mpc/Myr
     light_speed = 0.30660139        
 
-    def __init__(self, INTEG_MODE: str, z_interp: int, N_freq: int = 50, N_int: int = 20, max_z: float = 8, SFH_num: int = 1, log_f_low: float = -5, log_f_high: float = 0) -> None:
+    def __init__(self, INTEG_MODE: str, N_freq: int = 50, N_int: int = 20, max_z: float = 8, SFH_num: int = 1, log_f_low: float = -5, log_f_high: float = 0, SFH_type:str = 'MZ19', metallicity:str = 'z02', pop_synth: str = 'AlphaAlpha', alpha: str = 'Alpha1') -> None:
         '''!
         Initializes the SimModel object.
+        @param INTEG_MODE: whether to integrate over redshift or time.
         @param N_freq: number of frequency bins.
         @param N_int: number of integration bins (z or T).
         @param max_z: maximum redshift.
-        @param SFH_num: which star formation history to select. 1: Madau & Dickinson 2014, 2-4: made up, 5: constant 0.01.
+        @param SFH_num: which star formation history to select. 1: Madau & Dickinson 2014, 2-4: made up, 5: constant 0.01, 6: alternatives Sophie.
         @param log_f_low: lower bound of the frequency bins in log10 space.
         @param log_f_high: upper bound of the frequency bins in log10 space.
+        @param SFH_type: type of SFH/SFRD (LZ19, MZ19, HZ19, LZ21, HZ21. Only used in case SFH_num = 6.
+        @param metallicity: metallicity range around z0001 (z = 0.0001), z001 (z = 0.001), z005 (z = 0.005), z01 (z = 0.01), z02 (z = 0.02) or z03 (z = 0.03). Only used in case SFH_num = 6.
+        @param pop_synth: population synthesis model, can be AlphaAlpha or GammaAlpha.
+        @param alpha: value for alpha, can be Alpha1 (alpha = 1) or Alpha4 (alpha = 4).
         @return instance of SimModel, with frequency and redshift bins calculated, and cosmology set.
         '''
         self.N_freq = N_freq
         self.N_int = N_int
         self.max_z = max_z
         self.SFH_num = SFH_num
+        if SFH_num != 6:
+            print("SFH_num is not 6, so SFH_type and metallicity are ignored.")
+
         assert log_f_low < log_f_high, "log_f_low should be smaller than log_f_high"
         self.log_f_low = log_f_low
         self.log_f_high = log_f_high
+        self.SFH_type = SFH_type
+        self.metallicity = metallicity
+        self.pop_synth = pop_synth
+        self.alpha = alpha
 
         self.calculate_f_bins()
         self.INTEG_MODE = INTEG_MODE
 
-        if INTEG_MODE == "redshift":
+    def set_redshift_interpolator(self, ri_file: str) -> None:
+        '''!
+        Sets the redshift interpolator.
+        @param ri_file: file containing the redshift interpolator.
+        '''
+        self.z_interp = ri.RedshiftInterpolator(ri_file)
+
+    def set_sfr_interpolator(self) -> None:
+        '''!
+        Sets the star formation rate interpolator.
+        '''
+        self.sfr_interp = sfri.SFRInterpolator(self.z_interp, self.SFH_num, self.SFH_type, self.metallicity, self.max_z)
+
+    def calculate_int_bins_and_cosmology(self) -> None:
+        '''!
+        Calculates the integration bins and the cosmology.
+        Needs to be called after setting the redshift interpolator in the model.
+        '''
+        if self.INTEG_MODE == "redshift":
             self.calculate_z_bins()
             self.calculate_cosmology_from_z()
-        elif INTEG_MODE == "time":
+        elif self.INTEG_MODE == "time":
             self.calculate_T_bins()
-            self.calculate_cosmology_from_T(z_interpolator=z_interp)
+            if not hasattr(self, 'z_interp'):
+                raise ValueError("Redshift interpolator not set.")
+            self.calculate_cosmology_from_T(self.z_interp)
 
     def calculate_f_bins(self) -> None:
         '''!
