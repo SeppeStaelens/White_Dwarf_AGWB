@@ -71,8 +71,6 @@ def main():
     log_f_high = 0
     ## which SFRD type, can be 'MZ19', 'LZ19', 'HZ19', 'LZ21', 'HZ21' or 'MD' (Madau & Dickinson). Only used in case SFH_num = 6
     SFH_type = 'MZ19' 
-    ## which metallicity, can be 'z0001', 'z001', 'z005', 'z01', 'z02' or 'z03'. Only used in case SFH_num = 6
-    metallicity = 'z02'
     ## which population synthesis model, can be 'AlphaAlpha' or 'GammaAlpha'
     pop_synth = 'GammaAlpha'
     ## which numerical value for alpha, can be 'Alpha1' or 'Alpha4'
@@ -127,4 +125,7 @@ def main():
     duration = time.time() - start_time
     print(f"--- duration: {duration//60:.0f} minutes {duration%60:.0f} seconds ---")
 
-main()
+metallicities = ['z0001', 'z001', 'z005', 'z01', 'z02', 'z03']
+for m in range(len(metallicities)):
+    metallicity = metallicities [m]
+    main()
