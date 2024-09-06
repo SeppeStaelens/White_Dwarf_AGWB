@@ -47,7 +47,7 @@ class SFRInterpolator:
                 return 0.01
             
         elif SFH_num == 6:
-            SFR_at_val_data = pd.read_csv(Path(f"../data/SFRD/{SFH_type}_SFRD_allbins.txt"))
+            SFR_at_val_data = pd.read_csv(Path(f"../data/SFRD/{SFH_type}_SFRD_allbins.txt.gz"))
             self.interp_z = SFR_at_val_data.redshift.values
 
             # Number in square brackets corresponds to different metallicities
