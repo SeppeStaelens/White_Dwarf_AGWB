@@ -54,48 +54,10 @@ def main():
 
     ## Start time of the program
     start_time = time.time()
-
-    # ----- SETTINGS ----- #
-
-    ## number of frequency bins
-    N_freq = 50
-    ## number of integration bins (z or T)              
-    N_int = 20
-    ## max_redshift            
-    max_z = 8
-    ## which SFH, 1 = Madau & Dickinson, 6 = Z dependent SFRD
-    SFH_num = 6
-    ## log of lowest frequency
-    log_f_low = -5
-    ## log of highest frequency
-    log_f_high = 0
-    ## which SFRD type, can be 'MZ19', 'LZ19', 'HZ19', 'LZ21', 'HZ21' or 'MD' (Madau & Dickinson). Only used in case SFH_num = 6
-    SFH_type = 'MZ19' 
-    ## which population synthesis model, can be 'AlphaAlpha' or 'GammaAlpha'
-    pop_synth = 'GammaAlpha'
-    ## which numerical value for alpha, can be 'Alpha1' or 'Alpha4'
-    alpha = 'Alpha4' 
-    ## population file
-    population_file_name = Path(f"../data/{pop_synth}/{alpha}/{metallicity}/Initials_{metallicity}.txt.gz") #add _Seppe before .txt.gz to run Seppe's data     
-    ## redshift interpolator file
-    ri_file = Path("../data/z_at_age.txt.gz")
-    ## tag for filenames
-    tag = f"ga4_MZ19_{metallicity}_example_z_TEST"       
-
-    # Integrate over "redshift" or (cosmic) "time"
-    INTEGRATION_MODE = "redshift"
-    # Run script with(out) saving figures
-    SAVE_FIG = False
-    # Run script with(out) more output
-    DEBUG = False
-    # Run script for only one system if True
-    TEST_FOR_ONE = False
-
-    # ----- END SETTINGS ----- #
     
     # create the simulation 
-    model = sm.SimModel(INTEGRATION_MODE, N_freq, N_int, max_z, SFH_num, log_f_low, log_f_high, SFH_type, metallicity, pop_synth, alpha)
-    model.set_mode(SAVE_FIG, DEBUG, TEST_FOR_ONE)
+    model = sm.SimModel()
+    model.read_params()
     model.set_redshift_interpolator(ri_file)
     model.calculate_int_bins_and_cosmology()
     model.set_sfr_interpolator()
