@@ -17,19 +17,18 @@ normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 for Seppe
 omega_prefactor_bulk = 8.10e-9 / normalisation # value = 2.4e-15, value = 2e-15 for Seppe
 omega_prefactor_birth_merger = 1.28e-8 / normalisation # value = 3.75e-15 # value = 3.2e-15 for Seppe
 
-def add_birth(model: sm.SimModel, data: pd.DataFrame, tag: str) -> None:
+def add_birth(model: sm.SimModel, data: pd.DataFrame) -> None:
     '''!
     @brief This routine adds the contribution of the 'birth bins' to the bulk GWB.
     @param model: instance of SimModel, containing the necessary information for the run.
     @param data: dataframe containing the binary population data.
-    @param tag: tag to add to the output files.
     @return Saves a dataframe that contains the GWB at all freqyencies, and a dataframe that has the breakdown for the different redshift bins.
     '''
    
     print("\nInitating birth bin part of the code.\n")
     
     # read the bulk part of the GWB
-    previous_Omega = pd.read_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{tag}.txt"), sep = ",")
+    previous_Omega = pd.read_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{model.tag}.txt"), sep = ",")
     Omega_plot = previous_Omega.Om.values
 
     # Create dataframe to store results
@@ -110,10 +109,10 @@ def add_birth(model: sm.SimModel, data: pd.DataFrame, tag: str) -> None:
 
     # Plots
     if model.SAVE_FIG:
-        make_Omega_plot_unnorm(model.f_plot, Omega_plot, model.SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{tag}")
+        make_Omega_plot_unnorm(model.f_plot, Omega_plot, model.SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{model.tag}")
 
     # Save GWB
     GWBnew = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWBnew.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{tag}.txt"), index = False)
-    z_contr.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_birth_{tag}.txt"), index = False)
+    GWBnew.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{model.tag}.txt"), index = False)
+    z_contr.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_birth_{model.tag}.txt"), index = False)
 

@@ -10,6 +10,7 @@ from astropy.cosmology import Planck18 as cosmo
 import matplotlib.pyplot as plt
 from astropy import units as u
 from pathlib import Path
+import pandas as pd
 
 global s_in_Myr 
 s_in_Myr = (u.Myr).to(u.s)
@@ -122,3 +123,19 @@ def determine_upper_freq(nu_low: float, evolve_time: float, K: float, DEBUG: boo
     if DEBUG:
         assert nu_upp > nu_low
     return nu_upp
+
+def drop_redundant_binaries(population: pd.DataFrame, log_f_low: float, T0: float) -> pd.DataFrame:
+    '''!
+    Drop the binaries in the population that never make it to the lower limit of the considered frequency range.
+    @param population: dataframe with binaries of which some are potentially irrelevant
+    @return dataframe where irrelevant binaries have been removed.
+    '''
+    to_check = population[population["nu0"] < 10**log_f_low / 2]
+    can_not_be_seen = (tau_syst(2*to_check["nu0"], 10**log_f_low, to_check["K"]) > T0.value)
+    relevant_population = population.drop(to_check[can_not_be_seen].index)
+    print(f"Out of {len(to_check)} binaries below 1e-5 Hz, only {len(to_check) - np.sum(can_not_be_seen)} enter(s) our window.")
+    print(f"Dataset reduced from {len(population)} rows to {len(relevant_population)} rows.")
+
+    relevant_population.reset_index(drop=True, inplace=True)
+
+    return relevant_population

@@ -18,10 +18,8 @@ if os.getcwd().split("/")[-1] != "src":
 import time
 import numpy as np
 import pandas as pd
-from astropy import units as u
 import matplotlib.pyplot as plt
 from warnings import simplefilter
-from pathlib import Path
 
 # ignore pandas warning
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
@@ -29,7 +27,6 @@ simplefilter(action="ignore", category=FutureWarning)
 
 import modules.auxiliary as aux
 import modules.SimModel as sm
-import modules.RedshiftInterpolator as ri
 from modules.add_bulk import add_bulk
 from modules.add_birth import add_birth
 from modules.add_merge import add_merge
@@ -43,9 +40,6 @@ plt.rc('ytick',  labelsize=14)     # fontsize of the tick labels
 plt.rc('legend', fontsize=18)      # legend fontsize
 plt.rc('figure', titlesize=18)     # fontsize of the figure title
 
-global s_in_Myr 
-s_in_Myr = (u.Myr).to(u.s)
-
 def main():
     '''!
     @brief Main function.
@@ -54,34 +48,24 @@ def main():
 
     ## Start time of the program
     start_time = time.time()
-    
-    # create the simulation 
-    model = sm.SimModel()
-    model.read_params()
-    model.set_redshift_interpolator(ri_file)
-    model.calculate_int_bins_and_cosmology()
-    model.set_sfr_interpolator()
 
-    # data. initial file with some added calculations
-    population = pd.read_csv(population_file_name, sep = ",")
+    # create the simulation from the parameter file
+    model = sm.SimModel(input_file = sys.argv[1])
+
+    # population data
+    population = pd.read_csv(model.population_file_name, sep = ",")
 
     # Some binaries will never make it to our frequency window within a Hubble time
-    initial_check = population[population["nu0"] < 5e-6]
-    can_not_be_seen = (aux.tau_syst(2*initial_check["nu0"], 1e-5, initial_check["K"]) > 13000)
-    relevant_population = population.drop(initial_check[can_not_be_seen].index)
-    print(f"Out of {len(initial_check)} binaries below 1e-5 Hz, only {len(initial_check) - np.sum(can_not_be_seen)} enter(s) our window.")
-    print(f"Dataset reduced from {len(population)} rows to {len(relevant_population)} rows.")
+    relevant_population = aux.drop_redundant_binaries(population, model.log_f_low, model.T0)
 
-    relevant_population.reset_index(drop=True, inplace=True)
-
-    if TEST_FOR_ONE:
+    if model.TEST_FOR_ONE:
         # info on the first row of data
-        print(population.iloc[0])
+        print(relevant_population.iloc[0])
 
     # ----- main part of the program ----- #
-    add_bulk(model, relevant_population, tag)
-    add_birth(model, relevant_population, tag)
-    add_merge(model, relevant_population, tag)
+    add_bulk(model, relevant_population)
+    add_birth(model, relevant_population)
+    add_merge(model, relevant_population)
 
     # total run time
     duration = time.time() - start_time
