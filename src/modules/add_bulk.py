@@ -12,10 +12,6 @@ from modules.auxiliary import make_Omega_plot_unnorm, tau_syst
 import modules.SimModel as sm
 from pathlib import Path
 
-# omega prefactors
-normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 for Seppe
-omega_prefactor_bulk = 8.10e-9 / normalisation # value = 2.4e-15, value = 2e-15 for Seppe
-
 def add_bulk(model: sm.SimModel, data: pd.DataFrame) -> None:
     '''!
     @brief This routine calculates the majority of the GWB, what is referred to in my thesis as the 'generic case'.
@@ -89,14 +85,14 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame) -> None:
             z_contr[f"freq_{j}"][i] = Omega_cont
 
             # the contribution to the number of systems
-            pre_num = (4*np.pi / normalisation) * num_syst * (cosmo.comoving_distance(z).value ** 2)
+            pre_num = (4*np.pi / model.normalisation) * num_syst * (cosmo.comoving_distance(z).value ** 2)
             if model.INTEG_MODE == "redshift":
                 z_contr[f"freq_{j}_num"][i] = pre_num * model.z_widths[i]
             elif model.INTEG_MODE == "time":
                 z_contr[f"freq_{j}_num"][i] = pre_num * model.light_speed * (1+z) * model.dT
         
         # We store the value of Omega for this frequency bin
-        Omega_plot[j] = omega_prefactor_bulk * Omega * model.f_bin_factors[j]
+        Omega_plot[j] = model.omega_prefactor_bulk * Omega * model.f_bin_factors[j]
         if model.INTEG_MODE == "time":
             Omega_plot[j] *= model.light_speed * model.dT
 

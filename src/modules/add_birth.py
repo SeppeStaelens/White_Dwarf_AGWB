@@ -12,11 +12,6 @@ from modules.auxiliary import make_Omega_plot_unnorm, tau_syst, determine_upper_
 import modules.SimModel as sm
 from pathlib import Path
 
-# omega prefactors
-normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 for Seppe
-omega_prefactor_bulk = 8.10e-9 / normalisation # value = 2.4e-15, value = 2e-15 for Seppe
-omega_prefactor_birth_merger = 1.28e-8 / normalisation # value = 3.75e-15 # value = 3.2e-15 for Seppe
-
 def add_birth(model: sm.SimModel, data: pd.DataFrame) -> None:
     '''!
     @brief This routine adds the contribution of the 'birth bins' to the bulk GWB.
@@ -91,19 +86,19 @@ def add_birth(model: sm.SimModel, data: pd.DataFrame) -> None:
             # contributions
             Omega_cont = model.f_plot[bin_index] * row.M_ch**(5/3) * freq_fac * (1+z)**(-1) * psi
             if model.INTEG_MODE == "redshift":
-                Omega_cont *=  omega_prefactor_birth_merger * (1+z)**(-1) * model.z_widths[i]
+                Omega_cont *=  model.omega_prefactor_birth_merger * (1+z)**(-1) * model.z_widths[i]
             
             num_syst = psi * tau_in_bin * 10**6 # tau is given in Myr, psi in ... /yr
 
             if model.INTEG_MODE == "redshift":
-                z_contr[f"freq_{bin_index}"][i] += Omega_cont / (omega_prefactor_bulk * model.f_bin_factors[bin_index]) # The denominator is to keep the relative size wrt the bulk
-                z_contr[f"freq_{bin_index}_num"][i] += (4*np.pi / normalisation) * num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
+                z_contr[f"freq_{bin_index}"][i] += Omega_cont / (model.omega_prefactor_bulk * model.f_bin_factors[bin_index]) # The denominator is to keep the relative size wrt the bulk
+                z_contr[f"freq_{bin_index}_num"][i] += (4*np.pi / model.normalisation) * num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
             elif model.INTEG_MODE == "time":
                 z_contr[f"freq_{bin_index}"][i] += Omega_cont / model.f_bin_factors[bin_index] # The denominator is to keep the relative size wrt the bulk
-                z_contr[f"freq_{bin_index}_num"][i] += (4*np.pi / normalisation) * num_syst * (cosmo.comoving_distance(z).value ** 2) * model.light_speed * (1+z) * model.dT
+                z_contr[f"freq_{bin_index}_num"][i] += (4*np.pi / model.normalisation) * num_syst * (cosmo.comoving_distance(z).value ** 2) * model.light_speed * (1+z) * model.dT
             
             if model.INTEG_MODE == "time":
-                Omega_cont *= model.light_speed * omega_prefactor_birth_merger * model.dT
+                Omega_cont *= model.light_speed * model.omega_prefactor_birth_merger * model.dT
 
             Omega_plot[bin_index] += Omega_cont
 

@@ -7,16 +7,19 @@
 
 # -------- INITIALS -------- #
 import sys
-# sys.path.append("src/modules")
 import os
+
+param_file = sys.argv[1]
 
 # change directory to src
 if os.getcwd().split("/")[-1] != "src":
-    print("Changing directory to src")
+    print("Changing directory to src.")
     os.chdir("src")
+    param_file = "../" + param_file
+    print(f"Changed parameter file path to {param_file}")
 
+import configparser as cfg
 import time
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from warnings import simplefilter
@@ -40,17 +43,14 @@ plt.rc('ytick',  labelsize=14)     # fontsize of the tick labels
 plt.rc('legend', fontsize=18)      # legend fontsize
 plt.rc('figure', titlesize=18)     # fontsize of the figure title
 
-def main():
+def simulate(metallicity: str) -> None:
     '''!
-    @brief Main function.
+    @brief Main simulation function.
     @details The main functions sets the details of the simulation and runs the three main parts of the program.
+    @param metallicity: metallicity of the simulation.
     '''
-
-    ## Start time of the program
-    start_time = time.time()
-
     # create the simulation from the parameter file
-    model = sm.SimModel(input_file = sys.argv[1])
+    model = sm.SimModel(input_file = param_file, metallicity = metallicity)
 
     # population data
     population = pd.read_csv(model.population_file_name, sep = ",")
@@ -67,11 +67,28 @@ def main():
     add_birth(model, relevant_population)
     add_merge(model, relevant_population)
 
+def main() -> None:
+    '''!
+    @brief Main function.
+    @details The main function checks whether the metallicity is looped over and runs the simulation.
+    '''
+    ## Start time of the program
+    start_time = time.time()
+
+    cp = cfg.ConfigParser()
+    cp.read(param_file)
+    loop = cp.getboolean('physics', 'loop_over_metallicity', fallback=False)
+    if loop:
+        metallicities = ['z0001', 'z001', 'z005', 'z01', 'z02', 'z03']
+        for i, metallicity in enumerate(metallicities):
+            print("--- Running metallicity " + metallicity + f", which is run {i+1}/{len(metallicities)} ---")
+            simulate(metallicity=metallicity)
+    else:
+        metallicity = cp.get('physics', 'metallicity', fallback='z02')
+        simulate(metallicity=metallicity)
+    
     # total run time
     duration = time.time() - start_time
-    print(f"--- duration: {duration//60:.0f} minutes {duration%60:.0f} seconds ---")
+    print(f"--- total duration: {duration//60:.0f} minutes {duration%60:.0f} seconds ---")
 
-metallicities = ['z0001', 'z001', 'z005', 'z01', 'z02', 'z03']
-for m in range(len(metallicities)):
-    metallicity = metallicities [m]
-    main()
+main()
