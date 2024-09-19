@@ -7,12 +7,13 @@
 """
 
 from astropy.cosmology import Planck18 as cosmo
-import numpy as np
 import astropy.units as u
+import configparser as cfg
 from  modules.auxiliary import get_bin_factors, get_width_z_shell_from_z
 import modules.RedshiftInterpolator as ri
 import modules.SFRInterpolator as sfri
-import configparser as cfg
+import numpy as np
+from pathlib import Path
 
 class SimModel:
     """
@@ -120,7 +121,8 @@ class SimModel:
         if config.getboolean('files', 'use_data_Seppe', fallback=False):
             self.population_file_name += "_Seppe"
         self.population_file_name += ".txt.gz"
-        self.ri_file = "../data/" + config.get('files', 'ri_file', fallback="z_at_age.txt")
+        self.population_file_name = Path(self.population_file_name)
+        self.ri_file = Path("../data/" + config.get('files', 'ri_file', fallback="z_at_age.txt"))
 
         self.tag = config.get('settings', 'tag', fallback="")
         self.INTEG_MODE = config.get('settings', 'integration_mode', fallback="redshift")
