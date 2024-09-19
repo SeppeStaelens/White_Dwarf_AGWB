@@ -18,9 +18,6 @@ class SimModel:
     """
     ! This class contains information about the run that needs to be shared over the different subroutines.
     """
-  
-    ## The speed of light in units of Mpc/Myr
-    light_speed = 0.30660139 
 
     ## lower bound of the frequency bins in log10 space.
     log_f_low: float
@@ -64,15 +61,22 @@ class SimModel:
     ## Star Formation Rate interpolator to determine the SFR at a given redshift
     sfr_interp: sfri.SFRInterpolator
 
+    ## The speed of light in units of Mpc/Myr
+    light_speed = 0.30660139 
     ## lookback time to maximal redshift in Myr
     T0: float
+    ## prefactor for the bulk calculations. value = 2.4e-15, value = 2e-15 for Seppe
+    omega_prefactor_bulk: float
+    ## prefactor for the birth and merger calculations. value = 3.76e-15, value = 3.2e-15 for Seppe
+    omega_prefactor_birth_merger: float
 
-
-    def __init__(self, input_file: str) -> None:
+    def __init__(self, input_file: str, metallicity: str) -> None:
         '''!
         Initializes the SimModel object: reads parameters, sets interpolators and calculates the bins and cosmology.
         @param input_file: parameter file.
+        @param metallicity: metallicity of the simulation.
         '''
+        self.metallicity = metallicity
         self.read_params(input_file)
 
         self.z_interp = ri.RedshiftInterpolator(self.ri_file)
@@ -106,15 +110,17 @@ class SimModel:
         if self.SFH_num != 6:
             print("SFH_num is not 6, so SFH_type and metallicity are ignored.")
         self.SFH_type = config.get('physics', 'SFH_type', fallback='MZ19')
-        self.metallicity = config.get('physics', 'metallicity', fallback='z02')
         self.pop_synth = config.get('physics', 'pop_synth', fallback='GammaAlpha')
         self.alpha = config.get('physics', 'alpha', fallback='Alpha4')
-        self.normalisation = config.getfloat('physics', 'normalisation', fallback=4e6)
-        self.omega_prefactor_bulk = 8.10e-9 / self.normalisation # value = 2.4e-15, value = 2e-15 for Seppe
-        self.omega_prefactor_birth_merger = 1.28e-8 / self.normalisation # value = 3.75e-15 # value = 3.2e-15 for Seppe
+        self.normalisation = config.getfloat('physics', 'normalisation', fallback=4e6)  
+        self.omega_prefactor_bulk = 8.10e-9 / self.normalisation                        
+        self.omega_prefactor_birth_merger = 1.28e-8 / self.normalisation                
 
-        self.population_file_name = config.get('files', 'population_file_name', fallback="../data/AlphaAlpha/Alpha4/z02/Initials_z02_Seppe.txt.gz")
-        self.ri_file = config.get('files', 'ri_file', fallback="../data/z_at_age.txt")
+        self.population_file_name = "../data/" + self.pop_synth + "/" + self.alpha + "/" + self.metallicity + "/" + "Initials_" + self.metallicity
+        if config.getboolean('files', 'use_data_Seppe', fallback=False):
+            self.population_file_name += "_Seppe"
+        self.population_file_name += ".txt.gz"
+        self.ri_file = "../data/" + config.get('files', 'ri_file', fallback="z_at_age.txt")
 
         self.tag = config.get('settings', 'tag', fallback="")
         self.INTEG_MODE = config.get('settings', 'integration_mode', fallback="redshift")
