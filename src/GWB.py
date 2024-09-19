@@ -8,6 +8,7 @@
 # -------- INITIALS -------- #
 import sys
 import os
+from pathlib import Path
 
 param_file = sys.argv[1]
 
@@ -16,6 +17,7 @@ if os.getcwd().split("/")[-1] != "src":
     print("Changing directory to src.")
     os.chdir("src")
     param_file = "../" + param_file
+    param_file = Path(param_file)
     print(f"Changed parameter file path to {param_file}")
 
 import configparser as cfg
