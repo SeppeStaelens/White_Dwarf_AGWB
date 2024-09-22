@@ -104,5 +104,5 @@ def add_bulk(model: sm.SimModel, data: pd.DataFrame) -> None:
 
     # Save GWB
     GWB = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWB.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{model.tag}.txt"), index = False)
-    z_contr.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_{model.tag}.txt"), index = False)
+    GWB.to_csv(Path(model.output_path + f"SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{model.tag}.txt"), index = False)
+    z_contr.to_csv(Path(model.output_path + f"SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_{model.tag}.txt"), index = False)

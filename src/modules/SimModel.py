@@ -126,6 +126,7 @@ class SimModel:
 
         self.tag = config.get('settings', 'tag', fallback="")
         self.INTEG_MODE = config.get('settings', 'integration_mode', fallback="redshift")
+        self.output_path = config.get('settings', 'output_path', fallback="../output/GWBs/")
         self.SAVE_FIG = config.getboolean('settings', 'save_fig', fallback=False)
         self.DEBUG = config.getboolean('settings', 'debug', fallback=False)
         self.TEST_FOR_ONE = config.getboolean('settings', 'test_for_one', fallback=False)
