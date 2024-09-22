@@ -23,7 +23,7 @@ def add_birth(model: sm.SimModel, data: pd.DataFrame) -> None:
     print("\nInitating birth bin part of the code.\n")
     
     # read the bulk part of the GWB
-    previous_Omega = pd.read_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{model.tag}.txt"), sep = ",")
+    previous_Omega = pd.read_csv(Path(model.output_path + f"SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_{model.tag}.txt"), sep = ",")
     Omega_plot = previous_Omega.Om.values
 
     # Create dataframe to store results
@@ -108,6 +108,6 @@ def add_birth(model: sm.SimModel, data: pd.DataFrame) -> None:
 
     # Save GWB
     GWBnew = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWBnew.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{model.tag}.txt"), index = False)
-    z_contr.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_birth_{model.tag}.txt"), index = False)
+    GWBnew.to_csv(Path(model.output_path + f"SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{model.tag}.txt"), index = False)
+    z_contr.to_csv(Path(model.output_path + f"SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_birth_{model.tag}.txt"), index = False)
 
