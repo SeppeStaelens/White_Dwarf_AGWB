@@ -10,6 +10,10 @@ import sys
 import os
 from pathlib import Path
 
+if len(sys.argv) < 2:
+    print("Please provide a parameter file as 'python GWB.py <parameter_file>'")
+    sys.exit(1)
+
 param_file = sys.argv[1]
 
 # change directory to src
