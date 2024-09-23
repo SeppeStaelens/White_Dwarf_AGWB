@@ -7,80 +7,129 @@
 """
 
 from astropy.cosmology import Planck18 as cosmo
-import numpy as np
 import astropy.units as u
+import configparser as cfg
 from  modules.auxiliary import get_bin_factors, get_width_z_shell_from_z
 import modules.RedshiftInterpolator as ri
 import modules.SFRInterpolator as sfri
+import numpy as np
+from pathlib import Path
 
 class SimModel:
     """
     ! This class contains information about the run that needs to be shared over the different subroutines.
     """
 
+    ## lower bound of the frequency bins in log10 space.
+    log_f_low: float
+    ## upper bound of the frequency bins in log10 space.
+    log_f_high: float
+    ## number of frequency bins
+    N_freq: int
+    ## number of integration bins (z or T)
+    N_int: int
+    ## max_redshift
+    max_z: float
+    ## which star formation history to select. 1: Madau & Dickinson 2014, 2-4: made up, 5: constant 0.01.
+    SFH_num: int
+    ## type of star formation history. Can be 'MZ19', 'LZ19', 'HZ19', 'LZ21', 'HZ21' or 'MD' (Madau & Dickinson). Only used in case SFH_num = 6
+    SFH_type: str
+    ## metallicity, can be 'z0001', 'z001', 'z005', 'z01', 'z02' or 'z03'
+    metallicity: str
+    ## population synthesis model, can be 'AlphaAlpha' or 'GammaAlpha'
+    pop_synth: str
+    ## numerical value for alpha, can be 'Alpha1' or 'Alpha4'
+    alpha: str
+    ## normalisation for the population synthesis files in solar masses. 3.4e6 for Sophie, 4e6 for Seppe.
+    normalisation: float
+    ## population file
+    population_file_name: str
+    ## redshift interpolator file
+    ri_file: str
+    ## tag for filenames
+    tag: str
+    ## Integrate over "redshift" or (cosmic) "time"
+    INTEG_MODE: str
+    ## Run script with(out) saving figures
+    SAVE_FIG: bool
+    ## Run script with(out) more output
+    DEBUG: bool
+    ## Run script for only one system if True
+    TEST_FOR_ONE: bool       
+
+    ## Redshift interpolator used for quick conversions in the cosmology
+    z_interp: ri.RedshiftInterpolator
+    ## Star Formation Rate interpolator to determine the SFR at a given redshift
+    sfr_interp: sfri.SFRInterpolator
+
     ## The speed of light in units of Mpc/Myr
-    light_speed = 0.30660139        
+    light_speed = 0.30660139 
+    ## lookback time to maximal redshift in Myr
+    T0: float
+    ## prefactor for the bulk calculations. value = 2.4e-15, value = 2e-15 for Seppe
+    omega_prefactor_bulk: float
+    ## prefactor for the birth and merger calculations. value = 3.76e-15, value = 3.2e-15 for Seppe
+    omega_prefactor_birth_merger: float
 
-    def __init__(self, INTEG_MODE: str, N_freq: int = 50, N_int: int = 20, max_z: float = 8, SFH_num: int = 1, log_f_low: float = -5, log_f_high: float = 0, SFH_type:str = 'MZ19', metallicity:str = 'z02', pop_synth: str = 'AlphaAlpha', alpha: str = 'Alpha1') -> None:
+    def __init__(self, input_file: str, metallicity: str) -> None:
         '''!
-        Initializes the SimModel object.
-        @param INTEG_MODE: whether to integrate over redshift or time.
-        @param N_freq: number of frequency bins.
-        @param N_int: number of integration bins (z or T).
-        @param max_z: maximum redshift.
-        @param SFH_num: which star formation history to select. 1: Madau & Dickinson 2014, 2-4: made up, 5: constant 0.01, 6: alternatives Sophie.
-        @param log_f_low: lower bound of the frequency bins in log10 space.
-        @param log_f_high: upper bound of the frequency bins in log10 space.
-        @param SFH_type: type of SFH/SFRD (LZ19, MZ19, HZ19, LZ21, HZ21. Only used in case SFH_num = 6.
-        @param metallicity: metallicity range around z0001 (z = 0.0001), z001 (z = 0.001), z005 (z = 0.005), z01 (z = 0.01), z02 (z = 0.02) or z03 (z = 0.03). Only used in case SFH_num = 6.
-        @param pop_synth: population synthesis model, can be AlphaAlpha or GammaAlpha.
-        @param alpha: value for alpha, can be Alpha1 (alpha = 1) or Alpha4 (alpha = 4).
-        @return instance of SimModel, with frequency and redshift bins calculated, and cosmology set.
+        Initializes the SimModel object: reads parameters, sets interpolators and calculates the bins and cosmology.
+        @param input_file: parameter file.
+        @param metallicity: metallicity of the simulation.
         '''
-        self.N_freq = N_freq
-        self.N_int = N_int
-        self.max_z = max_z
-        self.SFH_num = SFH_num
-        if SFH_num != 6:
-            print("SFH_num is not 6, so SFH_type and metallicity are ignored.")
-
-        assert log_f_low < log_f_high, "log_f_low should be smaller than log_f_high"
-        self.log_f_low = log_f_low
-        self.log_f_high = log_f_high
-        self.SFH_type = SFH_type
         self.metallicity = metallicity
-        self.pop_synth = pop_synth
-        self.alpha = alpha
+        self.read_params(input_file)
 
-        self.calculate_f_bins()
-        self.INTEG_MODE = INTEG_MODE
-
-    def set_redshift_interpolator(self, ri_file: str) -> None:
-        '''!
-        Sets the redshift interpolator.
-        @param ri_file: file containing the redshift interpolator.
-        '''
-        self.z_interp = ri.RedshiftInterpolator(ri_file)
-
-    def set_sfr_interpolator(self) -> None:
-        '''!
-        Sets the star formation rate interpolator.
-        '''
+        self.z_interp = ri.RedshiftInterpolator(self.ri_file)
         self.sfr_interp = sfri.SFRInterpolator(self.z_interp, self.SFH_num, self.SFH_type, self.metallicity, self.max_z)
+        
+        self.calculate_f_bins()
 
-    def calculate_int_bins_and_cosmology(self) -> None:
-        '''!
-        Calculates the integration bins and the cosmology.
-        Needs to be called after setting the redshift interpolator in the model.
-        '''
         if self.INTEG_MODE == "redshift":
             self.calculate_z_bins()
             self.calculate_cosmology_from_z()
         elif self.INTEG_MODE == "time":
             self.calculate_T_bins()
-            if not hasattr(self, 'z_interp'):
-                raise ValueError("Redshift interpolator not set.")
             self.calculate_cosmology_from_T(self.z_interp)
+
+    def read_params(self, input_file: str) -> None:
+        '''!
+        Reads the parameters from the config file.
+        @param input_file: parameter file.
+        '''
+        config = cfg.ConfigParser()
+        config.read(input_file)
+
+        self.log_f_low = config.getfloat('integration', 'log_f_low', fallback=-5)
+        self.log_f_high = config.getfloat('integration', 'log_f_high', fallback=0)
+        assert self.log_f_low < self.log_f_high, "log_f_low should be smaller than log_f_high"
+        self.N_freq = config.getint('integration', 'N_freq', fallback=50)
+        self.N_int = config.getint('integration', 'N_int', fallback=20)
+        self.max_z = config.getfloat('integration', 'max_z', fallback=8)
+
+        self.SFH_num = config.getint('physics', 'SFH_num', fallback=1)
+        if self.SFH_num != 6:
+            print("SFH_num is not 6, so SFH_type and metallicity are ignored.")
+        self.SFH_type = config.get('physics', 'SFH_type', fallback='MZ19')
+        self.pop_synth = config.get('physics', 'pop_synth', fallback='GammaAlpha')
+        self.alpha = config.get('physics', 'alpha', fallback='Alpha4')
+        self.normalisation = config.getfloat('physics', 'normalisation', fallback=4e6)  
+        self.omega_prefactor_bulk = 8.10e-9 / self.normalisation                        
+        self.omega_prefactor_birth_merger = 1.28e-8 / self.normalisation                
+
+        self.population_file_name = "../data/" + self.pop_synth + "/" + self.alpha + "/" + self.metallicity + "/" + "Initials_" + self.metallicity
+        if config.getboolean('files', 'use_data_Seppe', fallback=False):
+            self.population_file_name += "_Seppe"
+        self.population_file_name += ".txt.gz"
+        self.population_file_name = Path(self.population_file_name)
+        self.ri_file = Path("../data/" + config.get('files', 'ri_file', fallback="z_at_age.txt"))
+
+        self.tag = config.get('settings', 'tag', fallback="")
+        self.INTEG_MODE = config.get('settings', 'integration_mode', fallback="redshift")
+        self.output_path = config.get('settings', 'output_path', fallback="../output/GWBs/")
+        self.SAVE_FIG = config.getboolean('settings', 'save_fig', fallback=False)
+        self.DEBUG = config.getboolean('settings', 'debug', fallback=False)
+        self.TEST_FOR_ONE = config.getboolean('settings', 'test_for_one', fallback=False)
 
     def calculate_f_bins(self) -> None:
         '''!
@@ -137,6 +186,8 @@ class SimModel:
         ## The age of the universe at each redshift
         self.ages = (cosmo.age(0) - cosmo.lookback_time(self.z_list)).to(u.Myr)
     
+        self.T0 = cosmo.lookback_time(self.max_z).to(u.Myr)
+
     def calculate_cosmology_from_T(self, z_interpolator: ri.RedshiftInterpolator) -> None:
         '''!
         Calculations depending on the cosmology, starting from cosmic time bins. 
@@ -147,15 +198,3 @@ class SimModel:
         self.z_time_since_max_z = (self.T0.value - self.T_list) * u.Myr
 
         print(f"The redshifts are {self.z_list}\n")
-
-    def set_mode(self, SAVE_FIG: bool, DEBUG: bool, TEST_FOR_ONE: bool) -> None:
-        '''!
-        Sets the mode of the simulation.
-        @param SAVE_FIG: whether to save the figures.
-        @param DEBUG: whether to print more output.
-        @param TEST_FOR_ONE: whether to test for only one system.
-        @param INT_MODE: whether to integrate over redshift or time.
-        '''
-        self.SAVE_FIG = SAVE_FIG
-        self.DEBUG = DEBUG
-        self.TEST_FOR_ONE = TEST_FOR_ONE
