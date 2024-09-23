@@ -25,7 +25,7 @@ Finally, this folder also contains a file `z_at_age.txt`, which is just a data f
 
 ### src
 
-This folder contains the code. `GWB.py` is the main script to calculate the GWB. It relies on many of the functions defined in the modules subfolder. The latter contains the three main parts of the code, auciliary functions, physical functions, star formation histories and two classes `SimModel` and `RedshiftInterpolator`.
+This folder contains the code. `GWB.py` is the main script to calculate the GWB. It relies on many of the functions defined in the modules subfolder. The latter contains the three main parts of the code, auxiliary functions, physical functions, star formation histories and classes `SimModel`, `SFRInterpolator` and `RedshiftInterpolator`.
 
 `Create_z_at_age.py` is used to create a file `z_at_age.txt` stored in `data`, which is used in the main script to interpolate $z$ at a given age of the Universe. `SeBa_pre_process.py` is used to add more columns to the output data from SeBa, which is then used in the main script.
 
@@ -47,15 +47,14 @@ Afterwards, all three scripts can simply be run by doing
 ```
 $ python Create_z_at_age.py
 $ python SeBa_pre_process.py
-$ python GWB.py
+$ python GWB.py param.ini
 ```
 
 For `Create_z_at_age.py` one only needs to specify a maximum redshift and the number of interpolation points desired.
 
 For `SeBa_pre_process.py`, one only needs to specify the data paths and whether to save the file. Additional datafolders can be made here, and they should be adapted in the main code.
 
-For `GWB.py` there is a couple of settings in the main function that can be changed, i.e. the SFH, the population ...
-As an example, the code takes 7-8 minutes to create the examples `SFH1_50_20_*_example.txt`.
+For `GWB.py`, the settings are specified in a parameter file, where `param.ini` is shown as an example in the repository. As an example, the code takes 7-8 minutes to create the examples `SFH1_50_20_*_example.txt`.
 
 ## Clarification on some of the formulas
 
