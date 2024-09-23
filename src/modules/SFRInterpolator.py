@@ -50,7 +50,6 @@ class SFRInterpolator:
             SFR_at_val_data = pd.read_csv(Path(f"../data/SFRD/{SFH_type}_SFRD_allbins.txt"))
             # the order is reversed to be in ascending order, compatible with numpy.interp
             self.interp_z = SFR_at_val_data.redshift.values[::-1]
-
             # Number in square brackets corresponds to different metallicities
             if metallicity == 'z03':
                 self.interp_SFR = SFR_at_val_data['0'].values[::-1] 
