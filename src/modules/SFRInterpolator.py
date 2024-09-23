@@ -47,22 +47,22 @@ class SFRInterpolator:
                 return 0.01
             
         elif SFH_num == 6:
-            SFR_at_val_data = pd.read_csv(Path(f"../data/SFRD/{SFH_type}_SFRD_allbins.txt.gz"))
-            self.interp_z = SFR_at_val_data.redshift.values
-
+            SFR_at_val_data = pd.read_csv(Path(f"../data/SFRD/{SFH_type}_SFRD_allbins.txt"))
+            # the order is reversed to be in ascending order, compatible with numpy.interp
+            self.interp_z = SFR_at_val_data.redshift.values[::-1]
             # Number in square brackets corresponds to different metallicities
             if metallicity == 'z03':
-                self.interp_SFR = SFR_at_val_data['0'].values 
+                self.interp_SFR = SFR_at_val_data['0'].values[::-1] 
             elif metallicity == 'z02':
-                self.interp_SFR = SFR_at_val_data['1'].values
+                self.interp_SFR = SFR_at_val_data['1'].values[::-1]
             elif metallicity == 'z01':
-                self.interp_SFR = SFR_at_val_data['2'].values
+                self.interp_SFR = SFR_at_val_data['2'].values[::-1]
             elif metallicity == 'z005':
-                self.interp_SFR = SFR_at_val_data['3'].values
+                self.interp_SFR = SFR_at_val_data['3'].values[::-1]
             elif metallicity == 'z001':
-                self.interp_SFR = SFR_at_val_data['4'].values
+                self.interp_SFR = SFR_at_val_data['4'].values[::-1]
             elif metallicity == 'z0001':
-                self.interp_SFR = SFR_at_val_data['5'].values
+                self.interp_SFR = SFR_at_val_data['5'].values[::-1]
             else:
                 raise ValueError("Invalid metallicity value. Choose from 'z03', 'z02', 'z01', 'z005', 'z001' or 'z0001'.")
             

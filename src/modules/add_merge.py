@@ -12,23 +12,17 @@ from modules.auxiliary import make_Omega_plot_unnorm, tau_syst, determine_upper_
 import modules.SimModel as sm
 from pathlib import Path
 
-# omega prefactors
-normalisation = 3.4e6 # in solar masses, change if necessary, 4e6 for Seppe
-omega_prefactor_bulk = 8.10e-9 / normalisation # value = 2.4e-15, value = 2e-15 for Seppe
-omega_prefactor_birth_merger = 1.28e-8 / normalisation # value = 3.75e-15 # value = 3.2e-15 for Seppe
-
-def add_merge(model: sm.SimModel, data: pd.DataFrame, tag: str) -> None:
+def add_merge(model: sm.SimModel, data: pd.DataFrame) -> None:
     '''!
     @brief This routine adds the contribution of the 'merger bins' due to Kepler max to the bulk+birth GWB.
     @param model: instance of SimModel, containing the necessary information for the run.
     @param data: dataframe containing the binary population data.
-    @param tag: tag to add to the output files.
     @return Saves a dataframe that contains the GWB at all freqyencies, and a dataframe that has the breakdown for the different redshift bins.
     '''
    
     print("\nInitiating merger bin part of the code.\n")
 
-    previous_Omega = pd.read_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{tag}.txt"), sep = ",")
+    previous_Omega = pd.read_csv(Path(model.output_path + f"SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wbirth_{model.tag}.txt"), sep = ",")
     Omega_plot = previous_Omega.Om.values
 
     # Create dataframe to store results
@@ -141,17 +135,17 @@ def add_merge(model: sm.SimModel, data: pd.DataFrame, tag: str) -> None:
             # contributions
             Omega_cont = model.f_plot[bin_index] * row.M_ch**(5/3) * freq_fac * (1+z)**(-1) * psi
             if model.INTEG_MODE == "redshift":
-                Omega_cont *= omega_prefactor_birth_merger * (1+z)**(-1) * model.z_widths[i]
+                Omega_cont *= model.omega_prefactor_birth_merger * (1+z)**(-1) * model.z_widths[i]
             
             if model.INTEG_MODE == "redshift":
-                z_contr[f"freq_{bin_index}"][i] += Omega_cont / (omega_prefactor_bulk * model.f_bin_factors[bin_index])
-                z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / normalisation)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
+                z_contr[f"freq_{bin_index}"][i] += Omega_cont / (model.omega_prefactor_bulk * model.f_bin_factors[bin_index])
+                z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / model.normalisation)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.z_widths[i]
             elif model.INTEG_MODE == "time":
                 z_contr[f"freq_{bin_index}"][i] += Omega_cont / model.f_bin_factors[bin_index]
-                z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / normalisation)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.light_speed * (1+z) * model.dT
+                z_contr[f"freq_{bin_index}_num"][i] += (4 * np.pi / model.normalisation)* num_syst * (cosmo.comoving_distance(z).value ** 2) * model.light_speed * (1+z) * model.dT
 
             if model.INTEG_MODE == "time":
-                Omega_cont *= model.light_speed * omega_prefactor_birth_merger * model.dT
+                Omega_cont *= model.light_speed * model.omega_prefactor_birth_merger * model.dT
 
             Omega_plot[bin_index] += Omega_cont
 
@@ -160,9 +154,9 @@ def add_merge(model: sm.SimModel, data: pd.DataFrame, tag: str) -> None:
 
     # Plots
     if model.SAVE_FIG:
-        make_Omega_plot_unnorm(model.f_plot, Omega_plot, model.SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{tag}")
+        make_Omega_plot_unnorm(model.f_plot, Omega_plot, model.SAVE_FIG, f"GWB_SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{model.tag}")
 
     # Save GWB
     GWBnew = pd.DataFrame({"f":model.f_plot, "Om":Omega_plot})
-    GWBnew.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{tag}.txt"), index = False)
-    z_contr.to_csv(Path(f"../output/GWBs/SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_merge_{tag}.txt"), index = False)
+    GWBnew.to_csv(Path(model.output_path + f"SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_wmerge_{model.tag}.txt"), index = False)
+    z_contr.to_csv(Path(model.output_path + f"SFH{model.SFH_num}_{model.N_freq}_{model.N_int}_z_contr_merge_{model.tag}.txt"), index = False)
