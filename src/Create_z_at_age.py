@@ -15,14 +15,15 @@ from pathlib import Path
 
 print("Current dir: " + os.getcwd())
 
+
 def main() -> None:
-    '''!
+    """!
     @brief Function to create list of z-values at given ages of the Universe.
-    '''
+    """
 
     # ----- SETTINGS ----- #
-    max_z = 8                                   # Maximum redshift
-    nr_interp = 10000                           # Number of points at which to calculate the redshift
+    max_z = 8  # Maximum redshift
+    nr_interp = 10000  # Number of points at which to calculate the redshift
 
     # ----- CALCULATIONS ----- #
     initial_age = cosmo.age(max_z).to(u.Myr)
@@ -31,9 +32,8 @@ def main() -> None:
     ages = np.linspace(initial_age.value, current_age.value, nr_interp)
     z_vals = np.array(z_at_value(cosmo.age, ages * u.Myr).value)
 
-    data = pd.DataFrame({"Age (Myr)" : ages, "Redshift" : z_vals})
+    data = pd.DataFrame({"Age (Myr)": ages, "Redshift": z_vals})
     data.to_csv(Path("../data/z_at_age.txt"), index=False)
 
+
 main()
-
-

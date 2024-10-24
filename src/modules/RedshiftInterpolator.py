@@ -9,10 +9,12 @@
 from numpy import interp
 import pandas as pd
 
+
 class RedshiftInterpolator:
     """!
     This class is used to quickly determine the redshift at a given age of the Universe.
     """
+
     def __init__(self, z_at_age_file: str) -> None:
         """!
         Initializes the RedshiftInterpolator object.
@@ -23,7 +25,7 @@ class RedshiftInterpolator:
         self.interp_age = z_at_val_data.age.values
         ## The redshift at the given age of the Universe
         self.interp_z = z_at_val_data.z.values
-    
+
     def get_z_fast(self, age: float) -> float:
         """!
         Quickly determine the redshift at a given age of the Universe.
