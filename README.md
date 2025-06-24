@@ -111,13 +111,14 @@ If you want to cite this code, please cite the accompanying papers
 and
 
 ```
-@misc{hofman2024uncertaintywhitedwarfastrophysical,
-      title={On the uncertainty of the White Dwarf Astrophysical Gravitational Wave Background},
-      author={Sophie Hofman and Gijs Nelemans},
-      year={2024},
-      eprint={2407.10642},
-      archivePrefix={arXiv},
-      primaryClass={astro-ph.HE},
-      url={https://arxiv.org/abs/2407.10642},
+@article{hofman2024uncertainty,
+	author = {{Hofman, Sophie} and {Nelemans, Gijs}},
+	title = {Uncertainty of the white dwarf astrophysical gravitational wave background},
+	DOI= "10.1051/0004-6361/202451510",
+	url= "https://doi.org/10.1051/0004-6361/202451510",
+	journal = {A&A},
+	year = 2024,
+	volume = 691,
+	pages = "A261",
 }
 ```
